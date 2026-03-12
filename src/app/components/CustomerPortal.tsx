@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useCallback } from "react";
+import { useNavigate } from "react-router";
 import {
   CheckCircle2,
   AlertTriangle,
@@ -122,6 +123,7 @@ export function CustomerPortal() {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("All Status");
   const [commodityFilter, setCommodityFilter] = useState("All Commodity");
+  const navigate = useNavigate();
 
   const s = fleetHealthSummary;
 
@@ -366,7 +368,7 @@ export function CustomerPortal() {
             const hc = healthColor[unit.overallHealth as keyof typeof healthColor] || healthColor["N/A"];
             return (
               <div key={unit.serialNumber} className="group">
-                <div className={`px-4 sm:px-5 py-4 cursor-pointer hover:bg-muted/50 transition-all ${isOpen ? "bg-muted/50" : ""}`} onClick={() => setExpandedUnit(isOpen ? null : unit.serialNumber)}>
+                <div className={`px-4 sm:px-5 py-4 cursor-pointer hover:bg-muted/50 transition-all ${isOpen ? "bg-muted/50" : ""}`} onClick={() => navigate(`/unit/${unit.serialNumber}`)}>
                   <div className="flex items-start gap-4">
                     <div className={`w-1.5 h-12 rounded-full flex-shrink-0 ${hc.dot}`} />
                     <div className="flex-1 min-w-0">
@@ -399,12 +401,12 @@ export function CustomerPortal() {
                   <div className="px-4 sm:px-14 py-6 bg-muted/20 border-y border-border/50 animate-in fade-in slide-in-from-top-1 duration-200">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                       {unit.components.map((comp, cIdx) => {
-                        const cc = healthColor[comp.status as keyof typeof healthColor] || healthColor["N/A"];
+                        const cc = healthColor[comp.priority as keyof typeof healthColor] || healthColor["N/A"];
                         return (
                           <div key={cIdx} className="bg-card border border-border p-4 rounded-xl shadow-sm hover:shadow-md transition-shadow">
                             <div className="flex justify-between items-start mb-3">
                               <h4 className="text-sm font-bold text-primary dark:text-foreground">{comp.name}</h4>
-                              <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${cc.badge}`}>{comp.status}</span>
+                              <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${cc.badge}`}>{comp.priority}</span>
                             </div>
                             <div className="mb-3">
                               <div className="flex justify-between text-[11px] text-muted-foreground font-bold mb-1">

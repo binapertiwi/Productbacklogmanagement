@@ -104,9 +104,15 @@ export function Layout() {
         <span className="hidden sm:inline">PT Bina Pertiwi</span>
         <span className="hidden sm:inline">/</span>
         <span className="text-brand-navy dark:text-brand-blue truncate font-bold">
-          {isInternal
-            ? "Operation & Inventory Dashboard"
-            : "Fleet Health & Procurement Portal"}
+          {location.pathname.startsWith("/unit/") ? (
+            <span className="flex items-center gap-1">
+              Unit <span className="text-brand-green">{location.pathname.split("/").pop()}</span>
+            </span>
+          ) : isInternal ? (
+            "Operation & Inventory Dashboard"
+          ) : (
+            "Fleet Health & Procurement Portal"
+          )}
         </span>
         <div className="ml-auto flex items-center gap-1 sm:gap-2 flex-shrink-0 capitalize tracking-normal text-xs">
           <span className="text-muted-foreground/60 hidden sm:inline">Periode:</span>

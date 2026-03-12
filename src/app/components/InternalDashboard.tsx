@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useCallback, Suspense } from "react";
+import { useNavigate } from "react-router";
 import {
   PieChart,
   Pie,
@@ -45,6 +46,7 @@ const commKeys: CommodityType[] = ["BAT", "GET", "TYR", "FCG", "Autofire", "Auto
 export function InternalDashboard() {
   const [activeTab, setActiveTab] = useState<TabType>("Overview");
   const [search, setSearch] = useState("");
+  const navigate = useNavigate();
 
   const filtered = useMemo(() => {
     const q = search.toLowerCase();
@@ -357,7 +359,7 @@ export function InternalDashboard() {
                 </thead>
                 <tbody className="divide-y divide-border/50">
                   {filtered.map((row, idx) => (
-                    <tr key={idx} className="hover:bg-muted/30 transition-colors group">
+                    <tr key={idx} className="hover:bg-muted/30 transition-colors group cursor-pointer" onClick={() => navigate(`/unit/${row.unitId}`)}>
                       <td className="px-6 py-4">
                         <div className="font-black text-primary dark:text-foreground group-hover:text-brand-green mb-0.5">{row.unitId}</div>
                         <div className="text-[10px] text-muted-foreground font-bold">{row.model}</div>
