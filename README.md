@@ -50,8 +50,13 @@ Portal yang dikhususkan bagi pelanggan B2B untuk menjaga transparansi dan keperc
 ## Teknologi & Implementasi
 Sistem saat ini sepenuhnya dikelola dan dibangun menggunakan:
 - React dengan rendering interaktif cepat.
+- **Premium UI Design**: Antarmuka modern dengan estetika premium yang responsif dan interaktif.
+- **Brand Identity Integration**: Palet warna yang selaras dengan identitas merek perusahaan (Navy, Green, Blue) untuk konsistensi di seluruh aplikasi.
+- **"Aurora" AI Theme**: Tema khusus (Teal ke Mint Green) untuk bagian berbasis AI, memberikan kesan proses berpikir aktif dan inovasi.
+- **Full Dark Mode Support**: Dukungan penuh untuk mode gelap (Dark Mode) yang dapat disesuaikan oleh pengguna untuk kenyamanan navigasi.
 - **Recharts** untuk visualisasi analitik dan tren komoditas.
 - **Lucide-React** untuk ikonografi yang minimalis.
+- **Next-Themes** untuk manajemen tema (Light/Dark).
 - Simulasi skema AI / GCP Data Processing Warehouse terpusat.
 
 ## Menjalankan Aplikasi
