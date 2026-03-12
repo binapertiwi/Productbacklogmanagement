@@ -13,7 +13,7 @@ Sistem telah dirancang ulang menjadi arsitektur **Unit-Centric** (Berbasis Unit 
 4. **FCG** (Fluid Connector and Guard)
 5. **Autofire** (Auto Fire Supression)
 6. **Autolube** (Auto Lubrication System)
-7. **U/C** (Undercarriage)
+7. **U/C** (Undercarriage) — **High Priority Priority Development**
 
 ---
 
@@ -47,6 +47,19 @@ Portal yang dikhususkan bagi pelanggan B2B untuk menjaga transparansi dan keperc
 
 ---
 
+### 4. Unified Unit Detail View (The "DNA" Report)
+Satu landasan pelaporan tunggal (*Single Source of Truth*) yang dapat diakses baik dari sisi internal maupun pelanggan untuk konsistensi data teknis:
+- **Consistent Navigation**: Klik pada baris armada di Matrix atau Portal akan mengarahkan ke halaman detail holistik yang seragam.
+- **Deep-Link Commodity Support**: Fitur navigasi langsung ke tab inspeksi spesifik (misal: klik badge U/C merah di Matrix akan langsung membuka Detail Unit pada tab U/C).
+- **Enhanced Technical Reporting (U/C Focus)**:
+  - **Categorized Findings**: Komponen dikelompokkan secara logis (Link Assembly, Bushings, Rollers, dll) dengan referensi visual.
+  - **Global Wear Distribution Chart**: Grafik ringkasan di bagian atas yang menunjukkan kondisi wear terekstrim per grup komponen.
+  - **Historical Trend Analysis**: Setiap grup komponen memiliki grafik garis sejarah keausan (3-4 inspeksi terakhir) terhadap batas kritis 80%.
+  - **Professional Field Evidence**: Galeri foto inspeksi yang terorganisir dengan label figur dan catatan teknis formal dari inspektur.
+- **PO Draft Integration**: Kemudahan konversi temuan kerusakan teknis langsung menjadi draf Purchase Order.
+
+---
+
 ## Teknologi & Implementasi
 Sistem saat ini sepenuhnya dikelola dan dibangun menggunakan:
 - React dengan rendering interaktif cepat.
@@ -72,4 +85,4 @@ Sistem saat ini sepenuhnya dikelola dan dibangun menggunakan:
    ```
 4. Buka di `http://localhost:5173/`
 
-*(Dokumen ini terakhir kali diperbarui pada Maret 2026).*
+*(Dokumen ini terakhir kali diperbarui pada 13 Maret 2026 - Sprint: Unit Detail DNA & U/C Reporting).*
