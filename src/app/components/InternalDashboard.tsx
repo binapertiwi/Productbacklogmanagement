@@ -22,7 +22,10 @@ import {
   RefreshCw,
   Search,
   Layers,
-  Sparkles
+  Sparkles,
+  ArrowUpRight,
+  TrendingDown,
+  LayoutDashboard
 } from "lucide-react";
 import {
   kpiData,
@@ -42,7 +45,6 @@ export function InternalDashboard() {
   const [activeTab, setActiveTab] = useState<TabType>("Overview");
   const [search, setSearch] = useState("");
 
-  // useMemo: only recompute when `search` changes, not on every render
   const filtered = useMemo(() => {
     const q = search.toLowerCase();
     return inspectionTableData.filter(
@@ -60,309 +62,345 @@ export function InternalDashboard() {
   const conversionRate = kpiData.backlogConversionRate;
 
   return (
-    <div className="p-3 sm:p-6 space-y-4 sm:space-y-6">
-      {/* Page Title */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+    <div className="p-3 sm:p-6 space-y-4 sm:space-y-6 bg-background transition-colors duration-300">
+      {/* Page Title & Actions */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-[#1a2b4a]">Operation & Inventory Dashboard</h1>
-          <p className="text-xs sm:text-sm text-gray-500 mt-0.5">
-            Monitoring efektivitas konversi backlog menjadi Purchase Order
+          <h1 className="text-2xl font-bold text-primary dark:text-foreground flex items-center gap-2">
+            <LayoutDashboard className="w-6 h-6 text-brand-green" />
+            Operation & Inventory Dashboard
+          </h1>
+          <p className="text-sm text-muted-foreground mt-1">
+            Monitoring efektivitas konversi backlog menjadi Purchase Order secara realtime
           </p>
         </div>
-        <button className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-600 hover:bg-gray-50 shadow-sm self-start sm:self-auto">
-          <RefreshCw className="w-4 h-4" />
-          Refresh Data
-        </button>
+        <div className="flex items-center gap-2">
+          <button className="flex items-center gap-2 px-3 py-2 bg-card border border-border rounded-lg text-xs font-bold text-muted-foreground hover:bg-accent hover:text-foreground transition-all shadow-sm">
+            <RefreshCw className="w-3.5 h-3.5" />
+            Sync Data
+          </button>
+          <button className="flex items-center gap-2 px-4 py-2 bg-brand-navy dark:bg-brand-blue text-white rounded-lg text-xs font-bold hover:opacity-90 transition-all shadow-md">
+            <Download className="w-3.5 h-3.5" />
+            Download Report
+          </button>
+        </div>
       </div>
 
-      {/* Tabs */}
-      <div className="flex overflow-x-auto hide-scrollbar gap-2 border-b border-gray-200 pb-2">
+      {/* Navigation Tabs */}
+      <div className="flex overflow-x-auto hide-scrollbar gap-1 border-b border-border pb-0.5">
         {(["Overview", ...commKeys] as TabType[]).map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`px-4 py-2 text-sm font-medium rounded-t-lg transition-colors whitespace-nowrap border-b-2 ${
+            className={`px-6 py-3 text-xs font-bold transition-all whitespace-nowrap border-b-2 relative ${
               activeTab === tab
-                ? "border-[#f97316] text-[#1a2b4a] bg-orange-50/50"
-                : "border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-50"
+                ? "border-brand-green text-brand-green"
+                : "border-transparent text-muted-foreground hover:text-foreground"
             }`}
           >
             {tab}
+            {activeTab === tab && (
+              <span className="absolute inset-x-0 -bottom-[2px] h-[2px] bg-brand-green shadow-[0_0_8px_rgba(35,163,78,0.5)]" />
+            )}
           </button>
         ))}
       </div>
 
       {activeTab !== "Overview" ? (
-        <Suspense fallback={<div className="flex justify-center py-12"><div className="w-6 h-6 border-4 border-[#1a2b4a]/20 border-t-[#f97316] rounded-full animate-spin" /></div>}>
+        <Suspense fallback={<div className="flex justify-center py-24"><div className="w-8 h-8 border-4 border-primary/20 border-t-brand-green rounded-full animate-spin" /></div>}>
           <CommodityPerformanceDashboard commodity={activeTab} />
         </Suspense>
       ) : (
         <>
-          {/* ── KPI CARDS ─────────────────────────────────────── */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          {/* ── KPI GRID ─────────────────────────────────────── */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Total Inspections */}
-            <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-5 shadow-sm">
-              <div className="flex items-start justify-between">
-                <div className="flex-1 min-w-0">
-                  <p className="text-xs text-gray-500 uppercase tracking-wider leading-tight">Total Inspections</p>
-                  <p className="text-2xl sm:text-3xl text-[#1a2b4a] mt-1">{kpiData.totalInspections}</p>
+            <div className="bg-card rounded-xl border border-border p-5 shadow-sm hover:shadow-md transition-all group overflow-hidden relative">
+              <div className="absolute -right-4 -bottom-4 w-20 h-20 bg-primary/5 rounded-full group-hover:scale-110 transition-transform" />
+              <div className="flex items-start justify-between relative z-10">
+                <div>
+                  <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">Total Inspections</p>
+                  <p className="text-3xl text-primary dark:text-foreground mt-1 font-extrabold tracking-tight">{kpiData.totalInspections}</p>
                 </div>
-                <div className="w-9 h-9 sm:w-10 sm:h-10 bg-[#1a2b4a]/10 rounded-lg flex items-center justify-center flex-shrink-0 ml-2">
-                  <ClipboardList className="w-4 h-4 sm:w-5 sm:h-5 text-[#1a2b4a]" />
+                <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary dark:text-foreground">
+                  <ClipboardList className="w-5 h-5" />
                 </div>
               </div>
-              <p className="text-xs text-green-600 mt-2 flex items-center gap-1">
-                <TrendingUp className="w-3 h-3 flex-shrink-0" />
-                <span className="truncate">{kpiData.inspectionDelta}</span>
-              </p>
+              <div className="mt-4 flex items-center gap-1.5 text-xs text-green-600 font-bold bg-green-50 dark:bg-green-900/10 px-2 py-1 rounded-md w-fit">
+                <TrendingUp className="w-3.5 h-3.5 font-bold" />
+                <span>{kpiData.inspectionDelta}</span>
+              </div>
             </div>
 
             {/* Backlog Conversion Rate */}
-            <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-5 shadow-sm">
-              <div className="flex items-start justify-between">
-                <div className="flex-1 min-w-0">
-                  <p className="text-xs text-gray-500 uppercase tracking-wider leading-tight">Conversion Rate</p>
-                  <p className="text-2xl sm:text-3xl text-[#1a2b4a] mt-1">{conversionRate}%</p>
+            <div className="bg-card rounded-xl border border-border p-5 shadow-sm hover:shadow-md transition-all group overflow-hidden relative">
+              <div className="absolute -right-4 -bottom-4 w-20 h-20 bg-brand-green/5 rounded-full group-hover:scale-110 transition-transform" />
+              <div className="flex items-start justify-between relative z-10">
+                <div>
+                  <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">Conversion Rate</p>
+                  <p className="text-3xl text-brand-green mt-1 font-extrabold tracking-tight">{conversionRate}%</p>
                 </div>
-                <div className="w-9 h-9 sm:w-10 sm:h-10 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0 ml-2">
-                  <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-[#f97316]" />
+                <div className="w-10 h-10 bg-brand-green/10 rounded-xl flex items-center justify-center text-brand-green">
+                  <TrendingUp className="w-5 h-5" />
                 </div>
               </div>
-              <p className="text-xs text-green-600 mt-2 flex items-center gap-1">
-                <TrendingUp className="w-3 h-3 flex-shrink-0" />
-                <span className="truncate">{kpiData.conversionDelta}</span>
-              </p>
+              <div className="mt-4 flex items-center gap-1.5 text-xs text-green-600 font-bold bg-green-50 dark:bg-green-900/10 px-2 py-1 rounded-md w-fit">
+                <TrendingUp className="w-3.5 h-3.5 font-bold" />
+                <span>{kpiData.conversionDelta}</span>
+              </div>
             </div>
 
              {/* Cross-Commodity Backlog Rate */}
-            <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-5 shadow-sm">
-              <div className="flex items-start justify-between">
-                <div className="flex-1 min-w-0">
-                  <p className="text-xs text-gray-500 uppercase tracking-wider leading-tight">Cross-Commodity Backlog</p>
-                  <p className="text-2xl sm:text-3xl text-[#1a2b4a] mt-1">{kpiData.crossCommodityRate}%</p>
+            <div className="bg-card rounded-xl border border-border p-5 shadow-sm hover:shadow-md transition-all group overflow-hidden relative">
+              <div className="absolute -right-4 -bottom-4 w-20 h-20 bg-purple-500/5 rounded-full group-hover:scale-110 transition-transform" />
+              <div className="flex items-start justify-between relative z-10">
+                <div>
+                  <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">Cross-Commodity Backlog</p>
+                  <p className="text-3xl text-purple-600 dark:text-purple-400 mt-1 font-extrabold tracking-tight">{kpiData.crossCommodityRate}%</p>
                 </div>
-                <div className="w-9 h-9 sm:w-10 sm:h-10 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0 ml-2">
-                  <Layers className="w-4 h-4 sm:w-5 sm:h-5 text-purple-600" />
+                <div className="w-10 h-10 bg-purple-100 dark:bg-purple-900/10 rounded-xl flex items-center justify-center text-purple-600 dark:text-purple-400">
+                  <Layers className="w-5 h-5" />
                 </div>
               </div>
-              <p className="text-xs text-gray-400 mt-2 truncate">Unit dengan &gt;2 backlog komoditi</p>
+              <p className="mt-4 text-[10px] text-muted-foreground font-bold italic">Unit dengan &gt;2 backlog multi-komoditi</p>
             </div>
 
             {/* Revenue Potential */}
-            <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-5 shadow-sm">
-              <div className="flex items-start justify-between">
-                <div className="flex-1 min-w-0">
-                  <p className="text-xs text-gray-500 uppercase tracking-wider leading-tight">Revenue Potential</p>
-                  <p className="text-lg sm:text-2xl text-[#1a2b4a] mt-1">{formatRupiah(kpiData.revenuePotential)}</p>
+            <div className="bg-card rounded-xl border border-border p-5 shadow-sm hover:shadow-md transition-all group overflow-hidden relative">
+              <div className="absolute -right-4 -bottom-4 w-24 h-24 bg-blue-500/5 rounded-full group-hover:scale-110 transition-transform" />
+              <div className="flex items-start justify-between relative z-10">
+                <div>
+                  <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">Revenue Potential</p>
+                  <p className="text-2xl text-primary dark:text-foreground mt-1 font-extrabold tracking-tight">{formatRupiah(kpiData.revenuePotential)}</p>
                 </div>
-                <div className="w-9 h-9 sm:w-10 sm:h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0 ml-2">
-                  <DollarSign className="w-4 h-4 sm:w-5 sm:h-5 text-green-600" />
+                <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/10 rounded-xl flex items-center justify-center text-blue-600 dark:text-blue-400">
+                  <DollarSign className="w-5 h-5" />
                 </div>
               </div>
-              <p className="text-xs text-green-600 mt-2 flex items-center gap-1">
-                <TrendingUp className="w-3 h-3 flex-shrink-0" />
-                <span className="truncate">{kpiData.revenueDelta}</span>
-              </p>
+              <div className="mt-4 flex items-center gap-1.5 text-xs text-green-600 font-bold bg-green-50 dark:bg-green-900/10 px-2 py-1 rounded-md w-fit">
+                <ArrowUpRight className="w-3.5 h-3.5 font-bold" />
+                <span>{kpiData.revenueDelta}</span>
+              </div>
             </div>
           </div>
 
-          {/* ── AI CO-PILOT INSIGHTS ──────────────────────────── */}
-          <div className="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl border border-indigo-100 p-4 sm:p-5 shadow-sm relative overflow-hidden">
-            {/* Background decoration */}
-            <div className="absolute -right-10 -top-10 w-40 h-40 bg-purple-200/40 rounded-full blur-3xl pointer-events-none"></div>
+          {/* ── AI REVENUE & OPERATION COPILOT ─────────────────── */}
+          <div className="bg-gradient-to-r from-[#43E97B] to-[#38F9D7] rounded-2xl p-6 shadow-lg relative overflow-hidden border border-white/20">
+            {/* Animated background pulse */}
+            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white/20 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3 animate-pulse pointer-events-none"></div>
             
-            <div className="flex items-center gap-2 mb-4">
-              <Sparkles className="w-5 h-5 text-indigo-600" />
-              <h3 className="text-indigo-900 font-bold">AI Revenue & Operation Copilot</h3>
+            <div className="flex items-center gap-3 mb-6 relative z-10">
+              <div className="w-10 h-10 bg-white/30 backdrop-blur-md rounded-xl flex items-center justify-center shadow-inner">
+                <Sparkles className="w-6 h-6 text-teal-900" />
+              </div>
+              <div>
+                <h3 className="text-teal-950 text-xl font-black tracking-tight flex items-center gap-2">
+                  AI Revenue & Operation Copilot
+                  <span className="text-[10px] bg-teal-950 text-white px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Active Thinking</span>
+                </h3>
+                <p className="text-teal-900/70 text-xs font-bold italic">Proactive analytics for hyper-growth & operational excellence</p>
+              </div>
             </div>
             
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 relative z-10">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 relative z-10">
               {/* Insight 1: Predictive Conversion */}
-              <div className="bg-white/80 backdrop-blur-sm rounded-lg p-4 border border-indigo-50 flex flex-col justify-between">
+              <div className="bg-white/40 backdrop-blur-xl rounded-2xl p-5 border border-white/60 flex flex-col justify-between group hover:bg-white/60 transition-all duration-300 shadow-sm hover:shadow-md">
                 <div>
-                  <h4 className="text-sm font-semibold text-indigo-900 mb-2 flex items-center gap-1.5">
-                    <span className="text-indigo-500">✨</span> Peluang PO Tinggi
-                  </h4>
-                  <p className="text-xs text-indigo-950/80 leading-relaxed mb-3">
-                    Terdapat 5 unit di PT Thiess (Kaltim) dengan status <span className="font-semibold text-red-600">Critical</span> pada komoditi GET dan U/C sekaligus. Secara historis, Thiess menyetujui PO 40% lebih cepat untuk pengajuan <i>bundling</i> di awal bulan.
+                  <div className="flex items-center justify-between mb-3 text-teal-900">
+                    <h4 className="text-sm font-black tracking-tight uppercase">High Probability PO</h4>
+                    <span className="text-[10px] bg-red-500 text-white px-2 py-0.5 rounded font-black">CRITICAL</span>
+                  </div>
+                  <p className="text-xs text-teal-950/90 leading-relaxed font-bold">
+                    Terdapat <span className="underline decoration-red-500 decoration-2">5 unit di PT Thiess (Kaltim)</span> dengan status Critical pada <span className="font-black">GET & U/C</span>. Secara historis, Thiess menyetujui PO <span className="text-teal-800 bg-teal-800/10 px-1">40% lebih cepat</span> untuk bundling awal bulan.
                   </p>
                 </div>
-                <button className="text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-700 transition-colors py-2 px-3 rounded-md w-full sm:w-auto self-start mt-2 shadow-sm">
-                  Generate Draft Bundling Quotation
+                <button className="mt-5 text-[11px] font-black text-white bg-teal-900 hover:bg-black transition-all py-2.5 px-4 rounded-xl w-full flex items-center justify-center gap-2 shadow-lg shadow-teal-900/20">
+                  <FileText className="w-3.5 h-3.5" /> Generate Draft Bundling Quo
                 </button>
               </div>
 
               {/* Insight 2: Inventory Alert */}
-              <div className="bg-white/80 backdrop-blur-sm rounded-lg p-4 border border-indigo-50 flex flex-col justify-between">
+              <div className="bg-white/40 backdrop-blur-xl rounded-2xl p-5 border border-white/60 flex flex-col justify-between group hover:bg-white/60 transition-all duration-300 shadow-sm hover:shadow-md">
                 <div>
-                  <h4 className="text-sm font-semibold text-indigo-900 mb-2 flex items-center gap-1.5">
-                    <span className="text-indigo-500">✨</span> Risiko Lead Time
-                  </h4>
-                  <p className="text-xs text-indigo-950/80 leading-relaxed mb-3">
-                    Permintaan komoditi FCG dan Autolube di area Kalsel melonjak 25% bulan ini. Berdasarkan stok Gudang BJM, estimasi <span className="font-semibold text-orange-600">shortage</span> akan terjadi dalam 14 hari.
+                  <div className="flex items-center justify-between mb-3 text-teal-900">
+                    <h4 className="text-sm font-black tracking-tight uppercase">Stock Shortage Alert</h4>
+                    <span className="text-[10px] bg-teal-700 text-white px-2 py-0.5 rounded font-black">ANALYTIC</span>
+                  </div>
+                  <p className="text-xs text-teal-950/90 leading-relaxed font-bold">
+                    Permintaan <span className="font-black">FCG & Autolube</span> di Kalsel melonjak <span className="text-teal-800 font-extrabold">25%</span> bulan ini. Estimasi <span className="text-red-700">shortage</span> akan terjadi dalam <span className="font-black underline">14 hari</span> di Gudang BJM.
                   </p>
                 </div>
-                <button className="text-xs font-semibold text-indigo-700 bg-indigo-100 hover:bg-indigo-200 transition-colors py-2 px-3 rounded-md w-full sm:w-auto self-start mt-2 border border-indigo-200">
-                  Lihat Analisis Stok
+                <button className="mt-5 text-[11px] font-black text-teal-900 bg-white/80 hover:bg-white transition-all py-2.5 px-4 rounded-xl w-full flex items-center justify-center gap-2 border border-teal-200">
+                  <ArrowUpRight className="w-3.5 h-3.5" /> Lihat Analisis Detail Stok
                 </button>
               </div>
 
               {/* Insight 3: Mechanic Productivity */}
-              <div className="bg-white/80 backdrop-blur-sm rounded-lg p-4 border border-indigo-50 flex flex-col justify-between">
+              <div className="bg-white/40 backdrop-blur-xl rounded-2xl p-5 border border-white/60 flex flex-col justify-between group hover:bg-white/60 transition-all duration-300 shadow-sm hover:shadow-md">
                 <div>
-                  <h4 className="text-sm font-semibold text-indigo-900 mb-2 flex items-center gap-1.5">
-                    <span className="text-indigo-500">✨</span> Produktivitas Mekanik
-                  </h4>
-                  <p className="text-xs text-indigo-950/80 leading-relaxed mb-3">
-                    35% inspeksi minggu ini terpusat pada TYR. Pertimbangkan untuk merotasi mekanik spesialis U/C ke area Kaltim minggu depan untuk menyeimbangkan cakupan inspeksi.
+                  <div className="flex items-center justify-between mb-3 text-teal-900">
+                    <h4 className="text-sm font-black tracking-tight uppercase">Force Balancing</h4>
+                    <span className="text-[10px] bg-blue-600 text-white px-2 py-0.5 rounded font-black">RESOURCE</span>
+                  </div>
+                  <p className="text-xs text-teal-950/90 leading-relaxed font-bold">
+                    <span className="font-black">35% inspeksi</span> minggu ini terfokus pada <span className="font-black uppercase tracking-wider">TYR</span>. AI menyarankan rotasi mekanik spesialis U/C ke area <span className="font-black">Kaltim</span> untuk menyeimbangkan cakupan.
                   </p>
+                </div>
+                <div className="mt-5 h-10 flex items-center justify-center border-t border-teal-800/10 text-[11px] text-teal-900/60 font-bold italic">
+                   AI suggest optimal rotation schedule...
                 </div>
               </div>
             </div>
           </div>
 
-          {/* ── CHARTS ROW ────────────────────────────────────── */}
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
-            {/* Revenue Potential stacked chart */}
-            <div className="lg:col-span-2 bg-white rounded-xl border border-gray-200 p-4 sm:p-5 shadow-sm flex flex-col justify-center">
-              <h3 className="text-[#1a2b4a] mb-1">Revenue Potential by Commodity</h3>
-              <p className="text-xs text-gray-500 mb-3 block">Backlog blm PO (Jt Rp). Target fokus marketing bulanan.</p>
-              <div className="relative h-[200px] w-full">
+          {/* ── CHARTS SECTION ───────────────────────────────── */}
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+            {/* Revenue Momentum Chart */}
+            <div className="lg:col-span-2 bg-card rounded-2xl border border-border p-6 shadow-sm hover:shadow-md transition-all">
+              <div className="flex items-start justify-between mb-6">
+                <div>
+                  <h3 className="text-primary dark:text-foreground font-black text-lg tracking-tight">Revenue Potential</h3>
+                  <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider mt-0.5">By Commodity (Target Fokus)</p>
+                </div>
+                <div className="w-8 h-8 rounded-full bg-primary/5 flex items-center justify-center"><TrendingUp className="w-4 h-4 text-primary" /></div>
+              </div>
+              <div className="h-[260px] w-full">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={revenueByCommodityData} layout="vertical">
-                    <CartesianGrid strokeDasharray="3 3" horizontal={false} />
-                    <XAxis type="number" tick={{ fontSize: 11 }} />
-                    <YAxis dataKey="name" type="category" hide />
-                    <Tooltip contentStyle={{ fontSize: 12, borderRadius: 8 }} formatter={(v) => [`Rp ${v} Jt`, 'Potensi']} />
-                    <Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: 11 }} />
-                    <Bar dataKey="GET" stackId="a" fill="#1a2b4a" />
-                    <Bar dataKey="TYR" stackId="a" fill="#f97316" />
-                    <Bar dataKey="FCG" stackId="a" fill="#22c55e" />
-                    <Bar dataKey="Autofire" stackId="a" fill="#8b5cf6" />
-                    <Bar dataKey="BAT" stackId="a" fill="#eab308" />
-                    <Bar dataKey="Autolube" stackId="a" fill="#ef4444" />
-                    <Bar dataKey="U/C" stackId="a" fill="#64748b" />
+                  <BarChart data={revenueByCommodityData} layout="vertical" barSize={12}>
+                    <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="var(--border)" opacity={0.5} />
+                    <XAxis type="number" hide />
+                    <YAxis dataKey="name" type="category" tick={{ fontSize: 10, fontWeight: 700, fill: "var(--muted-foreground)" }} width={60} axisLine={false} tickLine={false} />
+                    <Tooltip 
+                      cursor={{ fill: "var(--muted)", opacity: 0.1 }}
+                      contentStyle={{ fontSize: 11, fontWeight: 700, borderRadius: 12, backgroundColor: "var(--card)", border: "1px solid var(--border)", boxShadow: "0 10px 15px -3px rgba(0,0,0,0.1)" }} 
+                      formatter={(v) => [`Rp ${v} Jt`, 'Potential']} 
+                    />
+                    <Legend iconType="circle" iconSize={6} wrapperStyle={{ fontSize: 9, fontWeight: 700, paddingTop: 10 }} />
+                    <Bar dataKey="GET" stackId="a" fill="var(--chart-1)" radius={[0, 0, 0, 0]} />
+                    <Bar dataKey="TYR" stackId="a" fill="var(--chart-2)" radius={[0, 0, 0, 0]} />
+                    <Bar dataKey="FCG" stackId="a" fill="var(--chart-3)" radius={[0, 0, 0, 0]} />
+                    <Bar dataKey="Autofire" stackId="a" fill="var(--chart-4)" radius={[0, 4, 4, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
             </div>
 
-            {/* Monthly Bar Chart */}
-            <div className="lg:col-span-3 bg-white rounded-xl border border-gray-200 p-4 sm:p-5 shadow-sm">
-              <h3 className="text-[#1a2b4a] mb-1">Plan vs Actual — Monthly Conversion</h3>
-              <p className="text-xs text-gray-500 mb-3">Perbandingan temuan mekanik vs PO yang terbit per bulan</p>
-              <ResponsiveContainer width="100%" height={200}>
-                <BarChart data={monthlyConversionData} barGap={4}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                  <XAxis dataKey="month" tick={{ fontSize: 11 }} />
-                  <YAxis tick={{ fontSize: 11 }} />
-                  <Tooltip contentStyle={{ fontSize: 12, borderRadius: 8 }} />
-                  <Legend
-                    iconType="circle"
-                    iconSize={8}
-                    formatter={(value) => (
-                      <span style={{ fontSize: 11 }}>
-                        {value === "plan" ? "Plan (Temuan)" : "Actual (PO Terbit)"}
-                      </span>
-                    )}
-                  />
-                  <Bar dataKey="plan" name="plan" fill="#1a2b4a" radius={[4, 4, 0, 0]} />
-                  <Bar dataKey="actual" name="actual" fill="#f97316" radius={[4, 4, 0, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
+            {/* Performance Gap Map */}
+            <div className="lg:col-span-3 bg-card rounded-2xl border border-border p-6 shadow-sm hover:shadow-md transition-all">
+              <div className="flex items-start justify-between mb-6">
+                <div>
+                  <h3 className="text-primary dark:text-foreground font-black text-lg tracking-tight">Plan vs Actual Performance</h3>
+                  <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider mt-0.5">Backlog findings vs PO Conversion</p>
+                </div>
+                <div className="flex gap-2">
+                   <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-primary"></div><span className="text-[10px] font-bold text-muted-foreground">Findings</span></div>
+                   <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-secondary"></div><span className="text-[10px] font-bold text-muted-foreground">PO Issued</span></div>
+                </div>
+              </div>
+              <div className="h-[260px] w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={monthlyConversionData} barGap={6}>
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border)" opacity={0.5} />
+                    <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fontSize: 11, fontWeight: 700, fill: "var(--muted-foreground)" }} />
+                    <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 11, fontWeight: 700, fill: "var(--muted-foreground)" }} />
+                    <Tooltip 
+                       cursor={{ fill: "var(--muted)", opacity: 0.1 }}
+                      contentStyle={{ fontSize: 11, fontWeight: 700, borderRadius: 12, backgroundColor: "var(--card)", border: "1px solid var(--border)", boxShadow: "0 10px 15px -3px rgba(0,0,0,0.1)" }} 
+                    />
+                    <Bar dataKey="plan" name="Findings" fill="var(--primary)" radius={[4, 4, 0, 0]} barSize={20} />
+                    <Bar dataKey="actual" name="Converted PO" fill="var(--secondary)" radius={[4, 4, 0, 0]} barSize={20} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
             </div>
           </div>
 
-          {/* ── UNIT CENTRIC MATRIX TABLE ───────────────────────── */}
-          <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden flex flex-col">
-            {/* Table Header */}
-            <div className="px-4 sm:px-5 py-4 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          {/* ── CROSS-COMMODITY MATRIX ───────────────────────── */}
+          <div className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden transition-all hover:shadow-lg">
+            {/* Header section */}
+            <div className="px-6 py-5 border-b border-border flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-muted/20">
               <div>
-                <h3 className="text-[#1a2b4a]">Cross-Commodity Backlog Matrix</h3>
-                <p className="text-xs text-gray-500 mt-0.5">
-                  Visualisasi kesehatan relasi multikomoditas per unit
-                </p>
+                <h3 className="text-primary dark:text-foreground font-black text-lg tracking-tight">Cross-Commodity Backlog Matrix</h3>
+                <p className="text-[11px] text-muted-foreground font-bold mt-1 uppercase tracking-wider">Visualisasi kesehatan relasi multi-komoditas per unit armada</p>
               </div>
-              <div className="flex flex-wrap items-center gap-2">
-                {/* Search Bar */}
-                <div className="relative">
-                  <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <div className="flex flex-wrap items-center gap-3">
+                <div className="relative group">
+                  <Search className="w-4 h-4 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2 group-focus-within:text-brand-green transition-colors" />
                   <input
                     type="text"
-                    placeholder="Cari Unit / Customer..."
-                    className="pl-9 pr-4 py-1.5 text-xs border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:ring-1 focus:ring-[#1a2b4a]/30 w-full sm:w-56"
+                    placeholder="Search Unit ID or Customer..."
+                    className="pl-10 pr-4 py-2 text-xs border border-border rounded-xl bg-background focus:outline-none focus:ring-2 focus:ring-brand-green/30 w-full sm:w-64 text-foreground font-bold transition-all"
                     value={search}
                     onChange={handleSearchChange}
                   />
                 </div>
-                <button className="flex items-center gap-1.5 px-3 py-1.5 bg-[#1a2b4a] text-white rounded-md text-xs hover:bg-[#1a2b4a]/90 transition-colors">
-                  <Download className="w-3.5 h-3.5" />
-                  Export Matrix
+                <button className="flex items-center gap-2 px-4 py-2 bg-brand-green text-white rounded-xl text-xs font-black hover:opacity-90 transition-all shadow-md shadow-brand-green/20">
+                  <Download className="w-4 h-4" /> EXPORT MATRIX
                 </button>
               </div>
             </div>
 
             <div className="overflow-x-auto">
-              <table className="w-full text-sm text-left whitespace-nowrap">
-                <thead className="bg-gray-50/80 text-gray-500 border-b border-gray-100 text-[11px] uppercase tracking-wider">
+              <table className="w-full text-sm text-left whitespace-nowrap border-separate border-spacing-0">
+                <thead className="bg-muted/50 text-[10px] uppercase font-black tracking-widest text-muted-foreground/80 border-b border-border">
                   <tr>
-                    <th className="px-4 py-3 font-medium">Unit ID & Model</th>
-                    <th className="px-4 py-3 font-medium">Customer & Site</th>
-                    {commKeys.map(k => <th key={k} className="px-3 py-3 font-medium text-center">{k}</th>)}
-                    <th className="px-4 py-3 font-medium text-right">Total PO Gap</th>
-                    <th className="px-4 py-3 font-medium text-center">Lead Time Avg</th>
+                    <th className="px-6 py-4 border-b border-border">Armada / Model</th>
+                    <th className="px-6 py-4 border-b border-border">Customer / Site</th>
+                    {commKeys.map(k => <th key={k} className="px-3 py-4 border-b border-border text-center">{k}</th>)}
+                    <th className="px-6 py-4 border-b border-border text-right">Potensi PO</th>
+                    <th className="px-6 py-4 border-b border-border text-center">Avg Lead Time</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-50">
+                <tbody className="divide-y divide-border/50">
                   {filtered.map((row, idx) => (
-                    <tr key={idx} className="hover:bg-gray-50 transition-colors">
-                      <td className="px-4 py-3">
-                        <div className="font-medium text-[#1a2b4a]">{row.unitId}</div>
-                        <div className="text-xs text-gray-500">{row.model}</div>
+                    <tr key={idx} className="hover:bg-muted/30 transition-colors group">
+                      <td className="px-6 py-4">
+                        <div className="font-black text-primary dark:text-foreground group-hover:text-brand-green mb-0.5">{row.unitId}</div>
+                        <div className="text-[10px] text-muted-foreground font-bold">{row.model}</div>
                       </td>
-                      <td className="px-4 py-3">
-                        <div className="text-sm text-gray-700">{row.customer}</div>
-                        <div className="text-xs text-gray-400">{row.site}</div>
+                      <td className="px-6 py-4">
+                        <div className="text-xs font-bold text-foreground mb-0.5">{row.customer}</div>
+                        <div className="text-[10px] text-muted-foreground font-medium">{row.site}</div>
                       </td>
                       {commKeys.map(k => {
                         const status = row.commodities[k];
                         if (status.status === "N/A") {
-                           return <td key={k} className="px-3 py-3 text-center"><div className="w-3 h-3 rounded-full bg-gray-200 mx-auto" title="N/A"></div></td>
+                           return <td key={k} className="px-3 py-4 text-center"><div className="w-4 h-4 rounded-full bg-muted/40 mx-auto" /></td>
                         } else if (status.status === "Critical") {
-                           return <td key={k} className="px-3 py-3 text-center text-xs font-semibold text-red-600"><div className="flex items-center justify-center gap-1"><div className="w-3 h-3 rounded-full bg-red-500 shadow-sm" title="Critical"></div>({status.backlogCount})</div></td>
+                           return <td key={k} className="px-3 py-4 text-center"><div className="flex items-center justify-center gap-1.5 px-2 py-1 bg-red-500/10 rounded-lg"><div className="w-3 h-3 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.4)]" /><span className="text-[10px] font-black text-red-600">({status.backlogCount})</span></div></td>
                         } else if (status.status === "Caution") {
-                           return <td key={k} className="px-3 py-3 text-center text-xs font-semibold text-yellow-600"><div className="flex items-center justify-center gap-1"><div className="w-3 h-3 rounded-full bg-yellow-400 shadow-sm" title="Warning"></div>({status.backlogCount})</div></td>
+                           return <td key={k} className="px-3 py-4 text-center"><div className="flex items-center justify-center gap-1.5 px-2 py-1 bg-yellow-500/10 rounded-lg"><div className="w-3 h-3 rounded-full bg-yellow-400 shadow-[0_0_8px_rgba(250,204,21,0.4)]" /><span className="text-[10px] font-black text-yellow-600 dark:text-yellow-400">({status.backlogCount})</span></div></td>
                         } else {
-                           return <td key={k} className="px-3 py-3 text-center"><div className="w-3 h-3 rounded-full bg-green-500 shadow-sm mx-auto" title="Clear"></div></td>
+                           return <td key={k} className="px-3 py-4 text-center"><div className="w-3 h-3 rounded-full bg-brand-green shadow-[0_0_8px_rgba(35,163,78,0.4)] mx-auto" /></td>
                         }
                       })}
-                      <td className="px-4 py-3 text-right">
-                        <div className="text-sm text-gray-700 font-medium">{formatRupiah(row.totalPoGap)}</div>
+                      <td className="px-6 py-4 text-right">
+                        <div className="text-xs font-black text-primary dark:text-foreground">{formatRupiah(row.totalPoGap)}</div>
                       </td>
-                      <td className="px-4 py-3 text-center">
-                         <div className={`text-sm ${row.leadTimeAvg > 14 ? "text-red-600" : row.leadTimeAvg > 7 ? "text-yellow-600" : "text-gray-600"}`}>
-                           {row.leadTimeAvg} Hari
+                      <td className="px-6 py-4 text-center">
+                         <div className={`text-[11px] font-black px-2 py-1 rounded inline-block ${row.leadTimeAvg > 14 ? "bg-red-500/10 text-red-600" : row.leadTimeAvg > 7 ? "bg-yellow-500/10 text-yellow-600 dark:text-yellow-400" : "bg-muted/50 text-muted-foreground"}`}>
+                           {row.leadTimeAvg} DAYS
                          </div>
                       </td>
                     </tr>
                   ))}
                   {filtered.length === 0 && (
                     <tr>
-                      <td colSpan={10} className="text-center py-6 text-gray-400 text-sm">Tidak ada data unit yang ditemukan.</td>
+                      <td colSpan={11} className="text-center py-20 text-muted-foreground font-black italic">Search result empty. Re-sync database recommended.</td>
                     </tr>
                   )}
                 </tbody>
               </table>
             </div>
             
-             <div className="px-4 sm:px-5 py-3 border-t border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2 bg-gray-50/50">
-               <div className="flex items-center gap-4 text-[10px] text-gray-500">
-                  <span className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-green-500"></div> Clear</span>
-                  <span className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-yellow-400"></div> Warning</span>
-                  <span className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-red-500"></div> Critical Backlog (#)</span>
-                  <span className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-gray-200"></div> N/A</span>
+             <div className="px-6 py-4 border-t border-border flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-muted/10">
+               <div className="flex flex-wrap items-center gap-6">
+                  <div className="flex items-center gap-2"><div className="w-2.5 h-2.5 rounded-full bg-brand-green"></div><span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Normal</span></div>
+                  <div className="flex items-center gap-2"><div className="w-2.5 h-2.5 rounded-full bg-yellow-400"></div><span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Caution</span></div>
+                  <div className="flex items-center gap-2"><div className="w-2.5 h-2.5 rounded-full bg-red-500"></div><span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Critical (# Backlogs)</span></div>
+                  <div className="flex items-center gap-2"><div className="w-2.5 h-2.5 rounded-full bg-muted/40"></div><span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Unit N/A</span></div>
                </div>
-               <div className="text-[10px] text-gray-400">Data diperbarui secara realtime</div>
+               <div className="text-[9px] text-muted-foreground/60 font-black uppercase tracking-widest">Real-time Data sync active — updated 2m ago</div>
              </div>
           </div>
         </>
