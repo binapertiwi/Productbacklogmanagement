@@ -253,31 +253,65 @@ export function CustomerPortal() {
       </div>
 
       {/* ── AI FLEET RELIABILITY ADVISOR ─────────────────── */}
-      <div className="bg-gradient-to-r from-[#43E97B] to-[#38F9D7] p-4 sm:p-5 rounded-xl text-teal-950 shadow-md relative overflow-hidden mt-2 border border-teal-100/50">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-card/30 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none"></div>
-        <div className="flex items-center gap-2 mb-4 relative z-10">
-          <Sparkles className="w-5 h-5 text-teal-900" />
-          <h3 className="font-bold text-teal-950 tracking-wide">AI Fleet Reliability Advisor</h3>
+      <div className="bg-gradient-to-r from-[#43E97B] to-[#38F9D7] p-6 rounded-2xl shadow-lg relative overflow-hidden mt-2 border border-white/20">
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white/20 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3 animate-pulse pointer-events-none"></div>
+        
+        <div className="flex items-center gap-3 mb-6 relative z-10">
+          <div className="w-10 h-10 bg-white/30 backdrop-blur-md rounded-xl flex items-center justify-center shadow-inner">
+            <Sparkles className="w-6 h-6 text-teal-900" />
+          </div>
+          <div>
+            <h3 className="text-teal-950 text-xl font-black tracking-tight flex items-center gap-2">
+              AI Fleet Reliability Advisor
+              <span className="text-[10px] bg-teal-950 text-white px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Active Thinking</span>
+            </h3>
+            <p className="text-teal-900/70 text-xs font-bold italic">Predictive maintenance strategies for zero unplanned breakdown</p>
+          </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 relative z-10">
-          <div className="bg-card/60 rounded-lg p-3.5 border border-white/50 flex flex-col justify-between backdrop-blur-sm">
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 relative z-10">
+          <div className="bg-white/40 backdrop-blur-xl rounded-2xl p-5 border border-white/60 flex flex-col justify-between group hover:bg-white/60 transition-all duration-300 shadow-sm hover:shadow-md">
             <div>
-              <h4 className="text-xs font-semibold text-teal-900 mb-2 uppercase tracking-wide flex items-center gap-1.5"><AlertTriangle className="w-3.5 h-3.5" /> Insight Keandalan</h4>
-              <p className="text-xs text-teal-950/80 leading-relaxed mb-3 text-balance">Unit <span className="font-bold text-red-600">PC800-8-61823</span> memiliki probabilitas 85% untuk gagal pada komponen FCG dalam 7-10 hari.</p>
+              <div className="flex items-center justify-between mb-3 text-teal-900">
+                <h4 className="text-sm font-black tracking-tight uppercase">Insight Keandalan</h4>
+                <span className="text-[10px] bg-red-500 text-white px-2 py-0.5 rounded font-black">CRITICAL</span>
+              </div>
+              <p className="text-xs text-teal-950/90 leading-relaxed font-bold">
+                Unit <span className="font-black text-red-600 underline">PC800-8-61823</span> memiliki probabilitas <span className="font-black">85% untuk gagal</span> pada komponen FCG dalam 7-10 hari.
+              </p>
             </div>
-            <button className="text-[11px] font-bold text-white bg-teal-700 hover:bg-teal-800 transition-colors py-1.5 px-3 rounded shadow-sm self-start">Prioritaskan di PO Export</button>
+            <button className="mt-5 text-[11px] font-black text-white bg-teal-900 hover:bg-black transition-all py-2.5 px-4 rounded-xl w-full flex items-center justify-center gap-2 shadow-lg shadow-teal-900/20">
+              <AlertTriangle className="w-3.5 h-3.5" /> Prioritaskan di PO Export
+            </button>
           </div>
-          <div className="bg-card/60 rounded-lg p-3.5 border border-white/50 flex flex-col justify-between backdrop-blur-sm">
+
+          <div className="bg-white/40 backdrop-blur-xl rounded-2xl p-5 border border-white/60 flex flex-col justify-between group hover:bg-white/60 transition-all duration-300 shadow-sm hover:shadow-md">
             <div>
-              <h4 className="text-xs font-semibold text-teal-900 mb-2 uppercase tracking-wide flex items-center gap-1.5"><Clock className="w-3.5 h-3.5" /> Efisiensi Downtime</h4>
-              <p className="text-xs text-teal-950/80 leading-relaxed mb-3 text-balance">Unit <span className="font-bold">D375A-6-50234</span> membutuhkan GET (Critical) & BAT (Caution). Gabungkan minggu ini hemat 12 jam.</p>
+              <div className="flex items-center justify-between mb-3 text-teal-900">
+                <h4 className="text-sm font-black tracking-tight uppercase">Efisiensi Downtime</h4>
+                <span className="text-[10px] bg-teal-700 text-white px-2 py-0.5 rounded font-black">ANALYTIC</span>
+              </div>
+              <p className="text-xs text-teal-950/90 leading-relaxed font-bold">
+                Unit <span className="font-black">D375A-6-50234</span> membutuhkan GET (Critical) & BAT (Caution). Gabungkan minggu ini untuk <span className="text-teal-800 underline">hemat 12 jam downtime</span>.
+              </p>
             </div>
-            <button className="text-[11px] font-bold text-teal-800 bg-card/80 hover:bg-card transition-colors py-1.5 px-3 rounded border border-teal-200 self-start">Gabungkan Kebutuhan Part</button>
+            <button className="mt-5 text-[11px] font-black text-teal-900 bg-white/80 hover:bg-white transition-all py-2.5 px-4 rounded-xl w-full flex items-center justify-center gap-2 border border-teal-200">
+              <Clock className="w-3.5 h-3.5" /> Gabungkan Kebutuhan Part
+            </button>
           </div>
-          <div className="bg-card/60 rounded-lg p-3.5 border border-white/50 flex flex-col justify-between backdrop-blur-sm">
+
+          <div className="bg-white/40 backdrop-blur-xl rounded-2xl p-5 border border-white/60 flex flex-col justify-between group hover:bg-white/60 transition-all duration-300 shadow-sm hover:shadow-md">
             <div>
-              <h4 className="text-xs font-semibold text-teal-900 mb-2 uppercase tracking-wide flex items-center gap-1.5"><DollarSign className="w-3.5 h-3.5" /> Budget Forecast</h4>
-              <p className="text-xs text-teal-950/80 leading-relaxed mb-3 text-balance">Estimasi anggaran pemeliharaan Q2 2026 adalah sekitar <span className="font-bold text-sm">Rp 1.2 Miliar</span> berdasarkan tren armada saat ini.</p>
+              <div className="flex items-center justify-between mb-3 text-teal-900">
+                <h4 className="text-sm font-black tracking-tight uppercase">Budget Forecast</h4>
+                <span className="text-[10px] bg-blue-600 text-white px-2 py-0.5 rounded font-black">FINANCE</span>
+              </div>
+              <p className="text-xs text-teal-950/90 leading-relaxed font-bold">
+                Estimasi anggaran pemeliharaan armada Q2 2026 adalah sekitar <span className="font-black text-lg">Rp 1.2 Miliar</span> berdasarkan tren keausan saat ini.
+              </p>
+            </div>
+            <div className="mt-5 h-10 flex items-center justify-center border-t border-teal-800/10 text-[11px] text-teal-900/60 font-bold italic">
+               Forecasting active for all sites...
             </div>
           </div>
         </div>

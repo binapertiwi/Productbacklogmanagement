@@ -270,17 +270,20 @@ export function InternalDashboard() {
                   <BarChart data={revenueByCommodityData} layout="vertical" barSize={12}>
                     <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="var(--border)" opacity={0.5} />
                     <XAxis type="number" hide />
-                    <YAxis dataKey="name" type="category" tick={{ fontSize: 10, fontWeight: 700, fill: "var(--muted-foreground)" }} width={60} axisLine={false} tickLine={false} />
+                    <YAxis dataKey="name" type="category" hide />
                     <Tooltip 
                       cursor={{ fill: "var(--muted)", opacity: 0.1 }}
                       contentStyle={{ fontSize: 11, fontWeight: 700, borderRadius: 12, backgroundColor: "var(--card)", border: "1px solid var(--border)", boxShadow: "0 10px 15px -3px rgba(0,0,0,0.1)" }} 
                       formatter={(v) => [`Rp ${v} Jt`, 'Potential']} 
                     />
                     <Legend iconType="circle" iconSize={6} wrapperStyle={{ fontSize: 9, fontWeight: 700, paddingTop: 10 }} />
-                    <Bar dataKey="GET" stackId="a" fill="var(--chart-1)" radius={[0, 0, 0, 0]} />
-                    <Bar dataKey="TYR" stackId="a" fill="var(--chart-2)" radius={[0, 0, 0, 0]} />
-                    <Bar dataKey="FCG" stackId="a" fill="var(--chart-3)" radius={[0, 0, 0, 0]} />
-                    <Bar dataKey="Autofire" stackId="a" fill="var(--chart-4)" radius={[0, 4, 4, 0]} />
+                    <Bar dataKey="GET" stackId="a" fill="var(--chart-1)" />
+                    <Bar dataKey="TYR" stackId="a" fill="var(--chart-2)" />
+                    <Bar dataKey="FCG" stackId="a" fill="var(--chart-3)" />
+                    <Bar dataKey="Autofire" stackId="a" fill="var(--chart-4)" />
+                    <Bar dataKey="BAT" stackId="a" fill="var(--chart-5)" />
+                    <Bar dataKey="Autolube" stackId="a" fill="#ef4444" />
+                    <Bar dataKey="U/C" stackId="a" fill="#64748b" radius={[0, 4, 4, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
