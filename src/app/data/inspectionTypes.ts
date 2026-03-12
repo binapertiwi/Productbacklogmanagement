@@ -2,7 +2,19 @@
 // These types form the "DNA" of the standardized inspection system.
 // One structure adapts to render all 7 commodity types consistently.
 
-export type CommodityKey = 'BAT' | 'GET' | 'TYR' | 'FCG' | 'Autofire' | 'Autolube' | 'U/C';
+export type CommodityKey = 'U/C' | 'BAT' | 'GET' | 'TYR' | 'FCG' | 'Autofire' | 'Autolube';
+
+export const ALL_COMMODITIES: CommodityKey[] = ['U/C', 'BAT', 'GET', 'TYR', 'FCG', 'Autofire', 'Autolube'];
+
+export const COMMODITY_LABELS: Record<CommodityKey, string> = {
+  'U/C': 'Undercarriage',
+  BAT: 'Battery',
+  GET: 'GET',
+  TYR: 'Tyre',
+  FCG: 'Filter & Connector',
+  Autofire: 'Auto Fire',
+  Autolube: 'Auto Lube',
+};
 
 export type HealthStatus = 'Good' | 'Caution' | 'Critical' | 'N/A' | 'Replace' | 'Monitor';
 
@@ -17,6 +29,14 @@ export interface InspectionMetadata {
   serviceMeterUnit: number; // Jam terbang (jam) saat inspeksi
 }
 
+// Data histori untuk grafik trend
+export interface HistoricalMeasurement {
+  date: string;
+  smu: number;
+  value: number | string;
+  wearPercentage: number;
+}
+
 // Item Pengukuran Dinamis — satu baris di tabel inti
 // actualValue bisa mm (GET/U/C), Volt (BAT), % (FCG), Psi (Autofire/Autolube)
 export interface MeasurementItem {
@@ -29,6 +49,9 @@ export interface MeasurementItem {
   healthPercentage: number; // 0 - 100 (%) = sisa umur komponen
   estimatedRemainingLife?: number; // Sisa umur dalam jam (opsional)
   actionStatus: HealthStatus;
+  history?: HistoricalMeasurement[]; // Histori untuk grafik trend
+  category?: string; // "Link", "Bushing", "Roller", dll untuk pengelompokan
+  imageUrl?: string; // Foto referensi komponen standard
 }
 
 // Bukti & Catatan Lapangan (dari Aplikasi MMA)

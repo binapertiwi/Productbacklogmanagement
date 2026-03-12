@@ -41,7 +41,7 @@ import { CommodityType } from "../data/performanceMockData";
 
 type TabType = "Overview" | CommodityType;
 
-const commKeys: CommodityType[] = ["BAT", "GET", "TYR", "FCG", "Autofire", "Autolube", "U/C"];
+const commKeys: CommodityType[] = ["U/C", "BAT", "GET", "TYR", "FCG", "Autofire", "Autolube"];
 
 export function InternalDashboard() {
   const [activeTab, setActiveTab] = useState<TabType>("Overview");
@@ -370,14 +370,19 @@ export function InternalDashboard() {
                       </td>
                       {commKeys.map(k => {
                         const status = row.commodities[k];
+                        const handleCellClick = (e: React.MouseEvent) => {
+                          e.stopPropagation();
+                          navigate(`/unit/${row.unitId}?tab=${k}`);
+                        };
+
                         if (status.status === "N/A") {
-                           return <td key={k} className="px-3 py-4 text-center"><div className="w-4 h-4 rounded-full bg-muted/40 mx-auto" /></td>
+                           return <td key={k} className="px-3 py-4 text-center cursor-default tracking-tighter" onClick={(e) => e.stopPropagation()}><div className="w-4 h-4 rounded-full bg-muted/40 mx-auto" /></td>
                         } else if (status.status === "Critical") {
-                           return <td key={k} className="px-3 py-4 text-center"><div className="flex items-center justify-center gap-1.5 px-2 py-1 bg-red-500/10 rounded-lg"><div className="w-3 h-3 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.4)]" /><span className="text-[10px] font-black text-red-600">({status.backlogCount})</span></div></td>
+                           return <td key={k} className="px-3 py-4 text-center" onClick={handleCellClick}><div className="flex items-center justify-center gap-1.5 px-2 py-1 bg-red-500/10 rounded-lg cursor-pointer hover:bg-red-500/20 transition-all"><div className="w-3 h-3 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.4)]" /><span className="text-[10px] font-black text-red-600">({status.backlogCount})</span></div></td>
                         } else if (status.status === "Caution") {
-                           return <td key={k} className="px-3 py-4 text-center"><div className="flex items-center justify-center gap-1.5 px-2 py-1 bg-yellow-500/10 rounded-lg"><div className="w-3 h-3 rounded-full bg-yellow-400 shadow-[0_0_8px_rgba(250,204,21,0.4)]" /><span className="text-[10px] font-black text-yellow-600 dark:text-yellow-400">({status.backlogCount})</span></div></td>
+                           return <td key={k} className="px-3 py-4 text-center" onClick={handleCellClick}><div className="flex items-center justify-center gap-1.5 px-2 py-1 bg-yellow-500/10 rounded-lg cursor-pointer hover:bg-yellow-500/20 transition-all"><div className="w-3 h-3 rounded-full bg-yellow-400 shadow-[0_0_8px_rgba(250,204,21,0.4)]" /><span className="text-[10px] font-black text-yellow-600 dark:text-yellow-400">({status.backlogCount})</span></div></td>
                         } else {
-                           return <td key={k} className="px-3 py-4 text-center"><div className="w-3 h-3 rounded-full bg-brand-green shadow-[0_0_8px_rgba(35,163,78,0.4)] mx-auto" /></td>
+                           return <td key={k} className="px-3 py-4 text-center" onClick={handleCellClick}><div className="w-3 h-3 rounded-full bg-brand-green shadow-[0_0_8px_rgba(35,163,78,0.4)] mx-auto cursor-pointer hover:scale-125 transition-all" /></td>
                         }
                       })}
                       <td className="px-6 py-4 text-right">

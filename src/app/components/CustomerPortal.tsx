@@ -25,6 +25,7 @@ import {
   Tooltip,
 } from "recharts";
 import { fleetHealthSummary, unitHealthData, topUnitsAtRisk } from "../data/mockData";
+import { ALL_COMMODITIES, COMMODITY_LABELS } from "../data/inspectionTypes";
 
 const healthColor = {
   Critical: {
@@ -351,7 +352,10 @@ export function CustomerPortal() {
             <div className="relative">
               <Layers className="w-3.5 h-3.5 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
               <select className="pl-8 pr-8 py-1.5 text-[11px] border border-border rounded-lg bg-background focus:outline-none focus:ring-1 focus:ring-primary/30 appearance-none cursor-pointer w-full text-foreground font-bold" value={commodityFilter} onChange={(e) => setCommodityFilter(e.target.value)}>
-                <option>All Commodity</option><option>BAT</option><option>GET</option><option>TYR</option><option>FCG</option><option>Autofire</option><option>Autolube</option><option>U/C</option>
+                <option>All Commodity</option>
+                {ALL_COMMODITIES.map(c => (
+                  <option key={c} value={c}>{c}</option>
+                ))}
               </select>
               <ChevronDown className="w-3 h-3 text-muted-foreground absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
             </div>
@@ -387,11 +391,22 @@ export function CustomerPortal() {
                         </div>
                       </div>
                       <div className="mt-4 flex items-center gap-2 flex-wrap">
-                        {Object.entries(unit.commodityStatus).map(([comm, status]) => (
-                          <div key={comm} className={`flex items-center gap-1.5 px-2 py-0.5 rounded-md border text-[10px] font-bold ${(healthColor[status as keyof typeof healthColor] || healthColor["N/A"]).bg} ${(healthColor[status as keyof typeof healthColor] || healthColor["N/A"]).border} ${(healthColor[status as keyof typeof healthColor] || healthColor["N/A"]).text}`}>
-                            <div className={`w-1.5 h-1.5 rounded-full ${(healthColor[status as keyof typeof healthColor] || healthColor["N/A"]).dot}`} /> {comm}
-                          </div>
-                        ))}
+                        {ALL_COMMODITIES.map(comm => {
+                          const status = (unit.commodityStatus as any)[comm];
+                          if (!status) return null;
+                          return (
+                            <div 
+                              key={comm} 
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                if (status !== 'N/A') navigate(`/unit/${unit.serialNumber}?tab=${comm}`);
+                              }}
+                              className={`flex items-center gap-1.5 px-2 py-0.5 rounded-md border text-[10px] font-bold transition-all ${status !== 'N/A' ? 'cursor-pointer hover:scale-105 active:scale-95' : 'cursor-default opacity-50'} ${(healthColor[status as keyof typeof healthColor] || healthColor["N/A"]).bg} ${(healthColor[status as keyof typeof healthColor] || healthColor["N/A"]).border} ${(healthColor[status as keyof typeof healthColor] || healthColor["N/A"]).text}`}
+                            >
+                              <div className={`w-1.5 h-1.5 rounded-full ${(healthColor[status as keyof typeof healthColor] || healthColor["N/A"]).dot}`} /> {comm}
+                            </div>
+                          );
+                        })}
                       </div>
                     </div>
                   </div>

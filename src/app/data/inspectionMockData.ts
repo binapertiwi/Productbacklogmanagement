@@ -39,14 +39,86 @@ export const unitHolisticData: UnitHolisticData[] = [
           serviceMeterUnit: 14_250,
         },
         measurements: [
-          { id: 'uc-1', componentName: 'Track Shoe LH', position: 'L', actualValue: 28, measurementUnit: 'mm', standardValue: '≥ 20mm', healthPercentage: 92, estimatedRemainingLife: 180, actionStatus: 'Critical' },
-          { id: 'uc-2', componentName: 'Track Shoe RH', position: 'R', actualValue: 31, measurementUnit: 'mm', standardValue: '≥ 20mm', healthPercentage: 87, estimatedRemainingLife: 280, actionStatus: 'Critical' },
-          { id: 'uc-3', componentName: 'Sprocket LH', position: 'L', actualValue: 52, measurementUnit: 'mm', standardValue: '≥ 40mm', healthPercentage: 85, estimatedRemainingLife: 310, actionStatus: 'Critical' },
-          { id: 'uc-4', componentName: 'Sprocket RH', position: 'R', actualValue: 55, measurementUnit: 'mm', standardValue: '≥ 40mm', healthPercentage: 80, estimatedRemainingLife: 420, actionStatus: 'Monitor' },
-          { id: 'uc-5', componentName: 'Top Roller LH #1', position: 'L', actualValue: 148, measurementUnit: 'mm', standardValue: '≥ 130mm', healthPercentage: 72, estimatedRemainingLife: 680, actionStatus: 'Caution' },
-          { id: 'uc-6', componentName: 'Top Roller RH #1', position: 'R', actualValue: 151, measurementUnit: 'mm', standardValue: '≥ 130mm', healthPercentage: 75, estimatedRemainingLife: 720, actionStatus: 'Caution' },
-          { id: 'uc-7', componentName: 'Bottom Roller LH #3', position: 'L', actualValue: 162, measurementUnit: 'mm', standardValue: '≥ 140mm', healthPercentage: 65, estimatedRemainingLife: 950, actionStatus: 'Monitor' },
-          { id: 'uc-8', componentName: 'Front Idler LH', position: 'L', actualValue: 440, measurementUnit: 'mm', standardValue: '≥ 400mm', healthPercentage: 88, estimatedRemainingLife: 400, actionStatus: 'Good' },
+          { 
+            id: 'uc-1', componentName: 'Track Link Assembly LH', position: 'L', actualValue: 124.5, measurementUnit: 'mm', standardValue: '135.0mm', healthPercentage: 92, estimatedRemainingLife: 150, actionStatus: 'Critical', category: 'Link Assembly',
+            imageUrl: 'https://images.unsplash.com/photo-1541625602330-2277a1cd13a1?w=50&h=50&fit=crop',
+            history: [
+              { date: '2025-08-10', smu: 12800, value: 134.2, wearPercentage: 15 },
+              { date: '2025-10-15', smu: 13500, value: 131.5, wearPercentage: 45 },
+              { date: '2025-12-20', smu: 14100, value: 126.8, wearPercentage: 82 },
+              { date: '2026-02-14', smu: 14250, value: 124.5, wearPercentage: 92 }
+            ]
+          },
+          { 
+            id: 'uc-2', componentName: 'Track Link Assembly RH', position: 'R', actualValue: 125.8, measurementUnit: 'mm', standardValue: '135.0mm', healthPercentage: 88, estimatedRemainingLife: 220, actionStatus: 'Critical', category: 'Link Assembly',
+            imageUrl: 'https://images.unsplash.com/photo-1541625602330-2277a1cd13a1?w=50&h=50&fit=crop',
+            history: [
+              { date: '2025-08-10', smu: 12800, value: 134.5, wearPercentage: 12 },
+              { date: '2025-10-15', smu: 13500, value: 132.2, wearPercentage: 38 },
+              { date: '2025-12-20', smu: 14100, value: 128.5, wearPercentage: 75 },
+              { date: '2026-02-14', smu: 14250, value: 125.8, wearPercentage: 88 }
+            ]
+          },
+          { 
+            id: 'uc-3', componentName: 'Bushing LH', position: 'L', actualValue: 68.2, measurementUnit: 'mm', standardValue: '72.0mm', healthPercentage: 85, estimatedRemainingLife: 300, actionStatus: 'Critical', category: 'Bushings',
+            imageUrl: 'https://images.unsplash.com/photo-1579847209170-4927cb044944?w=50&h=50&fit=crop',
+            history: [
+              { date: '2025-08-10', smu: 12800, value: 71.8, wearPercentage: 10 },
+              { date: '2025-10-15', smu: 13500, value: 70.5, wearPercentage: 40 },
+              { date: '2025-12-20', smu: 14100, value: 69.1, wearPercentage: 78 },
+              { date: '2026-02-14', smu: 14250, value: 68.2, wearPercentage: 85 }
+            ]
+          },
+          { 
+            id: 'uc-4', componentName: 'Bushing RH', position: 'R', actualValue: 69.5, measurementUnit: 'mm', standardValue: '72.0mm', healthPercentage: 78, estimatedRemainingLife: 450, actionStatus: 'Caution', category: 'Bushings',
+            imageUrl: 'https://images.unsplash.com/photo-1579847209170-4927cb044944?w=50&h=50&fit=crop',
+            history: [
+              { date: '2025-08-10', smu: 12800, value: 71.9, wearPercentage: 8 },
+              { date: '2025-10-15', smu: 13500, value: 70.8, wearPercentage: 35 },
+              { date: '2025-12-20', smu: 14100, value: 70.0, wearPercentage: 62 },
+              { date: '2026-02-14', smu: 14250, value: 69.5, wearPercentage: 78 }
+            ]
+          },
+          { 
+            id: 'uc-5', componentName: 'Carrier Roller LH #1', position: 'L', actualValue: 185.0, measurementUnit: 'mm', standardValue: '200.0mm', healthPercentage: 65, estimatedRemainingLife: 800, actionStatus: 'Monitor', category: 'Rollers',
+            imageUrl: 'https://images.unsplash.com/photo-1542646391-d8ec8f6c6d05?w=50&h=50&fit=crop',
+            history: [
+              { date: '2025-08-10', smu: 12800, value: 198.5, wearPercentage: 10 },
+              { date: '2025-10-15', smu: 13500, value: 194.2, wearPercentage: 35 },
+              { date: '2025-12-20', smu: 14100, value: 188.5, wearPercentage: 55 },
+              { date: '2026-02-14', smu: 14250, value: 185.0, wearPercentage: 65 }
+            ]
+          },
+          { 
+            id: 'uc-6', componentName: 'Carrier Roller RH #1', position: 'R', actualValue: 187.5, measurementUnit: 'mm', standardValue: '200.0mm', healthPercentage: 58, estimatedRemainingLife: 950, actionStatus: 'Monitor', category: 'Rollers',
+            imageUrl: 'https://images.unsplash.com/photo-1542646391-d8ec8f6c6d05?w=50&h=50&fit=crop',
+            history: [
+              { date: '2025-08-10', smu: 12800, value: 199.0, wearPercentage: 8 },
+              { date: '2025-10-15', smu: 13500, value: 195.5, wearPercentage: 28 },
+              { date: '2025-12-20', smu: 14100, value: 190.2, wearPercentage: 45 },
+              { date: '2026-02-14', smu: 14250, value: 187.5, wearPercentage: 58 }
+            ]
+          },
+          { 
+            id: 'uc-7', componentName: 'Track Shoes LH (Grousers)', position: 'L', actualValue: 42.1, measurementUnit: 'mm', standardValue: '65.0mm', healthPercentage: 94, estimatedRemainingLife: 120, actionStatus: 'Critical', category: 'Track Shoes',
+            imageUrl: 'https://images.unsplash.com/photo-1587293852726-70cdb56c2866?w=50&h=50&fit=crop',
+            history: [
+              { date: '2025-08-10', smu: 12800, value: 62.1, wearPercentage: 15 },
+              { date: '2025-10-15', smu: 13500, value: 55.4, wearPercentage: 48 },
+              { date: '2025-12-20', smu: 14100, value: 45.8, wearPercentage: 85 },
+              { date: '2026-02-14', smu: 14250, value: 42.1, wearPercentage: 94 }
+            ]
+          },
+          { 
+            id: 'uc-8', componentName: 'Front Idler LH', position: 'L', actualValue: 18.5, measurementUnit: 'mm', standardValue: '22.0mm', healthPercentage: 45, estimatedRemainingLife: 1500, actionStatus: 'Good', category: 'Idlers',
+            imageUrl: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=50&h=50&fit=crop',
+            history: [
+              { date: '2025-08-10', smu: 12800, value: 21.8, wearPercentage: 5 },
+              { date: '2025-10-15', smu: 13500, value: 20.5, wearPercentage: 20 },
+              { date: '2025-12-20', smu: 14100, value: 19.2, wearPercentage: 35 },
+              { date: '2026-02-14', smu: 14250, value: 18.5, wearPercentage: 45 }
+            ]
+          }
         ],
         evidence: {
           mechanicNotes: 'Track shoe kiri (LH) dalam kondisi kritis dengan keausan melebihi batas operasional. Terdapat retak pada 3 sambungan link di sisi LH. Sprocket LH menunjukkan tanda-tanda pitch elongation. Disarankan penggantian segera sebelum unit beroperasi pada shift berikutnya. Jika dioperasikan, risiko track lepas (off-track) sangat tinggi, terutama pada medan berlereng.',

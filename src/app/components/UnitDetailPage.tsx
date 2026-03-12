@@ -1,26 +1,14 @@
-import React, { useState } from 'react';
-import { useParams, useNavigate } from 'react-router';
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate, useSearchParams } from 'react-router';
 import {
   ArrowLeft, Activity, MapPin, Clock, ChevronRight,
   Sparkles, Download, AlertTriangle, Bot
 } from 'lucide-react';
-import { CommodityKey, RecommendedPart } from '../data/inspectionTypes';
+import { CommodityKey, RecommendedPart, ALL_COMMODITIES, COMMODITY_LABELS } from '../data/inspectionTypes';
 import { findUnitBySerial } from '../data/inspectionMockData';
 import { unitHealthData } from '../data/mockData';
 import { StatusBadge } from './StatusBadge';
 import { InspectionReport } from './InspectionReport';
-
-const ALL_COMMODITIES: CommodityKey[] = ['BAT', 'GET', 'TYR', 'FCG', 'Autofire', 'Autolube', 'U/C'];
-
-const COMMODITY_LABELS: Record<CommodityKey, string> = {
-  BAT: 'Battery',
-  GET: 'GET',
-  TYR: 'Tyre',
-  FCG: 'Filter & Connector',
-  Autofire: 'Auto Fire',
-  Autolube: 'Auto Lube',
-  'U/C': 'Undercarriage',
-};
 
 const statusRank = { Critical: 0, Caution: 1, Monitor: 2, Good: 3, Replace: 0, 'N/A': 4 };
 
@@ -40,7 +28,19 @@ export function UnitDetailPage() {
       ).find(c => holisticUnit.commodityStatus[c] !== 'N/A') ?? 'U/C'
     : 'U/C';
 
-  const [activeTab, setActiveTab] = useState<CommodityKey>(defaultCommodity);
+  const [searchParams] = useSearchParams();
+  const tabParam = searchParams.get('tab') as CommodityKey | null;
+  const initialTab = tabParam && ALL_COMMODITIES.includes(tabParam) ? tabParam : defaultCommodity;
+
+  const [activeTab, setActiveTab] = useState<CommodityKey>(initialTab);
+
+  // Sync tab with URL parameter
+  useEffect(() => {
+    const currentTab = searchParams.get('tab') as CommodityKey | null;
+    if (currentTab && ALL_COMMODITIES.includes(currentTab)) {
+      setActiveTab(currentTab);
+    }
+  }, [searchParams]);
 
   if (!holisticUnit && !basicUnit) {
     return (
