@@ -25,7 +25,8 @@ import {
   Sparkles,
   ArrowUpRight,
   TrendingDown,
-  LayoutDashboard
+  LayoutDashboard,
+  FileText
 } from "lucide-react";
 import {
   kpiData,
