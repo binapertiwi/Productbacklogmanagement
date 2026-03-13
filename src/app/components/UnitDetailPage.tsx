@@ -8,7 +8,11 @@ import { CommodityKey, RecommendedPart, ALL_COMMODITIES, COMMODITY_LABELS } from
 import { findUnitBySerial } from '../data/inspectionMockData';
 import { unitHealthData } from '../data/mockData';
 import { StatusBadge } from './StatusBadge';
-import { InspectionReport } from './InspectionReport';
+import { lazy, Suspense } from 'react';
+
+const InspectionReport = lazy(() =>
+  import('./InspectionReport').then((m) => ({ default: m.InspectionReport }))
+);
 
 const statusRank = { Critical: 0, Caution: 1, Monitor: 2, Good: 3, Replace: 0, 'N/A': 4 };
 
@@ -22,7 +26,7 @@ export function UnitDetailPage() {
 
   // Determine active commodity — default to the most critical one
   const defaultCommodity = holisticUnit
-    ? ALL_COMMODITIES.sort((a, b) =>
+    ? [...ALL_COMMODITIES].sort((a, b) =>
         (statusRank[holisticUnit.commodityStatus[a]] ?? 5) -
         (statusRank[holisticUnit.commodityStatus[b]] ?? 5)
       ).find(c => holisticUnit.commodityStatus[c] !== 'N/A') ?? 'U/C'
@@ -206,12 +210,14 @@ export function UnitDetailPage() {
           {/* Tab Content */}
           <div className="p-5">
             {activeReport ? (
-              <InspectionReport
-                key={activeTab}
-                report={activeReport}
-                unitId={unit.serialNumber}
-                onExportPO={handleExportPO}
-              />
+              <Suspense fallback={<div className="flex justify-center py-24"><div className="w-8 h-8 border-4 border-primary/20 border-t-brand-green rounded-full animate-spin" /></div>}>
+                <InspectionReport
+                  key={activeTab}
+                  report={activeReport}
+                  unitId={unit.serialNumber}
+                  onExportPO={handleExportPO}
+                />
+              </Suspense>
             ) : (
               <div className="flex flex-col items-center justify-center py-16 gap-4 text-center">
                 <div className={`w-16 h-16 rounded-2xl flex items-center justify-center ${

@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback, Suspense } from "react";
+import React, { useState, useMemo, useCallback, Suspense, lazy } from "react";
 import { useNavigate } from "react-router";
 import {
   PieChart,
@@ -38,8 +38,11 @@ import {
   internalStrategicKPIs,
   formatRupiah,
 } from "../data/mockData";
-import { CommodityPerformanceDashboard } from "./CommodityPerformanceDashboard";
 import { CommodityType } from "../data/performanceMockData";
+
+const CommodityPerformanceDashboard = lazy(() =>
+  import("./CommodityPerformanceDashboard").then((m) => ({ default: m.CommodityPerformanceDashboard }))
+);
 
 type TabType = "Overview" | CommodityType;
 
@@ -349,9 +352,9 @@ export function InternalDashboard() {
                 <div className="space-y-2">
                   <p className="text-[10px] text-muted-foreground font-black uppercase tracking-widest mb-2">Backlog Pending by Age</p>
                   <div className="flex h-8 rounded-lg overflow-hidden border border-border shadow-inner">
-                    {internalStrategicKPIs.operations.agingBacklogs.map((item, idx) => (
+                    {internalStrategicKPIs.operations.agingBacklogs.map((item) => (
                       <div 
-                        key={idx} 
+                        key={item.category}
                         className="h-full flex items-center justify-center text-[10px] font-black text-white hover:opacity-80 transition-opacity" 
                         style={{ backgroundColor: item.color, width: `${(item.count / 54) * 100}%` }}
                         title={`${item.category}: ${item.count}`}
@@ -361,8 +364,8 @@ export function InternalDashboard() {
                     ))}
                   </div>
                   <div className="flex flex-wrap gap-x-3 gap-y-1 mt-3">
-                    {internalStrategicKPIs.operations.agingBacklogs.map((item, idx) => (
-                      <div key={idx} className="flex items-center gap-1">
+                    {internalStrategicKPIs.operations.agingBacklogs.map((item) => (
+                      <div key={item.category} className="flex items-center gap-1">
                         <div className="w-2 h-2 rounded-full" style={{ backgroundColor: item.color }} />
                         <span className="text-[8px] font-extrabold text-muted-foreground uppercase">{item.category}</span>
                       </div>
@@ -475,8 +478,8 @@ export function InternalDashboard() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border/50">
-                  {filtered.map((row, idx) => (
-                    <tr key={idx} className="hover:bg-muted/30 transition-colors group cursor-pointer" onClick={() => navigate(`/unit/${row.unitId}`)}>
+                  {filtered.map((row) => (
+                    <tr key={row.unitId} className="hover:bg-muted/30 transition-colors group cursor-pointer" onClick={() => navigate(`/unit/${row.unitId}`)}>
                       <td className="px-6 py-4">
                         <div className="font-black text-primary dark:text-foreground group-hover:text-brand-green mb-0.5">{row.unitId}</div>
                         <div className="text-[10px] text-muted-foreground font-bold">{row.model}</div>

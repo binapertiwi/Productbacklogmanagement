@@ -197,8 +197,8 @@ export function CommodityPerformanceDashboard({ commodity }: Props) {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-border/50 text-foreground">
-                            {data.planTable.map((r, i) => (
-                                <tr key={i} className="hover:bg-muted/30 transition-colors group text-[9px] font-bold">
+                            {data.planTable.map((r) => (
+                                <tr key={`${r.customer}-${r.pn}`} className="hover:bg-muted/30 transition-colors group text-[9px] font-bold">
                                     <td className="px-3 py-3 border-r border-border font-black text-primary dark:text-foreground sticky left-0 z-10 bg-card group-hover:bg-muted/30">{r.customer}</td>
                                     <td className="px-3 py-3 font-black opacity-70">{r.pn}</td>
                                     <td className="px-2 py-3 bg-muted/5">{r.jan}</td>
@@ -236,8 +236,8 @@ export function CommodityPerformanceDashboard({ commodity }: Props) {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-border/50">
-                            {data.costTable.map((r, i) => (
-                                <tr key={i} className="hover:bg-muted/30 transition-colors text-[11px] font-bold text-foreground">
+                            {data.costTable.map((r) => (
+                                <tr key={r.pn} className="hover:bg-muted/30 transition-colors text-[11px] font-bold text-foreground">
                                     <td className="px-4 py-4 font-black text-primary dark:text-foreground">{r.pn}</td>
                                     <td className="px-4 py-4">{r.avg} H</td>
                                     <td className="px-4 py-4 opacity-70">Rp {r.price}</td>

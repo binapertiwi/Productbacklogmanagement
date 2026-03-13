@@ -401,8 +401,8 @@ export function InspectionReport({ report, unitId, onExportPO }: InspectionRepor
                 </tr>
               </thead>
               <tbody className="divide-y divide-border/50">
-                {recommendations.map((part, idx) => (
-                  <tr key={idx} className="hover:bg-muted/30 transition-colors">
+                {recommendations.map((part) => (
+                  <tr key={part.partNumber} className="hover:bg-muted/30 transition-colors">
                     <td className="px-5 py-3 font-black text-primary dark:text-brand-green text-xs">{part.partNumber}</td>
                     <td className="px-4 py-3 text-xs font-bold text-foreground/90">{part.description}</td>
                     <td className="px-3 py-3 text-center font-black text-foreground">{part.quantity}</td>

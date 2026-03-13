@@ -236,8 +236,8 @@ export function CustomerPortal() {
             <h3 className="text-primary dark:text-foreground font-bold">Top Units at Risk of Breakdown</h3>
           </div>
           <div className="space-y-2">
-             {topUnitsAtRisk.map((unit, idx) => (
-               <div key={idx} className="flex justify-between items-center bg-muted rounded p-2 text-xs transition-colors hover:bg-muted/80">
+             {topUnitsAtRisk.map((unit) => (
+               <div key={unit.unitId} className="flex justify-between items-center bg-muted rounded p-2 text-xs transition-colors hover:bg-muted/80">
                  <div>
                    <span className="font-bold text-primary dark:text-brand-blue">{unit.unitId}</span> <span className="text-muted-foreground font-medium">({unit.site})</span>
                  </div>
@@ -313,8 +313,8 @@ export function CustomerPortal() {
                  </div>
               </div>
               <div className="flex-1 space-y-2">
-                 {customerStrategicKPIs.safetyIndex.components.map((c, i) => (
-                    <div key={i} className="flex flex-col">
+                 {customerStrategicKPIs.safetyIndex.components.map((c) => (
+                    <div key={c.name} className="flex flex-col">
                        <div className="flex justify-between items-center mb-1">
                           <span className="text-[9px] font-bold text-muted-foreground">{c.name}</span>
                           <span className={`text-[9px] font-black ${c.status === "Critical" ? "text-red-500" : "text-brand-green"}`}>{c.score}%</span>
@@ -535,10 +535,10 @@ export function CustomerPortal() {
                 {isOpen && (
                   <div className="px-4 sm:px-14 py-6 bg-muted/20 border-y border-border/50 animate-in fade-in slide-in-from-top-1 duration-200">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                      {unit.components.map((comp, cIdx) => {
+                      {unit.components.map((comp) => {
                         const cc = healthColor[comp.priority as keyof typeof healthColor] || healthColor["N/A"];
                         return (
-                          <div key={cIdx} className="bg-card border border-border p-4 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                          <div key={comp.name} className="bg-card border border-border p-4 rounded-xl shadow-sm hover:shadow-md transition-shadow">
                             <div className="flex justify-between items-start mb-3">
                               <h4 className="text-sm font-bold text-primary dark:text-foreground">{comp.name}</h4>
                               <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${cc.badge}`}>{comp.priority}</span>
