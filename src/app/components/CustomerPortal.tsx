@@ -24,7 +24,7 @@ import {
   RadialBar,
   Tooltip,
 } from "recharts";
-import { fleetHealthSummary, unitHealthData, topUnitsAtRisk } from "../data/mockData";
+import { fleetHealthSummary, unitHealthData, topUnitsAtRisk, customerStrategicKPIs, formatRupiah } from "../data/mockData";
 import { ALL_COMMODITIES, COMMODITY_LABELS } from "../data/inspectionTypes";
 
 const healthColor = {
@@ -252,6 +252,126 @@ export function CustomerPortal() {
                </div>
              ))}
           </div>
+        </div>
+      </div>
+
+      {/* ── FINANCIAL & SAFETY SUMMARY ───────────────────── */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* 1. Budget Forecast Card */}
+        <div className="bg-card rounded-2xl border border-border p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition-all">
+           <div className="flex items-start justify-between mb-4">
+              <div>
+                <h3 className="text-primary dark:text-foreground font-black text-lg tracking-tight">Budget Forecasting</h3>
+                <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider mt-0.5">Projected Maintenance Cost</p>
+              </div>
+              <div className="w-10 h-10 bg-brand-navy/10 dark:bg-brand-blue/10 rounded-xl flex items-center justify-center text-brand-navy dark:text-brand-blue">
+                <DollarSign className="w-5 h-5" />
+              </div>
+           </div>
+           <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-3">
+                 <div className="p-3 bg-muted/20 rounded-xl border border-border">
+                    <p className="text-[9px] text-muted-foreground font-bold uppercase mb-0.5">Next 30 Days</p>
+                    <p className="text-sm font-black text-primary dark:text-foreground">{formatRupiah(customerStrategicKPIs.budgetForecast.total30Days)}</p>
+                 </div>
+                 <div className="p-3 bg-muted/20 rounded-xl border border-border">
+                    <p className="text-[9px] text-muted-foreground font-bold uppercase mb-0.5">Next 90 Days</p>
+                    <p className="text-sm font-black text-primary dark:text-foreground">{formatRupiah(customerStrategicKPIs.budgetForecast.total90Days)}</p>
+                 </div>
+              </div>
+              <div className="bg-brand-green/5 border border-brand-green/10 p-3 rounded-xl">
+                 <p className="text-[10px] text-brand-green font-bold flex items-center gap-1.5 uppercase tracking-tighter">
+                    <Sparkles className="w-3 h-3" />
+                    AI Optimization Recommendation
+                 </p>
+                 <p className="text-[10px] text-muted-foreground font-medium mt-1 leading-tight italic">
+                    Konsolidasi perbaikan U/C & GET di site Kalsel dapat menghemat biaya logistik sebesar Rp 45jt.
+                 </p>
+              </div>
+           </div>
+        </div>
+
+        {/* 2. Fleet Safety Score Card */}
+        <div className={`bg-card rounded-2xl border-2 p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition-all ${customerStrategicKPIs.safetyIndex.fleetSafetyScore < 100 ? "border-red-500/50" : "border-border"}`}>
+           <div className="flex items-start justify-between mb-4">
+              <div>
+                <h3 className="text-primary dark:text-foreground font-black text-lg tracking-tight">Safety & Compliance</h3>
+                <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider mt-0.5">Fleet Operational Assurance</p>
+              </div>
+              <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${customerStrategicKPIs.safetyIndex.fleetSafetyScore < 100 ? "bg-red-500 text-white animate-pulse" : "bg-brand-green/10 text-brand-green"}`}>
+                <Shield className="w-5 h-5" />
+              </div>
+           </div>
+           <div className="flex items-center gap-6">
+              <div className="relative">
+                 <svg className="w-20 h-20">
+                    <circle cx="40" cy="40" r="36" stroke="currentColor" strokeWidth="8" fill="transparent" className="text-muted/20" />
+                    <circle cx="40" cy="40" r="36" stroke="currentColor" strokeWidth="8" fill="transparent" strokeDasharray={226} strokeDashoffset={226 - (226 * customerStrategicKPIs.safetyIndex.fleetSafetyScore) / 100} className={customerStrategicKPIs.safetyIndex.fleetSafetyScore < 100 ? "text-red-500" : "text-brand-green"} />
+                 </svg>
+                 <div className="absolute inset-0 flex items-center justify-center font-black text-lg">
+                    {customerStrategicKPIs.safetyIndex.fleetSafetyScore}%
+                 </div>
+              </div>
+              <div className="flex-1 space-y-2">
+                 {customerStrategicKPIs.safetyIndex.components.map((c, i) => (
+                    <div key={i} className="flex flex-col">
+                       <div className="flex justify-between items-center mb-1">
+                          <span className="text-[9px] font-bold text-muted-foreground">{c.name}</span>
+                          <span className={`text-[9px] font-black ${c.status === "Critical" ? "text-red-500" : "text-brand-green"}`}>{c.score}%</span>
+                       </div>
+                       <div className="h-1 bg-muted rounded-full overflow-hidden">
+                          <div className={`h-full ${c.status === "Critical" ? "bg-red-500" : "bg-brand-green"}`} style={{ width: `${c.score}%` }}></div>
+                       </div>
+                    </div>
+                 ))}
+              </div>
+           </div>
+           {customerStrategicKPIs.safetyIndex.fleetSafetyScore < 100 && (
+             <div className="mt-4 flex items-center gap-2 text-[10px] font-black text-red-600 animate-bounce uppercase tracking-tighter">
+                <AlertTriangle className="w-3.5 h-3.5" />
+                Attention: {customerStrategicKPIs.safetyIndex.components.find(c => c.status === "Critical")?.name} Alert!
+             </div>
+           )}
+        </div>
+
+        {/* 3. Procurement Pipeline Card */}
+        <div className="bg-card rounded-2xl border border-border p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition-all">
+           <div className="flex items-start justify-between mb-4">
+              <div>
+                <h3 className="text-primary dark:text-foreground font-black text-lg tracking-tight">Procurement Pipeline</h3>
+                <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider mt-0.5">Order Fulfillment Progress</p>
+              </div>
+              <div className="w-10 h-10 bg-brand-green/10 rounded-xl flex items-center justify-center text-brand-green">
+                <Layers className="w-5 h-5" />
+              </div>
+           </div>
+           <div className="space-y-4">
+              <div className="flex justify-between items-end mb-1">
+                 <span className="text-[10px] text-muted-foreground font-bold uppercase">Progress to Delivery</span>
+                 <span className="text-xs font-black text-brand-green">{customerStrategicKPIs.procurementPipeline.fulfillmentProgress}%</span>
+              </div>
+              <div className="h-1.5 bg-muted rounded-full overflow-hidden">
+                 <div className="h-full bg-brand-green" style={{ width: `${customerStrategicKPIs.procurementPipeline.fulfillmentProgress}%` }}></div>
+              </div>
+              <div className="grid grid-cols-4 gap-2 mt-4 text-center">
+                 <div>
+                    <p className="text-[10px] text-muted-foreground font-bold">{customerStrategicKPIs.procurementPipeline.drafting}</p>
+                    <p className="text-[8px] text-muted-foreground/60 uppercase font-bold">Draft</p>
+                 </div>
+                 <div>
+                    <p className="text-[10px] font-black text-blue-600">{customerStrategicKPIs.procurementPipeline.quoted}</p>
+                    <p className="text-[8px] text-muted-foreground/60 uppercase font-bold">Quoted</p>
+                 </div>
+                 <div>
+                    <p className="text-[10px] font-black text-yellow-600">{customerStrategicKPIs.procurementPipeline.poIssued}</p>
+                    <p className="text-[8px] text-muted-foreground/60 uppercase font-bold">PO Issued</p>
+                 </div>
+                 <div>
+                    <p className="text-[10px] font-black text-brand-green">{customerStrategicKPIs.procurementPipeline.delivered}</p>
+                    <p className="text-[8px] text-muted-foreground/60 uppercase font-bold">Done</p>
+                 </div>
+              </div>
+           </div>
         </div>
       </div>
 

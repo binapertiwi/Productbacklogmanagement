@@ -295,6 +295,59 @@ export const unitHealthData = [
   },
 ];
 
+// ─── Strategic Strategic KPIs (Enriched Data) ────────────────────────────────
+
+export const internalStrategicKPIs = {
+  inventory: {
+    readyInStock: 68,
+    inTransit: 18,
+    outOfStock: 14,
+    fulfillmentRatio: 86.5, // Target > 85%
+  },
+  commercial: {
+    bundledUnits: 12,
+    avgCommodityPerPO: 1.8, // Target > 1.5
+    crossSellRate: 42,
+  },
+  operations: {
+    avgLeadTimeToPO: 12, // Target < 14 Days
+    agingBacklogs: [
+      { category: "0-7 Days", count: 24, color: "#22c55e" },
+      { category: "8-14 Days", count: 18, color: "#eab308" },
+      { category: "15-30 Days", count: 8, color: "#f97316" },
+      { category: ">30 Days", count: 4, color: "#ef4444" },
+    ]
+  }
+};
+
+export const customerStrategicKPIs = {
+  budgetForecast: {
+    total30Days: 1_250_000_000,
+    total60Days: 2_840_000_000,
+    total90Days: 4_120_500_000,
+    projectedEvents: [
+      { month: "Apr", cost: 1250000000, criticalUnits: 3 },
+      { month: "May", cost: 1590000000, criticalUnits: 5 },
+      { month: "Jun", cost: 1280500000, criticalUnits: 2 },
+    ]
+  },
+  safetyIndex: {
+    fleetSafetyScore: 94.5, // Alert if < 100%
+    components: [
+      { name: "Tyre Condition", score: 89, weight: 60, status: "Critical" },
+      { name: "Autofire Readiness", score: 100, weight: 40, status: "Good" },
+    ],
+    lastIncident: "None recorded in last 180 days"
+  },
+  procurementPipeline: {
+    drafting: 8,
+    quoted: 14,
+    poIssued: 12,
+    delivered: 20,
+    fulfillmentProgress: 65, // (delivered / total)
+  }
+};
+
 export const formatRupiah = (value: number): string => {
   if (value === 0) return "-";
   if (value >= 1_000_000_000) {

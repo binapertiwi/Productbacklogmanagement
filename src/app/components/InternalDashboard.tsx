@@ -27,13 +27,15 @@ import {
   ArrowUpRight,
   TrendingDown,
   LayoutDashboard,
-  FileText
+  FileText,
+  Clock
 } from "lucide-react";
 import {
   kpiData,
   monthlyConversionData,
   revenueByCommodityData,
   inspectionTableData,
+  internalStrategicKPIs,
   formatRupiah,
 } from "../data/mockData";
 import { CommodityPerformanceDashboard } from "./CommodityPerformanceDashboard";
@@ -249,8 +251,123 @@ export function InternalDashboard() {
                     <span className="font-black">35% inspeksi</span> minggu ini terfokus pada <span className="font-black uppercase tracking-wider">TYR</span>. AI menyarankan rotasi mekanik spesialis U/C ke area <span className="font-black">Kaltim</span> untuk menyeimbangkan cakupan.
                   </p>
                 </div>
-                <div className="mt-5 h-10 flex items-center justify-center border-t border-teal-800/10 text-[11px] text-teal-900/60 font-bold italic">
-                   AI suggest optimal rotation schedule...
+                <button className="mt-5 text-[11px] font-black text-blue-900 bg-white/80 hover:bg-white transition-all py-2.5 px-4 rounded-xl w-full flex items-center justify-center gap-2 border border-blue-200">
+                  <RefreshCw className="w-3.5 h-3.5" /> Rebalance Resources Now
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* ── STRATEGIC & SUPPLY CHAIN INSIGHTS ──────────────── */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* 1. Inventory Readiness Card */}
+            <div className="bg-card rounded-2xl border border-border overflow-hidden flex flex-col shadow-sm group hover:shadow-md transition-all">
+              <div className="p-5 border-b border-border bg-muted/30">
+                <h4 className="text-sm font-black text-primary dark:text-foreground flex items-center gap-2">
+                  <RefreshCw className="w-4 h-4 text-brand-green" />
+                  Inventory Readiness & DOI
+                </h4>
+              </div>
+              <div className="p-6 flex-1 flex flex-col justify-center">
+                <div className="flex items-end justify-between mb-2">
+                  <p className="text-3xl font-black text-brand-green tracking-tight">{internalStrategicKPIs.inventory.fulfillmentRatio}%</p>
+                  <span className="text-[10px] font-black text-green-600 bg-green-500/10 px-2 py-0.5 rounded uppercase tracking-tighter">Healthy (Target &gt;85%)</span>
+                </div>
+                <p className="text-[10px] text-muted-foreground font-bold mb-6 italic tracking-tight">Kesiapan stok terhadap Critical Backlog saat ini</p>
+                
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-full bg-muted/30 rounded-full h-2 overflow-hidden flex shadow-inner">
+                      <div className="h-full bg-brand-green" style={{ width: `${internalStrategicKPIs.inventory.readyInStock}%` }}></div>
+                      <div className="h-full bg-yellow-400" style={{ width: `${internalStrategicKPIs.inventory.inTransit}%` }}></div>
+                      <div className="h-full bg-red-500" style={{ width: `${internalStrategicKPIs.inventory.outOfStock}%` }}></div>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-3 gap-2">
+                    <div className="text-center">
+                      <p className="text-[10px] text-muted-foreground font-bold uppercase mb-0.5">Ready</p>
+                      <p className="text-sm font-black text-brand-green">{internalStrategicKPIs.inventory.readyInStock}%</p>
+                    </div>
+                    <div className="text-center border-x border-border">
+                      <p className="text-[10px] text-muted-foreground font-bold uppercase mb-0.5">Transit</p>
+                      <p className="text-sm font-black text-yellow-500">{internalStrategicKPIs.inventory.inTransit}%</p>
+                    </div>
+                    <div className="text-center">
+                      <p className="text-[10px] text-muted-foreground font-bold uppercase mb-0.5">OOS</p>
+                      <p className="text-sm font-black text-red-500">{internalStrategicKPIs.inventory.outOfStock}%</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 2. Bundling & Cross-Selling Card */}
+            <div className="bg-card rounded-2xl border border-border overflow-hidden flex flex-col shadow-sm group hover:shadow-md transition-all">
+              <div className="p-5 border-b border-border bg-muted/30">
+                <h4 className="text-sm font-black text-primary dark:text-foreground flex items-center gap-2">
+                  <Layers className="w-4 h-4 text-purple-600" />
+                  Cross-Selling Success Rate
+                </h4>
+              </div>
+              <div className="p-6 flex-1 flex flex-col gap-4">
+                <div className="bg-purple-500/5 rounded-xl p-4 border border-purple-500/10 flex items-center justify-between">
+                  <div>
+                    <p className="text-[10px] text-purple-700 dark:text-purple-400 font-black uppercase mb-1">Avg Commodity/PO</p>
+                    <p className="text-2xl font-black text-purple-600 dark:text-purple-400 tracking-tight">{internalStrategicKPIs.commercial.avgCommodityPerPO}</p>
+                  </div>
+                  <div className="bg-purple-600/10 p-2 rounded-lg group-hover:bg-purple-600 group-hover:text-white transition-colors">
+                    <TrendingUp className="w-5 h-5" />
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-muted/20 rounded-xl p-3 border border-border hover:border-purple-500/30 transition-colors">
+                    <p className="text-[9px] text-muted-foreground font-bold uppercase mb-0.5">Bundled Units</p>
+                    <p className="text-lg font-black text-primary dark:text-foreground">{internalStrategicKPIs.commercial.bundledUnits}</p>
+                  </div>
+                  <div className="bg-muted/20 rounded-xl p-3 border border-border hover:border-purple-500/30 transition-colors">
+                    <p className="text-[9px] text-muted-foreground font-bold uppercase mb-0.5">Conversion rate</p>
+                    <p className="text-lg font-black text-primary dark:text-foreground">{internalStrategicKPIs.commercial.crossSellRate}%</p>
+                  </div>
+                </div>
+                <p className="text-[10px] text-muted-foreground font-medium italic leading-tight">*Peningkatan cross-sell didorong oleh Matrix & AI Suggestion</p>
+              </div>
+            </div>
+
+            {/* 3. Backlog Aging & Conversion Speed */}
+            <div className="bg-card rounded-2xl border border-border overflow-hidden flex flex-col shadow-sm group hover:shadow-md transition-all">
+              <div className="p-5 border-b border-border bg-muted/30">
+                <h4 className="text-sm font-black text-primary dark:text-foreground flex items-center gap-2">
+                  <Clock className="w-4 h-4 text-blue-600" />
+                  Backlog Aging & Conversion
+                </h4>
+              </div>
+              <div className="p-6 flex-1 flex flex-col justify-between">
+                <div className="flex items-baseline justify-between mb-4">
+                   <p className="text-sm text-muted-foreground font-bold">Avg. Speed to PO</p>
+                   <p className="text-xl font-black text-blue-600 tracking-tight">{internalStrategicKPIs.operations.avgLeadTimeToPO} Days</p>
+                </div>
+                <div className="space-y-2">
+                  <p className="text-[10px] text-muted-foreground font-black uppercase tracking-widest mb-2">Backlog Pending by Age</p>
+                  <div className="flex h-8 rounded-lg overflow-hidden border border-border shadow-inner">
+                    {internalStrategicKPIs.operations.agingBacklogs.map((item, idx) => (
+                      <div 
+                        key={idx} 
+                        className="h-full flex items-center justify-center text-[10px] font-black text-white hover:opacity-80 transition-opacity" 
+                        style={{ backgroundColor: item.color, width: `${(item.count / 54) * 100}%` }}
+                        title={`${item.category}: ${item.count}`}
+                      >
+                        {item.count > 5 && item.count}
+                      </div>
+                    ))}
+                  </div>
+                  <div className="flex flex-wrap gap-x-3 gap-y-1 mt-3">
+                    {internalStrategicKPIs.operations.agingBacklogs.map((item, idx) => (
+                      <div key={idx} className="flex items-center gap-1">
+                        <div className="w-2 h-2 rounded-full" style={{ backgroundColor: item.color }} />
+                        <span className="text-[8px] font-extrabold text-muted-foreground uppercase">{item.category}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
