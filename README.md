@@ -101,25 +101,48 @@ Aplikasi ini dapat dijalankan langsung dari direktori utama (root) atau dari dal
 ---
 
 ## Pembaruan & Riwayat Teknis
-*(Bagian ini mencatat semua perubahan teknis terbaru dan riwayat pembaruan proyek. Wajib diisi sebelum melakukan Final Push untuk menjaga transparansi.)*
 
-- **[2026-03-27] AI Copilot Content Restoration**:
-  - `src/app/components/InternalDashboard.tsx` & `src/app/components/CustomerPortal.tsx`: 
-    - Mengembalikan kelengkapan *Insight Card* ke-3 (Force Balancing & Budget Forecast) di dalam AI Sidebar agar analisis AI kembali utuh dan komprehensif.
-    - Tinggi dari 3 *card* AI vertikal pada layout baru ini tetap proporsional dan mengisi secara pas kedalaman ruang di samping konten utama (KPI & Insights), tanpa menghasilkan *white-space* atau ruang kosong di kedua halaman.
+- **[2026-04-28] Functional: Advanced PO Table & Sticky Navigation**:
+  - `src/app/components/Layout.tsx` & `src/app/components/UnitDetailPage.tsx`:
+    - Implementasi **Layered Sticky Strategy** untuk navigasi multi-level. Header utama, breadcrumb, dan identitas unit tetap terkunci (*frozen*) di posisi atas saat scrolling panjang, menjaga konteks pengguna tetap terjaga.
+  - `src/app/components/InspectionReport.tsx`:
+    - **Recommended Parts for PO Enhancement**: 
+      - Penambahan fitur **Dynamic Search Filter** dan **Urgency Filter** (All, Critical, Caution) pada tabel rekomendasi.
+      - Implementasi fitur **Export to Excel (CSV)** yang mendukung ekspor data terpilih lengkap dengan metadata unit dan estimasi harga total yang terupdate secara real-time.
+    - **AI Insight Summarization**: Penambahan ringkasan otomatis per komponen menggunakan ikon `Sparkles` untuk memberikan interpretasi data cepat bagi pengguna.
+  - **Media Asset Optimization**: Migrasi dari placeholder eksternal ke aset gambar AI berkualitas tinggi yang disimpan secara lokal di `/public/images/components/` untuk menjamin stabilitas perenderan dan privasi data.
 
-- **[2026-03-27] Layout Hybrid & White-Space Optimization**:
-  - `src/app/components/InternalDashboard.tsx` & `src/app/components/CustomerPortal.tsx`: 
-    - Rekonstruksi arsitektur tata letak menjadi **Grid-Hybrid**. Fitur *AI Copilot/Advisor* kini menggunakan `row-span-2` sehingga berdampingan hanya dengan 2 baris konten teratas (KPI & Ringkasan Strategis).
-    - Menghilangkan isu *empty white space* (ruang kosong di bawah sidebar) dengan menarik bagian konten berat (*Charts*, *Matrix*, dan *Technical Details*) ke posisi **lebar penuh (100% width)** di bawah area sidebar.
-    - Hal ini memberikan visibilitas maksimal bagi tabel data tanpa mengorbankan aksesibilitas proaktif dari AI Insights.
+- **[2026-04-28] Design System: Industrial Premium Unification**:
+  - `src/styles/theme.css` & `src/styles/fonts.css`:
+    - Implementasi unifikasi tipografi global: **Outfit** untuk seluruh heading (h1-h6) dan **Inter** untuk teks body (font-sans).
+    - Refinansi palet warna menggunakan sistem **HSL Harmonious** (Brand Navy, Brand Green, Brand Blue) untuk tampilan yang lebih dalam dan eksklusif.
+    - Standarisasi elemen dasar (`@layer base`) termasuk tombol, label, dan input agar konsisten di seluruh modul (Internal, Customer, & Admin).
+  - Penyeragaman gaya kartu (cards) dengan shadow halus, border-radius `2xl`, dan interaktivitas mikro yang premium.
 
-- **[2026-03-27] UI/UX & Layout Hybrid Optimization**:
+- **[2026-04-28] UI Enhancement: Information Tooltips**:
   - `src/app/components/InternalDashboard.tsx` & `src/app/components/CustomerPortal.tsx`: 
-    - Rekonstruksi arsitektur tata letak menjadi **Hybrid Layout**. Fitur *AI Copilot/Advisor* kini hanya menjadi sidebar vertikal untuk baris konten teratas (KPI & Strategic Insights).
-    - Bagian konten berat seperti *Revenue Potential*, *Performance Gap Map*, dan *Cross-Commodity Matrix/Technical Details* kini menggunakan **lebar penuh (100% width)** di bawah area sidebar untuk memaksimalkan ruang baca data.
-    - Hal ini menyelesaikan isu "ruang kosong" di bawah sidebar dan mencegah grafik utama terhimpit, sekaligus tetap mempertahankan keunggulan *above-the-fold* untuk AI insights.
-  - Perbaikan teknis pada JSX untuk menangani *character escaping* (>) dan stabilitas *dynamic class names* pada Tailwind.
+    - Penambahan fitur **Information Pop-up (Tooltip)** pada setiap card KPI dan Strategic Insights.
+    - Menggunakan komponen `shadcn/ui/tooltip` (Radix UI) yang muncul saat hover pada ikon "i" (Info).
+    - Memberikan penjelasan singkat mengenai metrik di setiap card untuk meningkatkan literasi data pengguna (Internal & Customer).
+  - Integrasi ikon `Info` dari Lucide-React pada header setiap card secara konsisten.
+
+- **[2026-04-28] Expansion: Customer Strategic Insights**:
+  - `src/app/components/InternalDashboard.tsx`: 
+    - Menambahkan baris baru **"Customer Strategic Insight"** dengan 4 visualisasi data:
+      - **Top 5 Customers**: Bar chart horizontal dengan drill-down filter ke tabel matriks.
+      - **Backlog Density**: Scatter chart untuk menganalisis urgensi temuan kritis per populasi unit.
+      - **Regional Revenue**: Heatmap visual dalam bentuk list progress bar untuk distribusi pendapatan wilayah.
+      - **Capture Rate**: Donut chart untuk memantau wallet share (Findings vs PO).
+    - Implementasi filter global **Period** dan **Regional/Branch** yang terintegrasi dengan seluruh kartu di dashboard.
+    - **Cross-Commodity Backlog Matrix Enhancement**:
+      - Penambahan filter tingkat lanjut: **Status** (Critical, Caution, Normal) dan **Min Backlogs** (>1, >3, >5).
+      - Penambahan kolom baru **"Active Backlogs"** yang merangkum total temuan per unit dengan indikator visual *High Risk* (ikon 🔥).
+  - `src/app/data/mockData.ts`: Penambahan data simulasi untuk mendukung visualisasi baru (topCustomersData, backlogDensityData, regionalRevenueData, captureRateData).
+
+- **[2026-03-27] Performance & Theme Optimization**:
+  - `src/styles/theme.css`: Penambahan CSS Variables `--input-background` dan `--switch-background` pada `.dark` class untuk menjamin konsistensi background form di Dark Mode.
+  - `src/app/components/CommodityPerformanceDashboard.tsx` & `src/app/components/figma/ImageWithFallback.tsx`: Penghapusan *hardcoded colors* (seperti `bg-[#59cae3]`, `bg-gray-100`) dan diganti dengan *semantic variables* (`bg-accent`, `bg-muted`) agar Dark Mode bekerja sempurna.
+  - Penambahan `loading="lazy"` pada elemen `<img />` untuk meningkatkan kecepatan muat (Lazy Loading).
 
 - **[2026-03-27] UI/UX Best Practices Implementation**:
   - `src/app/components/InternalDashboard.tsx` & `src/app/components/CustomerPortal.tsx`: 
@@ -137,44 +160,20 @@ Aplikasi ini dapat dijalankan langsung dari direktori utama (root) atau dari dal
     - Tombol CTA *"Export Maintenance Proposal"* dipindahkan dari bagian bawah accordion ke bagian atas persis berdampingan dengan Header Unit, mengeliminasi isu hilangnya tombol jika item kerusakannya banyak.
     - Memperbaiki alur interaksi Akordion *Progressive Disclosure* yang sebelumnya salah rute menjadi fitur yang sepenuhnya berfungsi.
 
-- **[2026-04-28] Expansion: Customer Strategic Insights**:
-  - `src/app/components/InternalDashboard.tsx`: 
-    - Menambahkan baris baru **"Customer Strategic Insight"** dengan 4 visualisasi data:
-      - **Top 5 Customers**: Bar chart horizontal dengan drill-down filter ke tabel matriks.
-      - **Backlog Density**: Scatter chart untuk menganalisis urgensi temuan kritis per populasi unit.
-      - **Regional Revenue**: Heatmap visual dalam bentuk list progress bar untuk distribusi pendapatan wilayah.
-      - **Capture Rate**: Donut chart untuk memantau wallet share (Findings vs PO).
-    - Implementasi filter global **Period** dan **Regional/Branch** yang terintegrasi dengan seluruh kartu di dashboard.
-    - **Cross-Commodity Backlog Matrix Enhancement**:
-      - Penambahan filter tingkat lanjut: **Status** (Critical, Caution, Normal) dan **Min Backlogs** (>1, >3, >5).
-      - Penambahan kolom baru **"Active Backlogs"** yang merangkum total temuan per unit dengan indikator visual *High Risk* (ikon 🔥).
-  - `src/app/data/mockData.ts`: Penambahan data simulasi untuk mendukung visualisasi baru (topCustomersData, backlogDensityData, regionalRevenueData, captureRateData).
-
-- **[2026-04-28] UI Enhancement: Information Tooltips**:
+- **[2026-03-27] UI/UX & Layout Hybrid Optimization**:
   - `src/app/components/InternalDashboard.tsx` & `src/app/components/CustomerPortal.tsx`: 
-    - Penambahan fitur **Information Pop-up (Tooltip)** pada setiap card KPI dan Strategic Insights.
-    - Menggunakan komponen `shadcn/ui/tooltip` (Radix UI) yang muncul saat hover pada ikon "i" (Info).
-    - Memberikan penjelasan singkat mengenai metrik di setiap card untuk meningkatkan literasi data pengguna (Internal & Customer).
-  - Integrasi ikon `Info` dari Lucide-React pada header setiap card secara konsisten.
+    - Rekonstruksi arsitektur tata letak menjadi **Hybrid Layout**. Fitur *AI Copilot/Advisor* kini hanya menjadi sidebar vertikal untuk baris konten teratas (KPI & Strategic Insights).
+    - Bagian konten berat seperti *Revenue Potential*, *Performance Gap Map*, dan *Cross-Commodity Matrix/Technical Details* kini menggunakan **lebar penuh (100% width)** di bawah area sidebar untuk memaksimalkan ruang baca data.
+    - Hal ini menyelesaikan isu "ruang kosong" di bawah sidebar dan mencegah grafik utama terhimpit, sekaligus tetap mempertahankan keunggulan *above-the-fold* untuk AI insights.
+  - Perbaikan teknis pada JSX untuk menangani *character escaping* (>) dan stabilitas *dynamic class names* pada Tailwind.
 
-- **[2026-04-28] Design System: Industrial Premium Unification**:
-  - `src/styles/theme.css` & `src/styles/fonts.css`:
-    - Implementasi unifikasi tipografi global: **Outfit** untuk seluruh heading (h1-h6) dan **Inter** untuk teks body (font-sans).
-    - Refinansi palet warna menggunakan sistem **HSL Harmonious** (Brand Navy, Brand Green, Brand Blue) untuk tampilan yang lebih dalam dan eksklusif.
-    - Standarisasi elemen dasar (`@layer base`) termasuk tombol, label, dan input agar konsisten di seluruh modul (Internal, Customer, & Admin).
-  - Penyeragaman gaya kartu (cards) dengan shadow halus, border-radius `2xl`, dan interaktivitas mikro yang premium.
+- **[2026-03-27] Layout Hybrid & White-Space Optimization**:
+  - `src/app/components/InternalDashboard.tsx` & `src/app/components/CustomerPortal.tsx`: 
+    - Rekonstruksi arsitektur tata letak menjadi **Grid-Hybrid**. Fitur *AI Copilot/Advisor* kini menggunakan `row-span-2` sehingga berdampingan hanya dengan 2 baris konten teratas (KPI & Ringkasan Strategis).
+    - Menghilangkan isu *empty white space* (ruang kosong di bawah sidebar) dengan menarik bagian konten berat (*Charts*, *Matrix*, dan *Technical Details*) ke posisi **lebar penuh (100% width)** di bawah area sidebar.
+    - Hal ini memberikan visibilitas maksimal bagi tabel data tanpa mengorbankan aksesibilitas proaktif dari AI Insights.
 
-- **[2026-04-28] Functional: Advanced PO Table & Sticky Navigation**:
-  - `src/app/components/Layout.tsx` & `src/app/components/UnitDetailPage.tsx`:
-    - Implementasi **Layered Sticky Strategy** untuk navigasi multi-level. Header utama, breadcrumb, dan identitas unit tetap terkunci (*frozen*) di posisi atas saat scrolling panjang, menjaga konteks pengguna tetap terjaga.
-  - `src/app/components/InspectionReport.tsx`:
-    - **Recommended Parts for PO Enhancement**: 
-      - Penambahan fitur **Dynamic Search Filter** dan **Urgency Filter** (All, Critical, Caution) pada tabel rekomendasi.
-      - Implementasi fitur **Export to Excel (CSV)** yang mendukung ekspor data terpilih lengkap dengan metadata unit dan estimasi harga total yang terupdate secara real-time.
-    - **AI Insight Summarization**: Penambahan ringkasan otomatis per komponen menggunakan ikon `Sparkles` untuk memberikan interpretasi data cepat bagi pengguna.
-  - **Media Asset Optimization**: Migrasi dari placeholder eksternal ke aset gambar AI berkualitas tinggi yang disimpan secara lokal di `/public/images/components/` untuk menjamin stabilitas perenderan dan privasi data.
-
-- **[2026-03-27] Performance & Theme Optimization**:
-  - `src/styles/theme.css`: Penambahan CSS Variables `--input-background` dan `--switch-background` pada `.dark` class untuk menjamin konsistensi background form di Dark Mode.
-  - `src/app/components/CommodityPerformanceDashboard.tsx` & `src/app/components/figma/ImageWithFallback.tsx`: Penghapusan *hardcoded colors* (seperti `bg-[#59cae3]`, `bg-gray-100`) dan diganti dengan *semantic variables* (`bg-accent`, `bg-muted`) agar Dark Mode bekerja sempurna.
-  - Penambahan `loading="lazy"` pada elemen `<img />` untuk meningkatkan kecepatan muat (Lazy Loading).
+- **[2026-03-27] AI Copilot Content Restoration**:
+  - `src/app/components/InternalDashboard.tsx` & `src/app/components/CustomerPortal.tsx`: 
+    - Mengembalikan kelengkapan *Insight Card* ke-3 (Force Balancing & Budget Forecast) di dalam AI Sidebar agar analisis AI kembali utuh dan komprehensif.
+    - Tinggi dari 3 *card* AI vertikal pada layout baru ini tetap proporsional dan mengisi secara pas kedalaman ruang di samping konten utama (KPI & Insights), tanpa menghasilkan *white-space* atau ruang kosong di kedua halaman.
