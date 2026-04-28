@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import {
   FileText, Download, Camera, ClipboardList, BarChart3,
-  MapPin, AlertTriangle, ChevronRight, Wrench, Package, ExternalLink, TrendingUp
+  MapPin, AlertTriangle, ChevronRight, Wrench, Package, ExternalLink, TrendingUp, Bot, Sparkles
 } from 'lucide-react';
 import { 
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, 
@@ -48,17 +48,17 @@ export function InspectionReport({ report, unitId, onExportPO }: InspectionRepor
       <div className="bg-card rounded-2xl border border-border p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 flex-1">
           <div className="space-y-1">
-            <p className="text-[10px] text-muted-foreground font-black uppercase tracking-widest">No. Inspeksi</p>
+            <h6 className="text-[10px] text-muted-foreground font-black uppercase tracking-widest">No. Inspeksi</h6>
             <p className="text-sm font-black text-primary dark:text-foreground">{metadata.inspectionId}</p>
           </div>
           <div className="space-y-1">
-            <p className="text-[10px] text-muted-foreground font-black uppercase tracking-widest">Tanggal</p>
+            <h6 className="text-[10px] text-muted-foreground font-black uppercase tracking-widest">Tanggal</h6>
             <p className="text-sm font-black text-primary dark:text-foreground">
               {new Date(metadata.inspectionDate).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
             </p>
           </div>
           <div className="space-y-1">
-            <p className="text-[10px] text-muted-foreground font-black uppercase tracking-widest">Inspektor</p>
+            <h6 className="text-[10px] text-muted-foreground font-black uppercase tracking-widest">Inspektor</h6>
             <div className="flex items-center gap-2">
               <div className="w-6 h-6 rounded-full bg-brand-green/20 flex items-center justify-center text-[10px] font-black text-brand-green">
                 {metadata.mechanicName.charAt(0)}
@@ -67,13 +67,13 @@ export function InspectionReport({ report, unitId, onExportPO }: InspectionRepor
             </div>
           </div>
           <div className="space-y-1">
-            <p className="text-[10px] text-muted-foreground font-black uppercase tracking-widest">SMU Unit</p>
+            <h6 className="text-[10px] text-muted-foreground font-black uppercase tracking-widest">SMU Unit</h6>
             <p className="text-sm font-black text-primary dark:text-foreground">{metadata.serviceMeterUnit.toLocaleString()} Hrs</p>
           </div>
         </div>
         <div className="flex items-center gap-4 pl-6 border-l border-border hidden md:flex">
           <div className="text-right">
-            <p className="text-[10px] text-muted-foreground font-black uppercase tracking-widest mb-1">Health Status</p>
+            <h6 className="text-[10px] text-muted-foreground font-black uppercase tracking-widest mb-1">Health Status</h6>
             <StatusBadge status={metadata.overallStatus} size="lg" />
           </div>
         </div>
@@ -168,6 +168,38 @@ export function InspectionReport({ report, unitId, onExportPO }: InspectionRepor
                   status={items.some(i => i.actionStatus === 'Critical') ? 'Critical' : items.some(i => i.actionStatus === 'Caution') ? 'Caution' : 'Good'} 
                   size="sm" 
                 />
+              </div>
+            </div>
+
+            {/* Category Intelligence Summary (NEW) */}
+            <div className="px-6 py-4 bg-brand-navy/[0.02] border-b border-border flex items-start gap-4">
+              <div className="w-8 h-8 rounded-lg bg-brand-green/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <Sparkles className="w-4 h-4 text-brand-green" />
+              </div>
+              <div className="space-y-1">
+                <p className="text-[11px] font-black text-brand-navy dark:text-brand-green uppercase tracking-wider">Component Insight Summary</p>
+                <div className="text-xs text-muted-foreground leading-relaxed font-medium">
+                  {(() => {
+                    const worstItem = [...items].sort((a, b) => b.healthPercentage - a.healthPercentage)[0];
+                    const avgWear = Math.round(items.reduce((acc, curr) => acc + curr.healthPercentage, 0) / items.length);
+                    const isCritical = items.some(i => i.actionStatus === 'Critical');
+                    const isCaution = items.some(i => i.actionStatus === 'Caution');
+
+                    if (isCritical) {
+                      return (
+                        <p>⚠️ <span className="font-black text-red-600 dark:text-red-400">Tindakan Segera:</span> Grup {category} berada pada risiko tinggi dengan rata-rata keausan {avgWear}%. Komponen terburuk adalah <span className="font-black">{worstItem.componentName} ({worstItem.healthPercentage}%)</span>. Disarankan penggantian segera untuk mencegah kerusakan struktural.</p>
+                      );
+                    } else if (isCaution) {
+                      return (
+                        <p>⚠️ <span className="font-black text-yellow-600 dark:text-yellow-400">Perhatian:</span> Kondisi {category} menunjukkan keausan moderat ({avgWear}%). <span className="font-black">{worstItem.componentName}</span> mendekati limit operasional. Jadwalkan penggantian dalam interval servis berikutnya untuk optimalisasi downtime.</p>
+                      );
+                    } else {
+                      return (
+                        <p>✅ <span className="font-black text-brand-green">Status Optimal:</span> Seluruh komponen dalam grup {category} berfungsi dalam parameter standar (Avg Wear: {avgWear}%). Lanjutkan pemantauan rutin pada inspeksi berikutnya.</p>
+                      );
+                    }
+                  })()}
+                </div>
               </div>
             </div>
 
@@ -381,70 +413,148 @@ export function InspectionReport({ report, unitId, onExportPO }: InspectionRepor
       )}
 
       {/* ── E: PO RECOMMENDATIONS ────────────────────────────────────────── */}
-      {recommendations.length > 0 && (
-        <div className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden">
-          <div className="px-5 py-4 border-b border-border flex items-center gap-2 bg-muted/20">
-            <Package className="w-4 h-4 text-brand-green" />
-            <h4 className="font-black text-primary dark:text-foreground text-sm uppercase tracking-tight">Recommended Parts for PO</h4>
-            <span className="ml-auto px-2 py-0.5 bg-brand-green/10 text-brand-green text-[10px] font-black rounded">{recommendations.length} Items</span>
-          </div>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm text-left whitespace-nowrap border-separate border-spacing-0">
-              <thead className="bg-muted/40 text-[10px] uppercase font-black tracking-widest text-muted-foreground/70 border-b border-border">
-                <tr>
-                  <th className="px-5 py-3 border-b border-border">Part Number</th>
-                  <th className="px-4 py-3 border-b border-border">Description</th>
-                  <th className="px-3 py-3 border-b border-border text-center">Qty</th>
-                  <th className="px-3 py-3 border-b border-border text-center">UoM</th>
-                  <th className="px-4 py-3 border-b border-border text-center">Urgency</th>
-                  <th className="px-4 py-3 border-b border-border text-right">Est. Price</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-border/50">
-                {recommendations.map((part) => (
-                  <tr key={part.partNumber} className="hover:bg-muted/30 transition-colors">
-                    <td className="px-5 py-3 font-black text-primary dark:text-brand-green text-xs">{part.partNumber}</td>
-                    <td className="px-4 py-3 text-xs font-bold text-foreground/90">{part.description}</td>
-                    <td className="px-3 py-3 text-center font-black text-foreground">{part.quantity}</td>
-                    <td className="px-3 py-3 text-center text-[10px] font-bold text-muted-foreground">{part.uom}</td>
-                    <td className="px-4 py-3 text-center"><StatusBadge status={part.urgency} size="sm" /></td>
-                    <td className="px-4 py-3 text-right font-black text-primary dark:text-foreground text-xs">
-                      {part.estimatedPrice != null ? formatRupiah(part.estimatedPrice) : '—'}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-              <tfoot>
-                <tr className="bg-muted/20">
-                  <td colSpan={5} className="px-5 py-3 text-xs font-black text-muted-foreground uppercase tracking-widest">Total Estimasi PO</td>
-                  <td className="px-4 py-3 text-right font-black text-brand-green text-sm">
-                    {formatRupiah(recommendations.reduce((sum, r) => sum + (r.estimatedPrice ?? 0) * r.quantity, 0))}
-                  </td>
-                </tr>
-              </tfoot>
-            </table>
-          </div>
-          <div className="px-5 py-4 bg-muted/10 flex justify-end">
-            <button
-              onClick={() => onExportPO(recommendations)}
-              className="flex items-center gap-2 px-6 py-3 bg-brand-green text-white rounded-xl text-sm font-black shadow-lg shadow-brand-green/20 hover:opacity-90 transition-all active:scale-95"
-            >
-              <FileText className="w-4 h-4" />
-              Add to PO Draft ({recommendations.length} items)
-            </button>
-          </div>
-        </div>
-      )}
+      {(() => {
+        const [search, setSearch] = useState('');
+        const [urgency, setUrgency] = useState('All');
 
-      {recommendations.length === 0 && (
-        <div className="bg-brand-green/5 border border-brand-green/20 rounded-2xl p-5 flex items-center gap-3">
-          <div className="w-10 h-10 bg-brand-green/10 rounded-xl flex items-center justify-center"><Wrench className="w-5 h-5 text-brand-green" /></div>
-          <div>
-            <p className="text-sm font-black text-brand-green">Tidak Ada Part yang Perlu Diganti</p>
-            <p className="text-xs text-muted-foreground font-bold mt-0.5">Semua komponen dalam batas normal. Lanjutkan monitoring sesuai jadwal PM.</p>
+        const filteredParts = recommendations.filter(p => {
+          const matchesSearch = p.partNumber.toLowerCase().includes(search.toLowerCase()) || 
+                              p.description.toLowerCase().includes(search.toLowerCase());
+          const matchesUrgency = urgency === 'All' || p.urgency === urgency;
+          return matchesSearch && matchesUrgency;
+        });
+
+        const handleExportExcel = () => {
+          const headers = ['Part Number', 'Description', 'Qty', 'UoM', 'Urgency', 'Est Price'];
+          const rows = filteredParts.map(p => [
+            p.partNumber,
+            p.description,
+            p.quantity,
+            p.uom,
+            p.urgency,
+            p.estimatedPrice || 0
+          ]);
+          
+          const csvContent = [
+            headers.join(','),
+            ...rows.map(r => r.join(','))
+          ].join('\n');
+
+          const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.setAttribute('href', url);
+          link.setAttribute('download', `Recommended_Parts_${unitId}_${metadata.commodity}.csv`);
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        };
+
+        if (recommendations.length === 0) return (
+          <div className="bg-brand-green/5 border border-brand-green/20 rounded-2xl p-5 flex items-center gap-3">
+            <div className="w-10 h-10 bg-brand-green/10 rounded-xl flex items-center justify-center"><Wrench className="w-5 h-5 text-brand-green" /></div>
+            <div>
+              <p className="text-sm font-black text-brand-green">Tidak Ada Part yang Perlu Diganti</p>
+              <p className="text-xs text-muted-foreground font-bold mt-0.5">Semua komponen dalam batas normal. Lanjutkan monitoring sesuai jadwal PM.</p>
+            </div>
           </div>
-        </div>
-      )}
+        );
+
+        return (
+          <div className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden">
+            <div className="px-5 py-4 border-b border-border flex flex-col sm:flex-row sm:items-center gap-4 bg-muted/20">
+              <div className="flex items-center gap-2">
+                <Package className="w-4 h-4 text-brand-green" />
+                <h4 className="font-black text-primary dark:text-foreground text-sm uppercase tracking-tight">Recommended Parts for PO</h4>
+              </div>
+              
+              {/* Filters */}
+              <div className="flex flex-wrap items-center gap-2 sm:ml-auto">
+                <input 
+                  type="text" 
+                  placeholder="Search Part..." 
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="px-3 py-1.5 text-xs bg-white dark:bg-muted border border-border rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-green w-32 sm:w-40 font-bold"
+                />
+                <select 
+                  value={urgency}
+                  onChange={(e) => setUrgency(e.target.value)}
+                  className="px-3 py-1.5 text-xs bg-white dark:bg-muted border border-border rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-green font-bold"
+                >
+                  <option value="All">All Status</option>
+                  <option value="Critical">Critical Only</option>
+                  <option value="Caution">Caution Only</option>
+                </select>
+                <button 
+                  onClick={handleExportExcel}
+                  className="flex items-center gap-1.5 px-3 py-1.5 bg-brand-navy text-white rounded-lg text-xs font-black hover:opacity-90 transition-all"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  Excel
+                </button>
+              </div>
+            </div>
+
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm text-left whitespace-nowrap border-separate border-spacing-0">
+                <thead className="bg-muted/40 text-[10px] uppercase font-black tracking-widest text-muted-foreground/70 border-b border-border">
+                  <tr>
+                    <th className="px-5 py-3 border-b border-border">Part Number</th>
+                    <th className="px-4 py-3 border-b border-border">Description</th>
+                    <th className="px-3 py-3 border-b border-border text-center">Qty</th>
+                    <th className="px-3 py-3 border-b border-border text-center">UoM</th>
+                    <th className="px-4 py-3 border-b border-border text-center">Urgency</th>
+                    <th className="px-4 py-3 border-b border-border text-right">Est. Price</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-border/50">
+                  {filteredParts.length > 0 ? filteredParts.map((part) => (
+                    <tr key={part.partNumber} className="hover:bg-muted/30 transition-colors">
+                      <td className="px-5 py-3 font-black text-primary dark:text-brand-green text-xs">{part.partNumber}</td>
+                      <td className="px-4 py-3 text-xs font-bold text-foreground/90">{part.description}</td>
+                      <td className="px-3 py-3 text-center font-black text-foreground">{part.quantity}</td>
+                      <td className="px-3 py-3 text-center text-[10px] font-bold text-muted-foreground">{part.uom}</td>
+                      <td className="px-4 py-3 text-center"><StatusBadge status={part.urgency} size="sm" /></td>
+                      <td className="px-4 py-3 text-right font-black text-primary dark:text-foreground text-xs">
+                        {part.estimatedPrice != null ? formatRupiah(part.estimatedPrice) : '—'}
+                      </td>
+                    </tr>
+                  )) : (
+                    <tr>
+                      <td colSpan={6} className="px-5 py-8 text-center text-xs text-muted-foreground font-bold italic">
+                        Tidak ada data yang sesuai dengan filter.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+                {filteredParts.length > 0 && (
+                  <tfoot>
+                    <tr className="bg-muted/20">
+                      <td colSpan={5} className="px-5 py-3 text-xs font-black text-muted-foreground uppercase tracking-widest">Total Estimasi PO (Filtered)</td>
+                      <td className="px-4 py-3 text-right font-black text-brand-green text-sm">
+                        {formatRupiah(filteredParts.reduce((sum, r) => sum + (r.estimatedPrice ?? 0) * r.quantity, 0))}
+                      </td>
+                    </tr>
+                  </tfoot>
+                )}
+              </table>
+            </div>
+            
+            <div className="px-5 py-4 bg-muted/10 flex justify-between items-center">
+              <span className="text-[10px] text-muted-foreground font-bold italic">Menampilkan {filteredParts.length} dari {recommendations.length} item</span>
+              <button
+                onClick={() => onExportPO(filteredParts)}
+                disabled={filteredParts.length === 0}
+                className="flex items-center gap-2 px-6 py-3 bg-brand-green text-white rounded-xl text-sm font-black shadow-lg shadow-brand-green/20 hover:opacity-90 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <FileText className="w-4 h-4" />
+                Add to PO Draft ({filteredParts.length} items)
+              </button>
+            </div>
+          </div>
+        );
+      })()}
     </div>
   );
 }

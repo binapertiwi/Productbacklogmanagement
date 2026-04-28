@@ -41,7 +41,7 @@ export const unitHolisticData: UnitHolisticData[] = [
         measurements: [
           { 
             id: 'uc-1', componentName: 'Track Link Assembly LH', position: 'L', actualValue: 124.5, measurementUnit: 'mm', standardValue: '135.0mm', healthPercentage: 92, estimatedRemainingLife: 150, actionStatus: 'Critical', category: 'Link Assembly',
-            imageUrl: 'https://images.unsplash.com/photo-1541625602330-2277a1cd13a1?w=50&h=50&fit=crop',
+            imageUrl: '/images/components/link-assembly.png',
             history: [
               { date: '2025-08-10', smu: 12800, value: 134.2, wearPercentage: 15 },
               { date: '2025-10-15', smu: 13500, value: 131.5, wearPercentage: 45 },
@@ -51,7 +51,7 @@ export const unitHolisticData: UnitHolisticData[] = [
           },
           { 
             id: 'uc-2', componentName: 'Track Link Assembly RH', position: 'R', actualValue: 125.8, measurementUnit: 'mm', standardValue: '135.0mm', healthPercentage: 88, estimatedRemainingLife: 220, actionStatus: 'Critical', category: 'Link Assembly',
-            imageUrl: 'https://images.unsplash.com/photo-1541625602330-2277a1cd13a1?w=50&h=50&fit=crop',
+            imageUrl: '/images/components/link-assembly.png',
             history: [
               { date: '2025-08-10', smu: 12800, value: 134.5, wearPercentage: 12 },
               { date: '2025-10-15', smu: 13500, value: 132.2, wearPercentage: 38 },
@@ -61,7 +61,7 @@ export const unitHolisticData: UnitHolisticData[] = [
           },
           { 
             id: 'uc-3', componentName: 'Bushing LH', position: 'L', actualValue: 68.2, measurementUnit: 'mm', standardValue: '72.0mm', healthPercentage: 85, estimatedRemainingLife: 300, actionStatus: 'Critical', category: 'Bushings',
-            imageUrl: 'https://images.unsplash.com/photo-1579847209170-4927cb044944?w=50&h=50&fit=crop',
+            imageUrl: '/images/components/bushing.png',
             history: [
               { date: '2025-08-10', smu: 12800, value: 71.8, wearPercentage: 10 },
               { date: '2025-10-15', smu: 13500, value: 70.5, wearPercentage: 40 },
@@ -71,7 +71,7 @@ export const unitHolisticData: UnitHolisticData[] = [
           },
           { 
             id: 'uc-4', componentName: 'Bushing RH', position: 'R', actualValue: 69.5, measurementUnit: 'mm', standardValue: '72.0mm', healthPercentage: 78, estimatedRemainingLife: 450, actionStatus: 'Caution', category: 'Bushings',
-            imageUrl: 'https://images.unsplash.com/photo-1579847209170-4927cb044944?w=50&h=50&fit=crop',
+            imageUrl: '/images/components/bushing.png',
             history: [
               { date: '2025-08-10', smu: 12800, value: 71.9, wearPercentage: 8 },
               { date: '2025-10-15', smu: 13500, value: 70.8, wearPercentage: 35 },
@@ -81,7 +81,7 @@ export const unitHolisticData: UnitHolisticData[] = [
           },
           { 
             id: 'uc-5', componentName: 'Carrier Roller LH #1', position: 'L', actualValue: 185.0, measurementUnit: 'mm', standardValue: '200.0mm', healthPercentage: 65, estimatedRemainingLife: 800, actionStatus: 'Monitor', category: 'Rollers',
-            imageUrl: 'https://images.unsplash.com/photo-1542646391-d8ec8f6c6d05?w=50&h=50&fit=crop',
+            imageUrl: '/images/components/roller.png',
             history: [
               { date: '2025-08-10', smu: 12800, value: 198.5, wearPercentage: 10 },
               { date: '2025-10-15', smu: 13500, value: 194.2, wearPercentage: 35 },
@@ -91,7 +91,7 @@ export const unitHolisticData: UnitHolisticData[] = [
           },
           { 
             id: 'uc-6', componentName: 'Carrier Roller RH #1', position: 'R', actualValue: 187.5, measurementUnit: 'mm', standardValue: '200.0mm', healthPercentage: 58, estimatedRemainingLife: 950, actionStatus: 'Monitor', category: 'Rollers',
-            imageUrl: 'https://images.unsplash.com/photo-1542646391-d8ec8f6c6d05?w=50&h=50&fit=crop',
+            imageUrl: '/images/components/roller.png',
             history: [
               { date: '2025-08-10', smu: 12800, value: 199.0, wearPercentage: 8 },
               { date: '2025-10-15', smu: 13500, value: 195.5, wearPercentage: 28 },
@@ -101,7 +101,7 @@ export const unitHolisticData: UnitHolisticData[] = [
           },
           { 
             id: 'uc-7', componentName: 'Track Shoes LH (Grousers)', position: 'L', actualValue: 42.1, measurementUnit: 'mm', standardValue: '65.0mm', healthPercentage: 94, estimatedRemainingLife: 120, actionStatus: 'Critical', category: 'Track Shoes',
-            imageUrl: 'https://images.unsplash.com/photo-1587293852726-70cdb56c2866?w=50&h=50&fit=crop',
+            imageUrl: '/images/components/track-shoe.png',
             history: [
               { date: '2025-08-10', smu: 12800, value: 62.1, wearPercentage: 15 },
               { date: '2025-10-15', smu: 13500, value: 55.4, wearPercentage: 48 },

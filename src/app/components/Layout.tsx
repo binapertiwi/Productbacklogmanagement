@@ -21,7 +21,7 @@ export function Layout() {
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col transition-colors duration-300">
       {/* Top Header */}
-      <header className="bg-brand-navy dark:bg-card text-white dark:text-foreground shadow-lg z-50 transition-colors duration-300">
+      <header className="sticky top-0 z-50 bg-brand-navy dark:bg-card text-white dark:text-foreground shadow-lg transition-colors duration-300">
         <div className="px-3 sm:px-6 py-0 flex items-center justify-between h-14 gap-2">
           {/* Logo & Brand */}
           <div className="flex items-center gap-2 flex-shrink-0">
@@ -100,7 +100,7 @@ export function Layout() {
       </header>
 
       {/* Sub-header breadcrumb */}
-      <div className="bg-card border-b border-border px-3 sm:px-6 py-2 flex items-center gap-1 sm:gap-2 text-[10px] text-muted-foreground font-medium uppercase tracking-wider transition-colors duration-300">
+      <div className="sticky top-14 z-40 bg-card border-b border-border px-3 sm:px-6 py-2 flex items-center gap-1 sm:gap-2 text-[10px] text-muted-foreground font-medium uppercase tracking-wider transition-colors duration-300">
         <span className="hidden sm:inline">PT Bina Pertiwi</span>
         <span className="hidden sm:inline">/</span>
         <span className="text-brand-navy dark:text-brand-blue truncate font-bold">

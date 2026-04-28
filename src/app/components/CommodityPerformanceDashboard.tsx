@@ -1,7 +1,13 @@
 import React, { useMemo } from 'react';
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line } from 'recharts';
 import { generatePerformanceData, CommodityType } from '../data/performanceMockData';
-import { ChevronDown, Filter, Database, TrendingUp, BarChart3, Activity, Table } from 'lucide-react';
+import { ChevronDown, Filter, Database, TrendingUp, BarChart3, Activity, Table, Info } from 'lucide-react';
+import {
+  Tooltip as TooltipUI,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "./ui/tooltip";
 
 interface Props {
   commodity: CommodityType;
@@ -62,9 +68,21 @@ export function CommodityPerformanceDashboard({ commodity }: Props) {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Population Section */}
         <div className="bg-card rounded-2xl border border-border p-6 shadow-sm hover:shadow-md transition-all">
-          <div className="flex items-center gap-2 mb-6">
-             <Database className="w-4 h-4 text-primary" />
-             <h3 className="text-sm font-black text-primary dark:text-foreground uppercase tracking-widest">Population Details: {commodity}</h3>
+          <div className="flex items-center justify-between mb-6">
+             <div className="flex items-center gap-2">
+                <Database className="w-4 h-4 text-primary" />
+                <h3 className="text-sm font-black text-primary dark:text-foreground uppercase tracking-widest">Population Details: {commodity}</h3>
+             </div>
+             <TooltipUI>
+                <TooltipTrigger asChild>
+                  <button className="text-muted-foreground hover:text-primary transition-colors">
+                    <Info className="w-3.5 h-3.5" />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent side="top" className="max-w-[220px]">
+                  Rincian populasi unit berdasarkan status kontrak (Contract vs Non-Contract) dan distribusi per cabang (Branch).
+                </TooltipContent>
+             </TooltipUI>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="h-[220px]">
@@ -94,9 +112,21 @@ export function CommodityPerformanceDashboard({ commodity }: Props) {
 
         {/* Coverage Section */}
         <div className="bg-card rounded-2xl border border-border p-6 shadow-sm hover:shadow-md transition-all">
-          <div className="flex items-center gap-2 mb-6">
-             <Activity className="w-4 h-4 text-brand-green" />
-             <h3 className="text-sm font-black text-primary dark:text-foreground uppercase tracking-widest">Backlog Coverage Analytic</h3>
+          <div className="flex items-center justify-between mb-6">
+             <div className="flex items-center gap-2">
+                <Activity className="w-4 h-4 text-brand-green" />
+                <h3 className="text-sm font-black text-primary dark:text-foreground uppercase tracking-widest">Backlog Coverage Analytic</h3>
+             </div>
+             <TooltipUI>
+                <TooltipTrigger asChild>
+                  <button className="text-muted-foreground hover:text-brand-green transition-colors">
+                    <Info className="w-3.5 h-3.5" />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent side="top" className="max-w-[220px]">
+                  Analisis pemenuhan backlog (Achieved vs Not Achieved) dan tingkat cakupan per cabang operasional.
+                </TooltipContent>
+             </TooltipUI>
           </div>
            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="h-[220px]">
@@ -129,9 +159,21 @@ export function CommodityPerformanceDashboard({ commodity }: Props) {
       {/* Lifetime & Trends */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-card rounded-2xl border border-border p-6 shadow-sm hover:shadow-md transition-all">
-          <div className="flex items-center gap-2 mb-6">
-             <BarChart3 className="w-4 h-4 text-primary" />
-             <h3 className="text-sm font-black text-primary dark:text-foreground uppercase tracking-widest">Lifetime Distribution</h3>
+          <div className="flex items-center justify-between mb-6">
+             <div className="flex items-center gap-2">
+                <BarChart3 className="w-4 h-4 text-primary" />
+                <h3 className="text-sm font-black text-primary dark:text-foreground uppercase tracking-widest">Lifetime Distribution</h3>
+             </div>
+             <TooltipUI>
+                <TooltipTrigger asChild>
+                  <button className="text-muted-foreground hover:text-primary transition-colors">
+                    <Info className="w-3.5 h-3.5" />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent side="top" className="max-w-[220px]">
+                  Distribusi masa pakai komponen (Min, Avg, Max Life) berdasarkan histori pemakaian di berbagai site.
+                </TooltipContent>
+             </TooltipUI>
           </div>
            <div className="h-[280px]">
               <ResponsiveContainer width="100%" height="100%">
@@ -150,9 +192,21 @@ export function CommodityPerformanceDashboard({ commodity }: Props) {
         </div>
 
         <div className="bg-card rounded-2xl border border-border p-6 shadow-sm hover:shadow-md transition-all">
-           <div className="flex items-center gap-2 mb-6">
-             <TrendingUp className="w-4 h-4 text-brand-green" />
-             <h3 className="text-sm font-black text-primary dark:text-foreground uppercase tracking-widest">{commodity === 'GET' ? 'WEARNESS TREND' : 'COST PER HOUR TREND'}</h3>
+           <div className="flex items-center justify-between mb-6">
+             <div className="flex items-center gap-2">
+               <TrendingUp className="w-4 h-4 text-brand-green" />
+               <h3 className="text-sm font-black text-primary dark:text-foreground uppercase tracking-widest">{commodity === 'GET' ? 'WEARNESS TREND' : 'COST PER HOUR TREND'}</h3>
+             </div>
+             <TooltipUI>
+                <TooltipTrigger asChild>
+                  <button className="text-muted-foreground hover:text-brand-green transition-colors">
+                    <Info className="w-3.5 h-3.5" />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent side="top" className="max-w-[220px]">
+                  {commodity === 'GET' ? 'Tren tingkat keausan material GET berdasarkan ukuran dan durasi pemakaian.' : 'Analisis biaya operasional per jam (Cost per Hour) untuk memantau efisiensi penggunaan komponen.'}
+                </TooltipContent>
+             </TooltipUI>
           </div>
            <div className="h-[280px]">
               <ResponsiveContainer width="100%" height="100%">
@@ -181,8 +235,20 @@ export function CommodityPerformanceDashboard({ commodity }: Props) {
       {/* Tables Section */}
        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden flex flex-col hover:shadow-md transition-all">
-                <div className="bg-brand-navy dark:bg-brand-blue text-white text-[10px] font-black px-6 py-3 uppercase tracking-widest flex items-center gap-2">
-                   <Table className="w-3.5 h-3.5" /> Plan Replacement Forecast
+                <div className="bg-brand-navy dark:bg-brand-blue text-white text-[10px] font-black px-6 py-3 uppercase tracking-widest flex items-center justify-between">
+                   <div className="flex items-center gap-2">
+                     <Table className="w-3.5 h-3.5" /> Plan Replacement Forecast
+                   </div>
+                   <TooltipUI>
+                    <TooltipTrigger asChild>
+                      <button className="text-white/70 hover:text-white transition-colors">
+                        <Info className="w-3 h-3" />
+                      </button>
+                    </TooltipTrigger>
+                    <TooltipContent side="top" className="max-w-[220px] bg-card text-foreground border-border shadow-xl">
+                      Prediksi jadwal penggantian komponen per bulan untuk setiap pelanggan berdasarkan sisa lifetime unit.
+                    </TooltipContent>
+                   </TooltipUI>
                 </div>
                 <div className="overflow-x-auto">
                     <table className="w-full text-[10px] text-center border-separate border-spacing-0">
@@ -222,8 +288,20 @@ export function CommodityPerformanceDashboard({ commodity }: Props) {
             </div>
             
             <div className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden flex flex-col hover:shadow-md transition-all">
-                 <div className="bg-accent text-accent-foreground text-[10px] font-black px-6 py-3 uppercase tracking-widest flex items-center gap-2">
-                    <TrendingUp className="w-3.5 h-3.5" /> Financial Efficiency Analysis
+                 <div className="bg-accent text-accent-foreground text-[10px] font-black px-6 py-3 uppercase tracking-widest flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <TrendingUp className="w-3.5 h-3.5" /> Financial Efficiency Analysis
+                    </div>
+                    <TooltipUI>
+                      <TooltipTrigger asChild>
+                        <button className="text-accent-foreground/70 hover:text-accent-foreground transition-colors">
+                          <Info className="w-3 h-3" />
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent side="top" className="max-w-[220px] bg-card text-foreground border-border shadow-xl">
+                        Analisis efisiensi biaya per part number berdasarkan perbandingan harga pasar dan rata-rata lifetime komponen.
+                      </TooltipContent>
+                    </TooltipUI>
                  </div>
                 <div className="overflow-x-auto">
                     <table className="w-full text-center border-separate border-spacing-0">

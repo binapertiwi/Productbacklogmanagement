@@ -16,13 +16,20 @@ import {
   Filter,
   Layers,
   Wrench,
-  Sparkles,
-  DollarSign
+  DollarSign,
+  Info,
+  Sparkles
 } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "./ui/tooltip";
 import {
   RadialBarChart,
   RadialBar,
-  Tooltip,
+  Tooltip as RechartsTooltip,
 } from "recharts";
 import { fleetHealthSummary, unitHealthData, topUnitsAtRisk, customerStrategicKPIs, formatRupiah } from "../data/mockData";
 import { ALL_COMMODITIES, COMMODITY_LABELS } from "../data/inspectionTypes";
@@ -77,7 +84,7 @@ function HealthGauge({ score, label }: { score: number; label: string }) {
     <div className="relative" style={{ width: 140, height: 140 }}>
       <RadialBarChart width={140} height={140} cx="50%" cy="50%" innerRadius={48} outerRadius={62} startAngle={180} endAngle={-180} data={[{ value: 100, fill: "var(--border)" }, ...data]} barSize={12}>
         <RadialBar dataKey="value" cornerRadius={8} background={false} />
-        <Tooltip formatter={(v) => [`${v}%`, "Health Score"]} contentStyle={{ fontSize: 11, backgroundColor: "var(--card)", borderColor: "var(--border)", color: "var(--foreground)" }} />
+        <RechartsTooltip formatter={(v) => [`${v}%`, "Health Score"]} contentStyle={{ fontSize: 11, backgroundColor: "var(--card)", borderColor: "var(--border)", color: "var(--foreground)" }} />
       </RadialBarChart>
       <div className="absolute inset-0 flex flex-col items-center justify-center"><span className="text-2xl font-bold" style={{ color }}>{score}</span><span className="text-xs text-muted-foreground/70 font-medium">/ 100</span></div>
     </div>
@@ -133,7 +140,19 @@ export function CustomerPortal() {
         <div className={`${isAiCopilotOpen ? 'lg:col-span-9' : 'lg:col-span-12'} space-y-6`}>
             {/* Fleet Health Summary Row */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-                <div className="sm:col-span-1 bg-card rounded-xl border border-border p-4 sm:p-5 shadow-sm flex flex-col items-center justify-center transition-all hover:shadow-md">
+                <div className="sm:col-span-1 bg-card rounded-xl border border-border p-4 sm:p-5 shadow-sm flex flex-col items-center justify-center transition-all hover:shadow-md relative">
+                    <div className="absolute top-4 right-4">
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <button className="text-muted-foreground hover:text-primary transition-colors">
+                            <Info className="w-3.5 h-3.5" />
+                          </button>
+                        </TooltipTrigger>
+                        <TooltipContent side="top" className="max-w-[200px]">
+                          Skor kesehatan rata-rata seluruh armada berdasarkan temuan teknis terbaru.
+                        </TooltipContent>
+                      </Tooltip>
+                    </div>
                     <p className="text-xs text-muted-foreground uppercase tracking-wider mb-2 text-center font-bold">Overall Health</p>
                     <HealthGauge score={s.overallScore} label={s.scoreLabel} />
                     <div className={`mt-2 flex items-center gap-2 px-3 py-1 rounded-full text-sm font-bold ${s.scoreLabel === "Good" ? "bg-brand-green/10 text-brand-green" : s.scoreLabel === "Caution" ? "bg-amber-500/10 text-amber-700 dark:text-amber-400" : "bg-destructive/10 text-destructive"}`}>
@@ -141,7 +160,22 @@ export function CustomerPortal() {
                     </div>
                 </div>
                 <div className="sm:col-span-1 lg:col-span-1 bg-card rounded-xl border border-border p-4 sm:p-5 shadow-sm transition-all hover:shadow-md">
-                    <div className="flex items-center gap-2 mb-3"><Gauge className="w-4 h-4 text-primary dark:text-foreground" /><h3 className="text-primary dark:text-foreground font-bold">Urgency Matrix</h3></div>
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center gap-2">
+                        <Gauge className="w-4 h-4 text-primary dark:text-foreground" />
+                        <h3 className="text-primary dark:text-foreground font-black text-sm uppercase tracking-tight">Urgency Matrix</h3>
+                      </div>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <button className="text-muted-foreground hover:text-primary transition-colors">
+                            <Info className="w-3.5 h-3.5" />
+                          </button>
+                        </TooltipTrigger>
+                        <TooltipContent side="top" className="max-w-[200px]">
+                          Pengelompokan unit berdasarkan tingkat urgensi perbaikan (Critical, Caution, Good).
+                        </TooltipContent>
+                      </Tooltip>
+                    </div>
                     <div className="grid grid-cols-1 gap-2">
                         <div className="flex items-center justify-between p-2 bg-destructive/5 rounded-lg border border-destructive/10"><div className="flex items-center gap-2"><XCircle className="w-4 h-4 text-destructive" /><span className="text-xs text-destructive font-bold">Critical</span></div><span className="text-lg font-bold text-destructive">{s.critical}</span></div>
                         <div className="flex items-center justify-between p-2 bg-amber-500/5 rounded-lg border border-amber-500/10"><div className="flex items-center gap-2"><AlertTriangle className="w-4 h-4 text-amber-600" /><span className="text-xs text-amber-700 dark:text-amber-400 font-bold">Caution</span></div><span className="text-lg font-bold text-amber-600">{s.caution}</span></div>
@@ -149,7 +183,22 @@ export function CustomerPortal() {
                     </div>
                 </div>
                 <div className="sm:col-span-2 lg:col-span-2 bg-card rounded-xl border border-border p-4 sm:p-5 shadow-sm border-l-4 border-l-destructive transition-all hover:shadow-md">
-                    <div className="flex items-center gap-2 mb-3"><AlertTriangle className="w-4 h-4 text-destructive" /><h3 className="text-primary dark:text-foreground font-bold">Top Units at Risk</h3></div>
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center gap-2">
+                        <AlertTriangle className="w-4 h-4 text-destructive" />
+                        <h3 className="text-primary dark:text-foreground font-black text-sm uppercase tracking-tight">Top Units at Risk</h3>
+                      </div>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <button className="text-muted-foreground hover:text-destructive transition-colors">
+                            <Info className="w-3.5 h-3.5" />
+                          </button>
+                        </TooltipTrigger>
+                        <TooltipContent side="top" className="max-w-[200px]">
+                          Daftar unit dengan risiko kegagalan fungsional tertinggi dan estimasi waktu kerusakannya.
+                        </TooltipContent>
+                      </Tooltip>
+                    </div>
                     <div className="space-y-2">
                         {topUnitsAtRisk.map((unit) => (<div key={unit.unitId} className="flex justify-between items-center bg-muted rounded p-2 text-xs transition-colors hover:bg-muted/80"><div><span className="font-bold text-primary dark:text-brand-blue">{unit.unitId}</span> <span className="text-muted-foreground font-medium">({unit.site})</span></div><div className="flex items-center gap-3"><span className="text-destructive bg-destructive/10 px-2 py-0.5 rounded font-bold">Fatal: {unit.fatalCommodity}</span><span className="text-foreground/70 font-medium">Est. {unit.daysToBreakdown} hari</span></div></div>))}
                     </div>
@@ -159,15 +208,69 @@ export function CustomerPortal() {
             {/* Financial & Safety Summary Row */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div className="bg-card rounded-2xl border border-border p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition-all">
-                    <div className="flex items-start justify-between mb-4"><div><h3 className="text-primary dark:text-foreground font-black text-lg tracking-tight">Budget Forecasting</h3><p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider mt-0.5">Projected Maintenance</p></div><div className="w-10 h-10 bg-brand-navy/10 dark:bg-brand-blue/10 rounded-xl flex items-center justify-center text-brand-navy dark:text-brand-blue"><DollarSign className="w-5 h-5" /></div></div>
+                    <div className="flex items-start justify-between mb-4">
+                      <div>
+                        <div className="flex items-center gap-1.5">
+                          <h3 className="text-primary dark:text-foreground font-black text-lg tracking-tight">Budget Forecasting</h3>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <button className="text-muted-foreground hover:text-brand-navy dark:hover:text-brand-blue transition-colors">
+                                <Info className="w-3.5 h-3.5" />
+                              </button>
+                            </TooltipTrigger>
+                            <TooltipContent side="top" className="max-w-[200px]">
+                              Proyeksi kebutuhan anggaran pemeliharaan armada untuk periode 30 dan 90 hari ke depan.
+                            </TooltipContent>
+                          </Tooltip>
+                        </div>
+                        <h6 className="text-[10px] text-muted-foreground font-black uppercase tracking-wider mt-0.5">Projected Maintenance</h6>
+                      </div>
+                      <div className="w-10 h-10 bg-brand-navy/10 dark:bg-brand-blue/10 rounded-xl flex items-center justify-center text-brand-navy dark:text-brand-blue"><DollarSign className="w-5 h-5" /></div>
+                    </div>
                     <div className="space-y-4"><div className="grid grid-cols-2 gap-3"><div className="p-3 bg-muted/20 rounded-xl border border-border"><p className="text-[9px] text-muted-foreground font-bold uppercase mb-0.5">Next 30D</p><p className="text-sm font-black text-primary dark:text-foreground">{formatRupiah(customerStrategicKPIs.budgetForecast.total30Days)}</p></div><div className="p-3 bg-muted/20 rounded-xl border border-border"><p className="text-[9px] text-muted-foreground font-bold uppercase mb-0.5">Next 90D</p><p className="text-sm font-black text-primary dark:text-foreground">{formatRupiah(customerStrategicKPIs.budgetForecast.total90Days)}</p></div></div></div>
                 </div>
                 <div className={`bg-card rounded-2xl border-2 p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition-all ${customerStrategicKPIs.safetyIndex.fleetSafetyScore < 100 ? "border-red-500/50" : "border-border"}`}>
-                    <div className="flex items-start justify-between mb-4"><div><h3 className="text-primary dark:text-foreground font-black text-lg tracking-tight">Safety & Compliance</h3><p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider mt-0.5">Fleet Assurance</p></div><div className={`w-10 h-10 rounded-xl flex items-center justify-center ${customerStrategicKPIs.safetyIndex.fleetSafetyScore < 100 ? "bg-red-500 text-white animate-pulse" : "bg-brand-green/10 text-brand-green"}`}><Shield className="w-5 h-5" /></div></div>
+                    <div className="flex items-start justify-between mb-4">
+                      <div>
+                        <div className="flex items-center gap-1.5">
+                          <h3 className="text-primary dark:text-foreground font-black text-lg tracking-tight">Safety & Compliance</h3>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <button className="text-muted-foreground hover:text-red-500 transition-colors">
+                                <Info className="w-3.5 h-3.5" />
+                              </button>
+                            </TooltipTrigger>
+                            <TooltipContent side="top" className="max-w-[200px]">
+                              Indeks kepatuhan standar keselamatan kerja berdasarkan kondisi sistem proteksi unit (Fire/Safety).
+                            </TooltipContent>
+                          </Tooltip>
+                        </div>
+                        <h6 className="text-[10px] text-muted-foreground font-black uppercase tracking-wider mt-0.5">Fleet Assurance</h6>
+                      </div>
+                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${customerStrategicKPIs.safetyIndex.fleetSafetyScore < 100 ? "bg-red-500 text-white animate-pulse" : "bg-brand-green/10 text-brand-green"}`}><Shield className="w-5 h-5" /></div>
+                    </div>
                     <div className="flex items-center gap-6"><div className="relative"><svg className="w-20 h-20"><circle cx="40" cy="40" r="36" stroke="currentColor" strokeWidth="8" fill="transparent" className="text-muted/20" /><circle cx="40" cy="40" r="36" stroke="currentColor" strokeWidth="8" fill="transparent" strokeDasharray={226} strokeDashoffset={226 - (226 * customerStrategicKPIs.safetyIndex.fleetSafetyScore) / 100} className={customerStrategicKPIs.safetyIndex.fleetSafetyScore < 100 ? "text-red-500" : "text-brand-green"} /></svg><div className="absolute inset-0 flex items-center justify-center font-black text-lg">{customerStrategicKPIs.safetyIndex.fleetSafetyScore}%</div></div><div className="flex-1 space-y-2">{customerStrategicKPIs.safetyIndex.components.map((c) => (<div key={c.name} className="flex flex-col"><div className="flex justify-between items-center mb-1"><span className="text-[9px] font-bold text-muted-foreground">{c.name}</span><span className={`text-[9px] font-black ${c.status === "Critical" ? "text-red-500" : "text-brand-green"}`}>{c.score}%</span></div><div className="h-1 bg-muted rounded-full overflow-hidden"><div className={`h-full ${c.status === "Critical" ? "bg-red-500" : "bg-brand-green"}`} style={{ width: `${c.score}%` }}></div></div></div>))}</div></div>
                 </div>
                 <div className="bg-card rounded-2xl border border-border p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition-all">
-                    <div className="flex items-start justify-between mb-4"><div><h3 className="text-primary dark:text-foreground font-black text-lg tracking-tight">Procurement</h3><p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider mt-0.5">Progress</p></div><div className="w-10 h-10 bg-brand-green/10 rounded-xl flex items-center justify-center text-brand-green"><Layers className="w-5 h-5" /></div></div>
+                    <div className="flex items-start justify-between mb-4">
+                      <div>
+                        <div className="flex items-center gap-1.5">
+                          <h3 className="text-primary dark:text-foreground font-black text-lg tracking-tight">Procurement</h3>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <button className="text-muted-foreground hover:text-brand-green transition-colors">
+                                <Info className="w-3.5 h-3.5" />
+                              </button>
+                            </TooltipTrigger>
+                            <TooltipContent side="top" className="max-w-[200px]">
+                              Status pemenuhan kebutuhan suku cadang dan progres pengiriman hingga ke site.
+                            </TooltipContent>
+                          </Tooltip>
+                        </div>
+                        <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider mt-0.5">Progress</p>
+                      </div>
+                      <div className="w-10 h-10 bg-brand-green/10 rounded-xl flex items-center justify-center text-brand-green"><Layers className="w-5 h-5" /></div>
+                    </div>
                     <div className="space-y-4"><div className="flex justify-between items-end mb-1"><span className="text-[10px] text-muted-foreground font-bold uppercase">Delivery Progress</span><span className="text-xs font-black text-brand-green">{customerStrategicKPIs.procurementPipeline.fulfillmentProgress}%</span></div><div className="h-1.5 bg-muted rounded-full overflow-hidden"><div className="h-full bg-brand-green" style={{ width: `${customerStrategicKPIs.procurementPipeline.fulfillmentProgress}%` }}></div></div></div>
                 </div>
             </div>

@@ -3,79 +3,79 @@
 :root {
   --font-size: 16px;
   --background: #f8fafc;
-  --foreground: #1a1b4b;
+  --foreground: hsl(233, 48%, 15%);
   --card: #ffffff;
-  --card-foreground: #1a1b4b;
+  --card-foreground: hsl(233, 48%, 15%);
   --popover: #ffffff;
-  --popover-foreground: #1a1b4b;
-  --primary: #1a1b4b;
+  --popover-foreground: hsl(233, 48%, 15%);
+  
+  /* Brand Colors - Industrial Premium */
+  --primary: hsl(233, 48%, 20%); /* Brand Navy */
   --primary-foreground: #ffffff;
-  --secondary: #23a34e;
+  --secondary: hsl(141, 65%, 39%); /* Brand Green */
   --secondary-foreground: #ffffff;
-  --muted: #f1f5f9;
-  --muted-foreground: #64748b;
-  --accent: #005b9a;
+  --accent: hsl(204, 100%, 30%); /* Brand Blue */
   --accent-foreground: #ffffff;
-  --destructive: #ef4444;
+  
+  --muted: hsl(210, 40%, 96%);
+  --muted-foreground: hsl(215, 16%, 47%);
+  
+  --destructive: hsl(0, 84%, 60%);
   --destructive-foreground: #ffffff;
-  --border: #e2e8f0;
+  
+  --border: hsl(214, 32%, 91%);
   --input: #ffffff;
   --input-background: #f8fafc;
-  --switch-background: #cbd5e1;
-  --font-weight-medium: 500;
+  --switch-background: hsl(214, 32%, 80%);
+  
   --font-weight-normal: 400;
-  --ring: #1a1b4b;
-  --chart-1: #1a1b4b;
-  --chart-2: #23a34e;
-  --chart-3: #005b9a;
-  --chart-4: #0072bc;
-  --chart-5: #044d29;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  --font-weight-black: 900;
+  
+  --ring: hsl(233, 48%, 20%);
   --radius: 0.75rem;
+
+  /* Chart Colors */
+  --chart-1: hsl(233, 48%, 20%);
+  --chart-2: hsl(141, 65%, 39%);
+  --chart-3: hsl(204, 100%, 30%);
+  --chart-4: hsl(199, 89%, 48%);
+  --chart-5: hsl(158, 64%, 52%);
+
   --sidebar: #ffffff;
-  --sidebar-foreground: #1a1b4b;
-  --sidebar-primary: #1a1b4b;
+  --sidebar-foreground: hsl(233, 48%, 20%);
+  --sidebar-primary: hsl(233, 48%, 20%);
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #f1f5f9;
-  --sidebar-accent-foreground: #1a1b4b;
-  --sidebar-border: #e2e8f0;
-  --sidebar-ring: #1a1b4b;
+  --sidebar-accent: hsl(210, 40%, 96%);
+  --sidebar-accent-foreground: hsl(233, 48%, 20%);
+  --sidebar-border: hsl(214, 32%, 91%);
+  --sidebar-ring: hsl(233, 48%, 20%);
 }
 
 .dark {
-  --background: #0f172a;
-  --foreground: #f8fafc;
-  --card: #1e293b;
-  --card-foreground: #f8fafc;
-  --popover: #1e293b;
-  --popover-foreground: #f8fafc;
-  --primary: #60a5fa;
-  --primary-foreground: #0f172a;
-  --secondary: #34d399;
-  --secondary-foreground: #0f172a;
-  --muted: #334155;
-  --muted-foreground: #94a3b8;
-  --accent: #38bdf8;
-  --accent-foreground: #0f172a;
-  --destructive: #f87171;
-  --destructive-foreground: #ffffff;
-  --border: #334155;
-  --input: #1e293b;
-  --input-background: #0f172a;
-  --switch-background: #475569;
-  --ring: #60a5fa;
-  --chart-1: #60a5fa;
-  --chart-2: #34d399;
-  --chart-3: #38bdf8;
-  --chart-4: #818cf8;
-  --chart-5: #fbbf24;
-  --sidebar: #1e293b;
-  --sidebar-foreground: #f8fafc;
-  --sidebar-primary: #60a5fa;
-  --sidebar-primary-foreground: #0f172a;
-  --sidebar-accent: #334155;
-  --sidebar-accent-foreground: #f8fafc;
-  --sidebar-border: #334155;
-  --sidebar-ring: #60a5fa;
+  --background: hsl(222, 47%, 11%);
+  --foreground: hsl(210, 40%, 98%);
+  --card: hsl(222, 47%, 15%);
+  --card-foreground: hsl(210, 40%, 98%);
+  --popover: hsl(222, 47%, 15%);
+  --popover-foreground: hsl(210, 40%, 98%);
+  
+  --primary: hsl(217, 91%, 60%);
+  --primary-foreground: hsl(222, 47%, 11%);
+  --secondary: hsl(150, 60%, 50%);
+  --secondary-foreground: hsl(222, 47%, 11%);
+  --accent: hsl(199, 89%, 48%);
+  --accent-foreground: hsl(222, 47%, 11%);
+  
+  --muted: hsl(217, 33%, 20%);
+  --muted-foreground: hsl(215, 20%, 65%);
+  
+  --border: hsl(217, 33%, 20%);
+  --input: hsl(222, 47%, 15%);
+  --input-background: hsl(222, 47%, 11%);
+  
+  --ring: hsl(217, 91%, 60%);
 }
 
 @theme inline {
@@ -100,20 +100,19 @@
   --color-input-background: var(--input-background);
   --color-switch-background: var(--switch-background);
   --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
   
   --color-brand-navy: var(--primary);
   --color-brand-green: var(--secondary);
   --color-brand-blue: var(--accent);
   
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-outfit);
+  
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -130,57 +129,31 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans antialiased;
   }
 
-  /**
-  * Default typography styles for HTML elements (h1-h4, p, label, button, input).
-  * These are in @layer base, so Tailwind utility classes (like text-sm, text-lg) automatically override them.
-  */
-
-  html {
-    font-size: var(--font-size);
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-black tracking-tight uppercase;
   }
 
-  h1 {
-    font-size: var(--text-2xl);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-  }
+  h1 { @apply text-3xl sm:text-4xl; }
+  h2 { @apply text-2xl sm:text-3xl; }
+  h3 { @apply text-xl sm:text-2xl; }
+  h4 { @apply text-lg sm:text-xl; }
 
-  h2 {
-    font-size: var(--text-xl);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-  }
-
-  h3 {
-    font-size: var(--text-lg);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-  }
-
-  h4 {
-    font-size: var(--text-base);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
+  p {
+    @apply leading-relaxed;
   }
 
   label {
-    font-size: var(--text-base);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
+    @apply text-sm font-bold text-muted-foreground uppercase tracking-wider;
   }
 
   button {
-    font-size: var(--text-base);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
+    @apply font-bold transition-all duration-200 active:scale-95;
   }
 
-  input {
-    font-size: var(--text-base);
-    font-weight: var(--font-weight-normal);
-    line-height: 1.5;
+  input, select, textarea {
+    @apply font-sans;
   }
 }

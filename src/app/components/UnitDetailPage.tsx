@@ -6,7 +6,7 @@ import {
 } from 'lucide-react';
 import { CommodityKey, RecommendedPart, ALL_COMMODITIES, COMMODITY_LABELS } from '../data/inspectionTypes';
 import { findUnitBySerial } from '../data/inspectionMockData';
-import { unitHealthData } from '../data/mockData';
+import { unitHealthData, formatRupiah } from '../data/mockData';
 import { StatusBadge } from './StatusBadge';
 import { lazy, Suspense } from 'react';
 
@@ -82,8 +82,7 @@ export function UnitDetailPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      {/* ── STICKY UNIT HEADER ───────────────────────────────────────────────── */}
-      <div className="sticky top-0 z-20 bg-card/95 backdrop-blur-lg border-b border-border shadow-sm">
+      <div className="sticky top-0 z-30 bg-card/95 backdrop-blur-lg border-b border-border shadow-md">
         <div className="px-4 sm:px-6 py-3">
           {/* Breadcrumb */}
           <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground font-bold uppercase tracking-widest mb-2">
@@ -99,27 +98,26 @@ export function UnitDetailPage() {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             {/* Unit Identity */}
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-brand-navy dark:bg-brand-blue/20 rounded-xl flex items-center justify-center flex-shrink-0 shadow-md">
-                <Activity className="w-6 h-6 text-white dark:text-brand-green" />
+              <div className="w-10 h-10 bg-brand-navy dark:bg-brand-blue/20 rounded-xl flex items-center justify-center flex-shrink-0 shadow-md">
+                <Activity className="w-5 h-5 text-white dark:text-brand-green" />
               </div>
               <div>
                 <div className="flex items-center gap-2 flex-wrap">
-                  <h1 className="text-lg sm:text-xl font-black text-primary dark:text-foreground tracking-tight">{unit.serialNumber}</h1>
-                  <StatusBadge status={unit.overallHealth} size="md" />
+                  <h1 className="text-base sm:text-lg font-black text-primary dark:text-foreground tracking-tight">{unit.serialNumber}</h1>
+                  <StatusBadge status={unit.overallHealth} size="sm" />
                 </div>
-                <p className="text-xs text-muted-foreground font-bold">{unit.model}</p>
-                <div className="flex items-center gap-3 mt-0.5 text-[11px] text-muted-foreground font-bold">
-                  <span className="flex items-center gap-1"><MapPin className="w-3 h-3" />{unit.site}</span>
+                <div className="flex items-center gap-2 text-[10px] text-muted-foreground font-bold">
+                  <span>{unit.model}</span>
                   <span>·</span>
-                  <span className="flex items-center gap-1"><Clock className="w-3 h-3" />SMU: {unit.hoursOperated.toLocaleString()} Hrs</span>
+                  <span className="flex items-center gap-1"><Clock className="w-2.5 h-2.5" />{unit.hoursOperated.toLocaleString()} Hrs</span>
                   <span>·</span>
-                  <span>{unit.customer}</span>
+                  <span className="text-brand-navy/60 dark:text-brand-green/60">{unit.customer}</span>
                 </div>
               </div>
             </div>
 
             {/* Health Badges — 7 commodities */}
-            <div className="flex flex-wrap gap-1.5">
+            <div className="flex flex-wrap gap-1">
               {ALL_COMMODITIES.map(comm => {
                 const s = unit.commodityStatus[comm];
                 const isNA = s === 'N/A';
@@ -127,7 +125,7 @@ export function UnitDetailPage() {
                   <div
                     key={comm}
                     title={`${COMMODITY_LABELS[comm]}: ${s}`}
-                    className={`px-2 py-1 rounded-lg border text-[10px] font-black flex flex-col items-center leading-none cursor-default transition-all
+                    className={`px-1.5 py-0.5 rounded border text-[8px] font-black flex flex-col items-center leading-tight cursor-default transition-all
                       ${isNA
                         ? 'bg-muted border-border text-muted-foreground opacity-50'
                         : s === 'Critical'
@@ -137,12 +135,52 @@ export function UnitDetailPage() {
                             : 'bg-green-100 dark:bg-green-900/30 border-green-200 dark:border-green-800 text-green-700 dark:text-green-400'
                       }`}
                   >
-                    <span className="text-[9px] opacity-60 pb-0.5">{comm}</span>
-                    <span>{s}</span>
+                    <span className="opacity-60">{comm}</span>
+                    <span>{isNA ? '—' : s === 'Critical' ? 'CRIT' : s === 'Caution' ? 'CAUT' : 'GOOD'}</span>
                   </div>
                 );
               })}
             </div>
+          </div>
+        </div>
+
+        {/* Commodity Tabs Nav inside sticky header */}
+        <div className="border-t border-border overflow-x-auto bg-muted/20">
+          <div className="flex min-w-max px-4 pt-1">
+            {ALL_COMMODITIES.map(comm => {
+              const s = unit.commodityStatus[comm];
+              const isNA = s === 'N/A';
+              const hasReport = !!holisticUnit?.inspectionReports?.[comm];
+              const isActive = activeTab === comm;
+
+              return (
+                <button
+                  key={comm}
+                  disabled={isNA}
+                  onClick={() => setActiveTab(comm)}
+                  className={`relative flex flex-col items-center gap-0 px-4 py-2 text-[10px] font-black border-b-2 transition-all whitespace-nowrap mr-1
+                    ${isNA
+                      ? 'border-transparent text-muted-foreground/40 cursor-not-allowed opacity-50'
+                      : isActive
+                        ? 'border-brand-green text-brand-green bg-brand-green/5'
+                        : 'border-transparent text-muted-foreground hover:text-foreground hover:border-muted-foreground/30 hover:bg-muted/30'
+                    }`}
+                >
+                  {/* Status dot */}
+                  {!isNA && (
+                    <div className={`w-1.5 h-1.5 rounded-full mb-0.5 ${
+                      s === 'Critical' ? 'bg-red-500' :
+                      s === 'Caution' ? 'bg-yellow-400' :
+                      'bg-brand-green'
+                    }`} />
+                  )}
+                  <span className="uppercase tracking-wider leading-none">{comm}</span>
+                  {hasReport && !isNA && (
+                    <div className="absolute top-1 right-1 w-1 h-1 rounded-full bg-brand-blue" />
+                  )}
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>
@@ -170,51 +208,9 @@ export function UnitDetailPage() {
           </div>
         </div>
 
-        {/* ── COMMODITY TABS ─────────────────────────────────────────────────── */}
+        {/* ── TAB CONTENT AREA ─────────────────────────────────────────────────── */}
         <div className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden">
-          {/* Tab Navigation */}
-          <div className="border-b border-border overflow-x-auto">
-            <div className="flex min-w-max px-4 pt-3">
-              {ALL_COMMODITIES.map(comm => {
-                const s = unit.commodityStatus[comm];
-                const isNA = s === 'N/A';
-                const hasReport = !!holisticUnit?.inspectionReports?.[comm];
-                const isActive = activeTab === comm;
-
-                return (
-                  <button
-                    key={comm}
-                    disabled={isNA}
-                    onClick={() => setActiveTab(comm)}
-                    className={`relative flex flex-col items-center gap-0.5 px-4 py-2.5 text-[11px] font-black border-b-2 transition-all whitespace-nowrap mr-1
-                      ${isNA
-                        ? 'border-transparent text-muted-foreground/40 cursor-not-allowed opacity-50'
-                        : isActive
-                          ? 'border-brand-green text-brand-green bg-brand-green/5'
-                          : 'border-transparent text-muted-foreground hover:text-foreground hover:border-muted-foreground/30 hover:bg-muted/30'
-                      }`}
-                  >
-                    {/* Status dot */}
-                    {!isNA && (
-                      <div className={`w-1.5 h-1.5 rounded-full mb-0.5 ${
-                        s === 'Critical' ? 'bg-red-500' :
-                        s === 'Caution' ? 'bg-yellow-400' :
-                        'bg-brand-green'
-                      }`} />
-                    )}
-                    <span className="uppercase tracking-wider">{comm}</span>
-                    <span className="text-[8px] font-medium opacity-70 normal-case">{COMMODITY_LABELS[comm]}</span>
-                    {hasReport && !isNA && (
-                      <div className="absolute -top-0.5 right-1 w-1.5 h-1.5 rounded-full bg-brand-blue" title="Laporan tersedia" />
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Tab Content */}
-          <div className="p-5">
+          <div className="p-4 sm:p-6">
             {activeReport ? (
               <Suspense fallback={<div className="flex justify-center py-24"><div className="w-8 h-8 border-4 border-primary/20 border-t-brand-green rounded-full animate-spin" /></div>}>
                 <InspectionReport

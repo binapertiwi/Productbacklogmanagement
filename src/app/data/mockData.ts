@@ -376,6 +376,39 @@ export const internalStrategicKPIs = {
   }
 };
 
+// ─── Customer Strategic Insights Data (NEW) ───────────────────────────────────
+
+export const topCustomersData = [
+  { customer: "PT Thiess", revenue: 850_000_000, conversionRate: 75, fill: "#1a2b4a" },
+  { customer: "PT Adaro Energy", revenue: 620_000_000, conversionRate: 60, fill: "#1a2b4a" },
+  { customer: "PT KPC", revenue: 450_000_000, conversionRate: 82, fill: "#1a2b4a" },
+  { customer: "PT SIS", revenue: 380_000_000, conversionRate: 55, fill: "#1a2b4a" },
+  { customer: "PT BUMA", revenue: 310_000_000, conversionRate: 45, fill: "#1a2b4a" }
+];
+
+export const backlogDensityData = [
+  { customer: "PT Thiess", units: 15, criticalFindings: 8 },
+  { customer: "PT Adaro", units: 22, criticalFindings: 5 },
+  { customer: "PT KPC", units: 18, criticalFindings: 12 },
+  { customer: "PT SIS", units: 10, criticalFindings: 2 },
+  { customer: "PT BUMA", units: 8, criticalFindings: 6 },
+  { customer: "PT PAMA", units: 25, criticalFindings: 4 },
+  { customer: "PT Berau", units: 12, criticalFindings: 1 },
+];
+
+export const regionalRevenueData = [
+  { name: "Kaltim", value: 2_150_000_000 },
+  { name: "Kalsel", value: 1_420_000_000 },
+  { name: "Sumsel", value: 680_000_000 },
+  { name: "Sumut", value: 450_000_000 },
+  { name: "Sulsel", value: 172_500_000 }
+];
+
+export const captureRateData = [
+  { name: "Converted to PO", value: 320 },
+  { name: "Unconverted Backlog", value: 180 }
+];
+
 export const customerStrategicKPIs = {
   budgetForecast: {
     total30Days: 1_250_000_000,
