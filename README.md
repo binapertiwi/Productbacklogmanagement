@@ -61,6 +61,14 @@ Satu landasan pelaporan tunggal (*Single Source of Truth*) yang dapat diakses ba
   - **Professional Field Evidence**: Galeri foto inspeksi yang terorganisir dengan label figur dan catatan teknis formal dari inspektur.
 - **PO Draft Integration**: Kemudahan konversi temuan kerusakan teknis langsung menjadi draf Purchase Order.
 
+### 5. Inspector Productivity & Coverage
+Halaman khusus untuk memantau efisiensi tenaga kerja dan cakupan inspeksi di tingkat nasional:
+- **Manpower vs Workload Map**: Analisis kapasitas inspeksi terhadap populasi unit per wilayah untuk mencegah *under-coverage*.
+- **Coverage by Customer Site**: Persentase unit terinspeksi vs total populasi di setiap lokasi pelanggan.
+- **Quality to PO Conversion**: Scatter chart yang menghubungkan rata-rata durasi inspeksi dengan tingkat konversi menjadi Purchase Order.
+- **Inspection Hit Rate (Yield)**: Stacked bar chart yang memetakan temuan *Critical* vs *Normal* untuk mengukur kualitas inspeksi.
+- **AI Workforce Copilot (Aurora Theme)**: Asisten cerdas dengan tema visual dinamis untuk rekomendasi *workforce rebalancing* dan optimasi alokasi *resources*.
+
 ---
 
 ## Teknologi & Implementasi
@@ -101,6 +109,31 @@ Aplikasi ini dapat dijalankan langsung dari direktori utama (root) atau dari dal
 ---
 
 ## Pembaruan & Riwayat Teknis
+- **[2026-05-04] Data Visualization: Advanced Analytics & Commercialization**:
+  - `src/app/components/InspectorProductivity.tsx`:
+    - **Quadrant Analysis (Scatter Chart)**: Upgrade visualisasi konversi PO dengan garis referensi (Crosshairs) pada sumbu X (Durasi) dan Y (Rate) untuk membagi data menjadi 4 kuadran performa.
+    - **Absolute Value Visualization**: Menambahkan informasi nominal (unit/total) pada tooltip dan label grafik *Coverage by Site* untuk akurasi data operasional.
+    - **Composed Yield Trend**: Transformasi grafik hit rate menjadi `ComposedChart` yang menggabungkan `Stacked Bar` (temuan) dengan `Line Chart` (Yield Rate %) pada sumbu Y ganda.
+    - **Leaderboard Commercialization**: Penambahan metrik finansial (**Est. Revenue**) dan urgensi (**Critical Findings**) pada tabel peringkat inspektur untuk menggeser fokus dari sekadar volume ke nilai bisnis.
+
+- **[2026-05-04] UI/UX & Documentation: Inspector Productivity Finalization**:
+  - `README.md`: Menambahkan narasi lengkap halaman "Inspector Productivity & Coverage" pada bagian Fitur Utama Terkini.
+  - `src/app/components/InspectorProductivity.tsx`: 
+    - Penambahan **Information Tooltips** (ikon `Info`) pada seluruh kartu grafik (*Manpower vs Workload, Coverage, Quality Conversion,* dan *Hit Rate*) untuk meningkatkan literasi data melalui penjelasan proaktif saat hover.
+
+- **[2026-05-04] UI/UX Refinement: Inspector Productivity Optimization**:
+  - `src/app/components/InspectorProductivity.tsx`:
+    - **Resource Allocation Integration**: Memindahkan widget "Resource Allocation" ke dalam panel *AI Workforce Copilot* sebagai *inner card* untuk alur informasi yang lebih kontekstual.
+    - **New Widget: Inspection Hit Rate (Yield)**: Implementasi grafik `Stacked BarChart` untuk memvisualisasikan rasio temuan kritis vs normal per wilayah.
+    - **Strict Brand Color Enforcement**: Standardisasi seluruh grafik menggunakan palet **Brand Navy (#1E3A8A)** dan **Brand Green (#10B981)**, serta menghilangkan penggunaan warna hitam solid pada elemen bar dan scatter.
+    - **KPI Icon Styling**: Pembaruan gaya ikon pada kartu KPI utama agar mengikuti estetika *muted Navy/Green* yang premium.
+
+- **[2026-05-04] Design System: Inspector Productivity Unification**:
+  - `src/app/components/InspectorProductivity.tsx`:
+    - **AI Workforce Copilot Refactoring**: Transformasi widget AI menjadi desain *Aurora* premium dengan gradien `from-emerald-400 to-teal-400`. Menambahkan indikator status **"ACTIVE THINKING"** dengan animasi pulse dan fitur **Collapse/Expand** untuk fleksibilitas ruang kerja.
+    - **Card & Typography Standardization**: Penerapan sistem kartu `bg-white` dengan border halus dan bayangan *Industrial Premium*. Judul grafik diseragamkan menggunakan gaya tipografi *bold uppercase* untuk keterbacaan tingkat enterprise.
+    - **Enhanced Interactivity**: Penambahan komponen `Tooltip` (Info) pada metrik KPI utama untuk penjelasan data proaktif.
+    - **Responsive Sidebar**: Penataan ulang layout menjadi *Hybrid Grid* yang memastikan tabel leaderboard tetap memiliki ruang maksimal saat panel AI ditutup.
 
 - **[2026-04-28] Functional: Advanced PO Table & Sticky Navigation**:
   - `src/app/components/Layout.tsx` & `src/app/components/UnitDetailPage.tsx`:

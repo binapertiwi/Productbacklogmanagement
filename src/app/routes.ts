@@ -12,6 +12,9 @@ const CustomerPortal = lazy(() =>
 const UnitDetailPage = lazy(() =>
   import("./components/UnitDetailPage").then((m) => ({ default: m.UnitDetailPage }))
 );
+const InspectorProductivity = lazy(() =>
+  import("./components/InspectorProductivity").then((m) => ({ default: m.InspectorProductivity }))
+);
 
 export const router = createBrowserRouter([
   {
@@ -21,6 +24,7 @@ export const router = createBrowserRouter([
       { index: true, Component: InternalDashboard },
       { path: "customer", Component: CustomerPortal },
       { path: "unit/:serialNumber", Component: UnitDetailPage },
+      { path: "inspector", Component: InspectorProductivity },
     ],
   },
 ]);

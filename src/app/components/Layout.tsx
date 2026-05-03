@@ -1,5 +1,5 @@
 import { Outlet, NavLink, useLocation } from "react-router";
-import { LayoutDashboard, Users, Bell, Activity, ChevronDown, Moon, Sun } from "lucide-react";
+import { LayoutDashboard, Users, Bell, Activity, ChevronDown, Moon, Sun, ClipboardCheck } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
@@ -68,6 +68,20 @@ export function Layout() {
               <span className="hidden xs:inline sm:inline">Customer</span>
               <span className="hidden md:inline"> Portal</span>
             </NavLink>
+            <NavLink
+              to="/inspector"
+              className={({ isActive }) =>
+                `flex items-center gap-1.5 px-3 sm:px-5 text-xs sm:text-sm border-b-2 transition-colors ${
+                  isActive
+                    ? "border-brand-green text-white dark:text-brand-green bg-white/10 dark:bg-brand-green/10"
+                    : "border-transparent text-white/70 dark:text-muted-foreground hover:text-white dark:hover:text-foreground hover:bg-white/5 dark:hover:bg-accent"
+                }`
+              }
+            >
+              <ClipboardCheck className="w-4 h-4 flex-shrink-0" />
+              <span className="hidden xs:inline sm:inline">Inspector</span>
+              <span className="hidden md:inline"> Productivity</span>
+            </NavLink>
           </nav>
 
           {/* Right Side */}
@@ -108,6 +122,8 @@ export function Layout() {
             <span className="flex items-center gap-1">
               Unit <span className="text-brand-green">{location.pathname.split("/").pop()}</span>
             </span>
+          ) : location.pathname === "/inspector" ? (
+            "Inspector Productivity Dashboard"
           ) : isInternal ? (
             "Operation & Inventory Dashboard"
           ) : (
