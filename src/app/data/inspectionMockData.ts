@@ -25,7 +25,7 @@ export const unitHolisticData: UnitHolisticData[] = [
     aiSummary: 'Unit ini membutuhkan penggantian U/C segera (keausan 92%). Pertimbangkan bundling dengan GET untuk menghemat 3 hari downtime dan estimasi penghematan Rp 45 juta biaya mobilisasi.',
     commodityStatus: {
       BAT: 'Good', GET: 'Critical', TYR: 'Caution',
-      FCG: 'Good', FIL: 'Good', Autofire: 'Good', Autolube: 'N/A', 'U/C': 'Critical',
+      FCG: 'Good', LUB: 'Good', Autofire: 'Good', Autolube: 'N/A', 'U/C': 'Critical',
     },
     inspectionReports: {
       'U/C': {
@@ -199,6 +199,26 @@ export const unitHolisticData: UnitHolisticData[] = [
         },
         recommendations: [],
       },
+      'LUB': {
+        metadata: {
+          inspectionId: 'INS-2026-LUB-000',
+          inspectionDate: '2026-02-14',
+          mechanicName: 'Budi Santoso',
+          mechanicId: 'MEC-BJM-021',
+          commodity: 'LUB',
+          overallStatus: 'Good',
+          serviceMeterUnit: 14_250,
+        },
+        measurements: [
+          { id: 'lub-0-1', componentName: 'Engine Oil Level', position: 'Engine', actualValue: 'Normal', measurementUnit: '', healthPercentage: 100, actionStatus: 'Good' },
+          { id: 'lub-0-2', componentName: 'Hydraulic Oil Level', position: 'Tank', actualValue: 'Normal', measurementUnit: '', healthPercentage: 100, actionStatus: 'Good' },
+        ],
+        evidence: {
+          mechanicNotes: 'Semua level pelumas dalam kondisi normal. Tidak ditemukan kebocoran pada sistem.',
+          photoUrls: [],
+        },
+        recommendations: [],
+      },
     },
   },
 
@@ -214,9 +234,8 @@ export const unitHolisticData: UnitHolisticData[] = [
     aiSummary: 'Hydraulic Filter FCG sudah melewati threshold (82%). Bundle penggantian dengan battery check untuk mencegah gangguan elektrikal yang berpotensi menyebabkan downtime lebih lama.',
     commodityStatus: {
       BAT: 'Caution', GET: 'Good', TYR: 'N/A',
-      FCG: 'Critical', FIL: 'Caution', Autofire: 'Good', Autolube: 'Good', 'U/C': 'Good',
+      FCG: 'Critical', LUB: 'Caution', Autofire: 'Good', Autolube: 'Good', 'U/C': 'Good',
     },
-    inspectionReports: {
     inspectionReports: {
       'FCG': {
         metadata: {
@@ -244,19 +263,19 @@ export const unitHolisticData: UnitHolisticData[] = [
           { partNumber: '600-181-9640', description: 'Air Filter Primary (Engine)', quantity: 1, uom: 'Pcs', urgency: 'Caution', estimatedPrice: 420_000 },
         ],
       },
-      'FIL': {
+      'LUB': {
         metadata: {
-          inspectionId: 'INS-2026-FIL-001',
+          inspectionId: 'INS-2026-LUB-001',
           inspectionDate: '2026-02-21',
           mechanicName: 'Ahmad Fauzi',
           mechanicId: 'MEC-BPP-015',
-          commodity: 'FIL',
+          commodity: 'LUB',
           overallStatus: 'Caution',
           serviceMeterUnit: 9_800,
         },
         measurements: [
-          { id: 'fil-1', componentName: 'Fuel Filter Primary', position: 'Engine', actualValue: 72, measurementUnit: '%', standardValue: '< 80%', healthPercentage: 72, estimatedRemainingLife: 800, actionStatus: 'Caution' },
-          { id: 'fil-2', componentName: 'Fuel Filter Secondary', position: 'Engine', actualValue: 45, measurementUnit: '%', standardValue: '< 80%', healthPercentage: 45, estimatedRemainingLife: 1500, actionStatus: 'Good' },
+          { id: 'lub-1', componentName: 'Engine Oil Condition', position: 'Engine', actualValue: 'Normal', measurementUnit: '', healthPercentage: 85, estimatedRemainingLife: 150, actionStatus: 'Monitor' },
+          { id: 'lub-2', componentName: 'Transmission Oil Condition', position: 'Transmission', actualValue: 'Caution', measurementUnit: '', healthPercentage: 72, estimatedRemainingLife: 100, actionStatus: 'Caution' },
         ],
         evidence: {
           mechanicNotes: 'Fuel filter primary mulai menunjukkan penumpukan sedimentasi. Rekomendasi ganti pada jadwal maintenance 250 jam berikutnya.',
@@ -303,9 +322,32 @@ export const unitHolisticData: UnitHolisticData[] = [
     aiSummary: 'Engine oil berada dalam kondisi sangat kritis (95% degradasi). Hentikan operasi unit dan lakukan penggantian segera untuk mencegah kerusakan engine senilai > Rp 800 juta.',
     commodityStatus: {
       BAT: 'Good', GET: 'Good', TYR: 'Good',
-      FCG: 'Good', FIL: 'Good', Autofire: 'Good', Autolube: 'Critical', 'U/C': 'Good',
+      FCG: 'Good', LUB: 'Good', Autofire: 'Good', Autolube: 'Critical', 'U/C': 'Good',
     },
     inspectionReports: {
+      'LUB': {
+        metadata: {
+          inspectionId: 'INS-2026-LUB-001',
+          inspectionDate: '2026-02-25',
+          mechanicName: 'Didik Prasetyo',
+          mechanicId: 'MEC-SBY-033',
+          commodity: 'LUB',
+          overallStatus: 'Critical',
+          serviceMeterUnit: 22_100,
+        },
+        measurements: [
+          { id: 'lub-3-1', componentName: 'Engine Oil (10W40)', position: 'Crankcase', actualValue: 95, measurementUnit: '%', standardValue: '< 80%', healthPercentage: 95, estimatedRemainingLife: 80, actionStatus: 'Critical' },
+          { id: 'lub-3-2', componentName: 'Transmission Oil (TDH)', position: 'Trans Box', actualValue: 88, measurementUnit: '%', standardValue: '< 80%', healthPercentage: 88, estimatedRemainingLife: 180, actionStatus: 'Critical' },
+        ],
+        evidence: {
+          mechanicNotes: 'Hasil oil sampling (lab analysis) menunjukkan kandungan silicon 42 ppm (batas normal: <20 ppm) — indikasi kontaminasi debu melalui air filter yang jebol. Engine oil berubah warna menjadi hitam pekat dengan viskositas di bawah standar. UNIT WAJIB DISTOP OPERASI.',
+          photoUrls: [PLACEHOLDER_PHOTOS[0], PLACEHOLDER_PHOTOS[1], PLACEHOLDER_PHOTOS[3]],
+        },
+        recommendations: [
+          { partNumber: 'CAT-EO-10W40-20L', description: 'Engine Oil 10W40 — 20L', quantity: 4, uom: 'Pcs', urgency: 'Critical', estimatedPrice: 1_200_000 },
+          { partNumber: 'CAT-TDH-50-20L', description: 'Transmission Oil TDH-50 — 20L', quantity: 3, uom: 'Pcs', urgency: 'Critical', estimatedPrice: 980_000 },
+        ],
+      },
       'Autolube': {
         metadata: {
           inspectionId: 'INS-2026-ALB-001',
@@ -317,19 +359,14 @@ export const unitHolisticData: UnitHolisticData[] = [
           serviceMeterUnit: 22_100,
         },
         measurements: [
-          { id: 'alb-1', componentName: 'Engine Oil (10W40)', position: 'Crankcase', actualValue: 95, measurementUnit: '%', standardValue: '< 80%', healthPercentage: 95, estimatedRemainingLife: 80, actionStatus: 'Critical' },
-          { id: 'alb-2', componentName: 'Transmission Oil (TDH)', position: 'Trans Box', actualValue: 88, measurementUnit: '%', standardValue: '< 80%', healthPercentage: 88, estimatedRemainingLife: 180, actionStatus: 'Critical' },
-          { id: 'alb-3', componentName: 'Differential Oil (rear)', position: 'Rear Axle', actualValue: 65, measurementUnit: '%', standardValue: '< 80%', healthPercentage: 65, estimatedRemainingLife: 820, actionStatus: 'Monitor' },
-          { id: 'alb-4', componentName: 'Brake Fluid', position: 'Master Cylinder', actualValue: 40, measurementUnit: '%', standardValue: '< 60%', healthPercentage: 40, estimatedRemainingLife: 1500, actionStatus: 'Good' },
+          { id: 'alb-1', componentName: 'Grease Pump Pressure', position: 'Pump House', actualValue: 1500, measurementUnit: 'Psi', standardValue: '2500 Psi', healthPercentage: 40, actionStatus: 'Critical' },
         ],
         evidence: {
-          mechanicNotes: 'Hasil oil sampling (lab analysis) menunjukkan kandungan silicon 42 ppm (batas normal: <20 ppm) — indikasi kontaminasi debu melalui air filter yang jebol. Engine oil berubah warna menjadi hitam pekat dengan viskositas di bawah standar. UNIT WAJIB DISTOP OPERASI.',
-          photoUrls: [PLACEHOLDER_PHOTOS[0], PLACEHOLDER_PHOTOS[1], PLACEHOLDER_PHOTOS[3]],
+          mechanicNotes: 'Tekanan pompa autolube drop drastis. Ditemukan kebocoran pada primary manifold.',
+          photoUrls: [],
         },
         recommendations: [
-          { partNumber: 'CAT-EO-10W40-20L', description: 'Engine Oil 10W40 — 20L', quantity: 4, uom: 'Pcs', urgency: 'Critical', estimatedPrice: 1_200_000 },
-          { partNumber: 'CAT-TDH-50-20L', description: 'Transmission Oil TDH-50 — 20L', quantity: 3, uom: 'Pcs', urgency: 'Critical', estimatedPrice: 980_000 },
-          { partNumber: '1R-0762', description: 'Oil Filter Element (Engine)', quantity: 2, uom: 'Pcs', urgency: 'Critical', estimatedPrice: 320_000 },
+          { partNumber: 'AL-MAN-001', description: 'Primary Manifold Autolube', quantity: 1, uom: 'Pcs', urgency: 'Critical', estimatedPrice: 4_500_000 },
         ],
       },
     },
@@ -345,7 +382,7 @@ export const unitHolisticData: UnitHolisticData[] = [
     aiSummary: 'Unit dalam kondisi prima. Semua parameter U/C dan GET berada dalam batas normal. Lanjutkan pemantauan rutin.',
     commodityStatus: {
       BAT: 'Good', GET: 'Good', TYR: 'N/A',
-      FCG: 'Good', FIL: 'Good', Autofire: 'Good', Autolube: 'Good', 'U/C': 'Good',
+      FCG: 'Good', LUB: 'Good', Autofire: 'Good', Autolube: 'Good', 'U/C': 'Good',
     },
     inspectionReports: {},
   },
@@ -360,7 +397,7 @@ export const unitHolisticData: UnitHolisticData[] = [
     aiSummary: 'Kondisi unit secara umum baik. Terdapat indikasi keausan minor pada Bucket Teeth (GET), namun masih dalam batas toleransi.',
     commodityStatus: {
       BAT: 'Good', GET: 'Caution', TYR: 'N/A',
-      FCG: 'Good', FIL: 'Good', Autofire: 'Good', Autolube: 'N/A', 'U/C': 'Good',
+      FCG: 'Good', LUB: 'Good', Autofire: 'Good', Autolube: 'N/A', 'U/C': 'Good',
     },
     inspectionReports: {},
   },

@@ -2,9 +2,9 @@
 // These types form the "DNA" of the standardized inspection system.
 // One structure adapts to render all 7 commodity types consistently.
 
-export type CommodityKey = 'U/C' | 'BAT' | 'GET' | 'TYR' | 'FCG' | 'FIL' | 'Autofire' | 'Autolube';
+export type CommodityKey = 'U/C' | 'BAT' | 'GET' | 'TYR' | 'FCG' | 'LUB' | 'Autofire' | 'Autolube';
 
-export const ALL_COMMODITIES: CommodityKey[] = ['U/C', 'BAT', 'GET', 'TYR', 'FCG', 'FIL', 'Autofire', 'Autolube'];
+export const ALL_COMMODITIES: CommodityKey[] = ['U/C', 'BAT', 'GET', 'TYR', 'FCG', 'LUB', 'Autofire', 'Autolube'];
 
 export const COMMODITY_LABELS: Record<CommodityKey, string> = {
   'U/C': 'Undercarriage',
@@ -12,7 +12,7 @@ export const COMMODITY_LABELS: Record<CommodityKey, string> = {
   GET: 'GET',
   TYR: 'Tyre',
   FCG: 'Fluid Connector',
-  FIL: 'Filter',
+  LUB: 'Lubricant',
   Autofire: 'Auto Fire',
   Autolube: 'Auto Lube',
 };

@@ -17,7 +17,7 @@ export const commodityData = [
   { name: "GET", value: 42, color: "#1a2b4a" },
   { name: "TYR", value: 20, color: "#f97316" },
   { name: "FCG", value: 28, color: "#22c55e" },
-  { name: "FIL", value: 22, color: "#3b82f6" },
+  { name: "LUB", value: 22, color: "#3b82f6" },
   { name: "Autofire", value: 15, color: "#8b5cf6" },
   { name: "Autolube", value: 18, color: "#ef4444" },
   { name: "U/C", value: 25, color: "#64748b" },
@@ -33,7 +33,7 @@ export const monthlyConversionData = [
 ];
 
 export const revenueByCommodityData = [
-  { name: "Undispatched Backlog", BAT: 120, GET: 650, TYR: 420, FCG: 300, FIL: 250, Autofire: 150, Autolube: 85, "U/C": 380 } // In millions
+  { name: "Undispatched Backlog", BAT: 120, GET: 650, TYR: 420, FCG: 300, LUB: 250, Autofire: 150, Autolube: 85, "U/C": 380 } // In millions
 ];
 
 export const inspectionTableData = [
@@ -49,7 +49,7 @@ export const inspectionTableData = [
       GET: { status: "Critical", backlogCount: 2 },
       TYR: { status: "Good", backlogCount: 0 },
       FCG: { status: "Caution", backlogCount: 1 },
-      FIL: { status: "Good", backlogCount: 0 },
+      LUB: { status: "Good", backlogCount: 0 },
       Autofire: { status: "Good", backlogCount: 0 },
       Autolube: { status: "N/A", backlogCount: 0 },
     },
@@ -68,7 +68,7 @@ export const inspectionTableData = [
       GET: { status: "Good", backlogCount: 0 },
       TYR: { status: "N/A", backlogCount: 0 },
       FCG: { status: "Critical", backlogCount: 2 },
-      FIL: { status: "Caution", backlogCount: 1 },
+      LUB: { status: "Caution", backlogCount: 1 },
       Autofire: { status: "Good", backlogCount: 0 },
       Autolube: { status: "Good", backlogCount: 0 },
     },
@@ -87,7 +87,7 @@ export const inspectionTableData = [
       GET: { status: "Good", backlogCount: 0 },
       TYR: { status: "Good", backlogCount: 0 },
       FCG: { status: "Good", backlogCount: 0 },
-      FIL: { status: "Good", backlogCount: 0 },
+      LUB: { status: "Good", backlogCount: 0 },
       Autofire: { status: "Good", backlogCount: 0 },
       Autolube: { status: "Critical", backlogCount: 2 },
     },
@@ -105,7 +105,7 @@ export const inspectionTableData = [
       GET: { status: "Good", backlogCount: 0 },
       TYR: { status: "N/A", backlogCount: 0 },
       FCG: { status: "Good", backlogCount: 0 },
-      FIL: { status: "Good", backlogCount: 0 },
+      LUB: { status: "Good", backlogCount: 0 },
       Autofire: { status: "Good", backlogCount: 0 },
       Autolube: { status: "Good", backlogCount: 0 },
       "U/C": { status: "Good", backlogCount: 0 },
@@ -124,7 +124,7 @@ export const inspectionTableData = [
       GET: { status: "Caution", backlogCount: 1 },
       TYR: { status: "N/A", backlogCount: 0 },
       FCG: { status: "Good", backlogCount: 0 },
-      FIL: { status: "Good", backlogCount: 0 },
+      LUB: { status: "Good", backlogCount: 0 },
       Autofire: { status: "Good", backlogCount: 0 },
       Autolube: { status: "N/A", backlogCount: 0 },
       "U/C": { status: "Good", backlogCount: 0 },
@@ -167,7 +167,7 @@ export const unitHealthData = [
       GET: "Critical",
       TYR: "Caution",
       FCG: "Good",
-      FIL: "Good",
+      LUB: "Good",
       Autofire: "Good",
       Autolube: "N/A",
       "U/C": "Critical"
@@ -219,7 +219,7 @@ export const unitHealthData = [
       GET: "Good",
       TYR: "N/A",
       FCG: "Critical",
-      FIL: "Caution",
+      LUB: "Caution",
       Autofire: "Good",
       Autolube: "Good",
       "U/C": "Good"
@@ -271,7 +271,7 @@ export const unitHealthData = [
       GET: "Good",
       TYR: "Good",
       FCG: "Good",
-      FIL: "Good",
+      LUB: "Good",
       Autofire: "Good",
       Autolube: "Critical",
       "U/C": "Good"
@@ -314,7 +314,7 @@ export const unitHealthData = [
       GET: "Good",
       TYR: "N/A",
       FCG: "Good",
-      FIL: "Good",
+      LUB: "Good",
       Autofire: "Good",
       Autolube: "Good",
       "U/C": "Good"
@@ -338,7 +338,7 @@ export const unitHealthData = [
       GET: "Caution",
       TYR: "N/A",
       FCG: "Good",
-      FIL: "Good",
+      LUB: "Good",
       Autofire: "Good",
       Autolube: "N/A",
       "U/C": "Good"

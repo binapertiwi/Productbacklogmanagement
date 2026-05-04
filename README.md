@@ -11,7 +11,7 @@ Sistem telah dirancang ulang menjadi arsitektur **Unit-Centric** (Berbasis Unit 
 2. **GET** (Ground Engaging Tools)
 3. **TYR** (Tyre)
 4. **FCG** (Fluid Connector and Guard)
-5. **FIL** (Filter)
+5. **LUB** (Lubricant)
 6. **Autofire** (Auto Fire Supression)
 7. **Autolube** (Auto Lubrication System)
 8. **U/C** (Undercarriage) — **High Priority Development**
@@ -21,7 +21,7 @@ Sistem telah dirancang ulang menjadi arsitektur **Unit-Centric** (Berbasis Unit 
 ### 2. Internal Dashboard (Operation & Inventory)
 Dashboard khusus untuk manajemen internal dan representatif operasional (Mekanik / Sales):
 - **Cross-Commodity Backlog Matrix**: Tabel visual mutakhir yang memetakan status kesehatan ke-8 komoditi untuk setiap unit secara berdampingan (dengan indikator status). Mengurangi redundansi data dan memperjelas peluang *cross-selling/bundling*.
-- **Commodity Performance Hub**: Sistem Tab yang memisahkan analitik spesifik per komoditas (*Overview*, **BAT, GET, TYR, FCG, FIL, Autofire, Autolube, U/C**). Masing-masing tab komoditas memiliki analitik performa terperinci:
+- **Commodity Performance Hub**: Sistem Tab yang memisahkan analitik spesifik per komoditas (*Overview*, **BAT, GET, TYR, FCG, LUB, Autofire, Autolube, U/C**). Masing-masing tab komoditas memiliki analitik performa terperinci:
   - Population Chart & Branch Distribution
   - Backlog Coverage
   - Lifetime Trend, Wearness / Cost Per Hour
@@ -110,11 +110,11 @@ Aplikasi ini dapat dijalankan langsung dari direktori utama (root) atau dari dal
 ---
 
 ## Pembaruan & Riwayat Teknis
-- **[2026-05-04] Data Unification: FIL (Filter) Commodity Integration**:
-  - `src/app/data/inspectionTypes.ts`: Menambahkan `'FIL'` ke dalam `CommodityKey` dan `ALL_COMMODITIES` array.
-  - `src/app/data/performanceMockData.ts`: Menambahkan `'FIL'` ke dalam `CommodityType`.
-  - `src/app/data/mockData.ts`: Menambahkan entri data simulasi untuk komoditas FIL pada `commodityData`, `revenueByCommodityData`, `inspectionTableData`, dan `unitHealthData`.
-  - `src/app/components/InternalDashboard.tsx`: Memperbarui `commKeys` untuk menampilkan tab navigasi "FIL" tepat di sebelah "FCG".
+- **[2026-05-04] Data Unification: LUB (Lubricant) Commodity Integration**:
+  - `src/app/data/inspectionTypes.ts`: Menambahkan `'LUB'` ke dalam `CommodityKey` dan `ALL_COMMODITIES` array.
+  - `src/app/data/performanceMockData.ts`: Menambahkan `'LUB'` ke dalam `CommodityType`.
+  - `src/app/data/mockData.ts`: Menambahkan entri data simulasi untuk komoditas LUB pada `commodityData`, `revenueByCommodityData`, `inspectionTableData`, dan `unitHealthData`.
+  - `src/app/components/InternalDashboard.tsx`: Memperbarui `commKeys` untuk menampilkan tab navigasi "LUB" tepat di sebelah "FCG".
   - `README.md`: Memperbarui dokumentasi untuk mencakup 8 komoditas utama.
 
 - **[2026-05-04] Data Visualization: Advanced Analytics & Commercialization**:
