@@ -141,6 +141,36 @@ export function Layout() {
       <main className="flex-1 overflow-auto bg-background transition-colors duration-300">
         <Outlet />
       </main>
+
+      {/* Footer */}
+      <footer className="mt-auto py-8 px-6 border-t border-border bg-card/50 backdrop-blur-sm transition-colors duration-300">
+        <div className="max-w-7xl mx-auto flex flex-col items-center text-center space-y-6">
+          {/* BPT Branding */}
+          <div className="flex flex-col items-center gap-2">
+            <span className="text-[11px] font-black text-brand-navy dark:text-brand-blue flex items-center gap-1.5 uppercase tracking-widest">
+              Made with <span className="text-red-500 animate-pulse text-sm">❤</span> by BPT
+            </span>
+            <div className="flex flex-col items-center gap-1">
+              <p className="text-[10px] text-muted-foreground max-w-2xl leading-relaxed font-medium">
+                Business Process Transformation (BPT) catalyzes process modernization to drive efficiency and sustainable growth.
+              </p>
+              <p className="text-[10px] text-muted-foreground/80 max-w-2xl leading-relaxed italic">
+                We modernize processes and advance digital capabilities to boost efficiency.
+              </p>
+            </div>
+          </div>
+          
+          {/* Copyright & Rights */}
+          <div className="flex flex-col items-center gap-1 pt-4 border-t border-border/50 w-full max-w-sm">
+            <span className="text-[10px] font-bold text-foreground/70 tracking-wide uppercase">
+              © 2026 PT Bina Pertiwi
+            </span>
+            <span className="text-[9px] text-muted-foreground/60 uppercase tracking-[0.2em] font-black">
+              All rights reserved
+            </span>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
