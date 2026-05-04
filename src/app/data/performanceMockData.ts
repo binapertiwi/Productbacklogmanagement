@@ -1,7 +1,7 @@
 // ─── Component Data for Performance Dashboards ──────────────────────────────────
 // This file serves mock data specific to the new commodity performance views
 
-export type CommodityType = 'BAT' | 'GET' | 'TYR' | 'FCG' | 'Autofire' | 'Autolube' | 'U/C';
+export type CommodityType = 'BAT' | 'GET' | 'TYR' | 'FCG' | 'FIL' | 'Autofire' | 'Autolube' | 'U/C';
 
 export const generatePerformanceData = (commodity: CommodityType) => {
   // Pies

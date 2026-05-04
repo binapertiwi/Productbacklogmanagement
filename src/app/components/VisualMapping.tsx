@@ -134,6 +134,7 @@ function BATSvgDiagram({ measurements }: { measurements: MeasurementItem[] }) {
 function GenericDiagram({ commodityType, measurements }: { commodityType: CommodityKey; measurements: MeasurementItem[] }) {
   const titleMap: Partial<Record<CommodityKey, string>> = {
     FCG: 'FILTER & CONNECTOR LAYOUT',
+    FIL: 'FILTER SYSTEM LAYOUT',
     Autofire: 'FIRE SUPPRESSION SYSTEM LAYOUT',
     Autolube: 'LUBRICATION SYSTEM LAYOUT',
     GET: 'GROUND ENGAGING TOOLS LAYOUT',
@@ -173,7 +174,7 @@ export function VisualMapping({ commodityType, measurements }: VisualMappingProp
       {commodityType === 'U/C' && <UCSvgDiagram measurements={measurements} />}
       {commodityType === 'TYR' && <TYRSvgDiagram measurements={measurements} />}
       {commodityType === 'BAT' && <BATSvgDiagram measurements={measurements} />}
-      {(commodityType === 'FCG' || commodityType === 'Autofire' || commodityType === 'Autolube' || commodityType === 'GET') && (
+      {(commodityType === 'FCG' || commodityType === 'FIL' || commodityType === 'Autofire' || commodityType === 'Autolube' || commodityType === 'GET') && (
         <GenericDiagram commodityType={commodityType} measurements={measurements} />
       )}
     </div>

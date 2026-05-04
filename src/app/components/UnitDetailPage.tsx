@@ -116,7 +116,7 @@ export function UnitDetailPage() {
               </div>
             </div>
 
-            {/* Health Badges — 7 commodities */}
+            {/* Health Badges — 8 commodities */}
             <div className="flex flex-wrap gap-1">
               {ALL_COMMODITIES.map(comm => {
                 const s = unit.commodityStatus[comm];

@@ -1,26 +1,27 @@
 # Product Backlog Management - Fleet Health & Procurement Portal
 
 ## Deskripsi Singkat
-Aplikasi pemantauan kesehatan armada alat berat (Fleet Health) dan manajemen *Product Backlog* yang ditujukan untuk transformasi proses bisnis di PT Bina Pertiwi. Sistem ini memiliki kapabilitas *monitoring* operasional, manajemen inventori, dan prediksi proaktif dengan memadukan 7 komoditas utama secara holistik pada setiap unit.
+Aplikasi pemantauan kesehatan armada alat berat (Fleet Health) dan manajemen *Product Backlog* yang ditujukan untuk transformasi proses bisnis di PT Bina Pertiwi. Sistem ini memiliki kapabilitas *monitoring* operasional, manajemen inventori, dan prediksi proaktif dengan memadukan 8 komoditas utama secara holistik pada setiap unit.
 
 ## Fitur Utama Terkini (Changelog & Capabilities)
 
 ### 1. Multi-Commodity Unit-Centric Architecture
-Sistem telah dirancang ulang menjadi arsitektur **Unit-Centric** (Berbasis Unit Multikomoditas). Kesehatan setiap unit (misal: Komatsu D375A-6) dipantau dan dikonsolidasikan dari 7 komoditas berikut:
+Sistem telah dirancang ulang menjadi arsitektur **Unit-Centric** (Berbasis Unit Multikomoditas). Kesehatan setiap unit (misal: Komatsu D375A-6) dipantau dan dikonsolidasikan dari 8 komoditas berikut:
 1. **BAT** (Battery)
 2. **GET** (Ground Engaging Tools)
 3. **TYR** (Tyre)
 4. **FCG** (Fluid Connector and Guard)
-5. **Autofire** (Auto Fire Supression)
-6. **Autolube** (Auto Lubrication System)
-7. **U/C** (Undercarriage) — **High Priority Priority Development**
+5. **FIL** (Filter)
+6. **Autofire** (Auto Fire Supression)
+7. **Autolube** (Auto Lubrication System)
+8. **U/C** (Undercarriage) — **High Priority Development**
 
 ---
 
 ### 2. Internal Dashboard (Operation & Inventory)
 Dashboard khusus untuk manajemen internal dan representatif operasional (Mekanik / Sales):
-- **Cross-Commodity Backlog Matrix**: Tabel visual mutakhir yang memetakan status kesehatan ke-7 komoditi untuk setiap unit secara berdampingan (dengan indikator status). Mengurangi redundansi data dan memperjelas peluang *cross-selling/bundling*.
-- **Commodity Performance Hub**: Sistem Tab yang memisahkan analitik spesifik per komoditas (*Overview*, **BAT, GET, TYR, FCG, Autofire, Autolube, U/C**). Masing-masing tab komoditas memiliki analitik performa terperinci:
+- **Cross-Commodity Backlog Matrix**: Tabel visual mutakhir yang memetakan status kesehatan ke-8 komoditi untuk setiap unit secara berdampingan (dengan indikator status). Mengurangi redundansi data dan memperjelas peluang *cross-selling/bundling*.
+- **Commodity Performance Hub**: Sistem Tab yang memisahkan analitik spesifik per komoditas (*Overview*, **BAT, GET, TYR, FCG, FIL, Autofire, Autolube, U/C**). Masing-masing tab komoditas memiliki analitik performa terperinci:
   - Population Chart & Branch Distribution
   - Backlog Coverage
   - Lifetime Trend, Wearness / Cost Per Hour
@@ -44,7 +45,7 @@ Portal yang dikhususkan bagi pelanggan B2B untuk menjaga transparansi dan keperc
   - ✨ **Safety & Compliance Index:** Skor keselamatan armada dengan **Visual Alarm (Pulse Animation)** jika terdapat temuan kritis pada komoditi *Tyre* atau *Autofire*.
   - ✨ **Procurement Pipeline Visibility:** Transparansi status pesanan dari tahap *Drafting, Quoted, PO Issued,* hingga *Delivered*.
 - **Urgency Matrix & Top Units at Risk**: Rangkuman sekilas mengenai armada yang paling rentan terhadap peluang *loss production*, dilengkapi dengan estimasi hari menuju kegagalan fungsional.
-- **Commodity Breakdown Badges**: Setiap baris unit kini menampilkan *badge* ringkasan kondisi ke-7 komoditas untuk kemudahan *skimming* pengguna sebelum menggali data di tingkat komponen.
+- **Commodity Breakdown Badges**: Setiap baris unit kini menampilkan *badge* ringkasan kondisi ke-8 komoditas untuk kemudahan *skimming* pengguna sebelum menggali data di tingkat komponen.
 - **Maintenance Bundling Recommender**: Saran proaktif (berupa *banner alert* dalam detail unit) yang mendorong pelanggan untuk menggabungkan order komponen rusak *(Critical)* dengan komponen berisiko *(Caution)* demi menghemat waktu *downtime*.
 - **AI Fleet Reliability Advisor**: Panel proaktif di bawah ringkasan *Fleet Health* untuk prediksi masa depan.
 
@@ -109,6 +110,13 @@ Aplikasi ini dapat dijalankan langsung dari direktori utama (root) atau dari dal
 ---
 
 ## Pembaruan & Riwayat Teknis
+- **[2026-05-04] Data Unification: FIL (Filter) Commodity Integration**:
+  - `src/app/data/inspectionTypes.ts`: Menambahkan `'FIL'` ke dalam `CommodityKey` dan `ALL_COMMODITIES` array.
+  - `src/app/data/performanceMockData.ts`: Menambahkan `'FIL'` ke dalam `CommodityType`.
+  - `src/app/data/mockData.ts`: Menambahkan entri data simulasi untuk komoditas FIL pada `commodityData`, `revenueByCommodityData`, `inspectionTableData`, dan `unitHealthData`.
+  - `src/app/components/InternalDashboard.tsx`: Memperbarui `commKeys` untuk menampilkan tab navigasi "FIL" tepat di sebelah "FCG".
+  - `README.md`: Memperbarui dokumentasi untuk mencakup 8 komoditas utama.
+
 - **[2026-05-04] Data Visualization: Advanced Analytics & Commercialization**:
   - `src/app/components/InspectorProductivity.tsx`:
     - **Quadrant Analysis (Scatter Chart)**: Upgrade visualisasi konversi PO dengan garis referensi (Crosshairs) pada sumbu X (Durasi) dan Y (Rate) untuk membagi data menjadi 4 kuadran performa.

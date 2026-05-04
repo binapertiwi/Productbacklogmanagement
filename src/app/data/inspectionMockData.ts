@@ -25,7 +25,7 @@ export const unitHolisticData: UnitHolisticData[] = [
     aiSummary: 'Unit ini membutuhkan penggantian U/C segera (keausan 92%). Pertimbangkan bundling dengan GET untuk menghemat 3 hari downtime dan estimasi penghematan Rp 45 juta biaya mobilisasi.',
     commodityStatus: {
       BAT: 'Good', GET: 'Critical', TYR: 'Caution',
-      FCG: 'Good', Autofire: 'Good', Autolube: 'N/A', 'U/C': 'Critical',
+      FCG: 'Good', FIL: 'Good', Autofire: 'Good', Autolube: 'N/A', 'U/C': 'Critical',
     },
     inspectionReports: {
       'U/C': {
@@ -214,8 +214,9 @@ export const unitHolisticData: UnitHolisticData[] = [
     aiSummary: 'Hydraulic Filter FCG sudah melewati threshold (82%). Bundle penggantian dengan battery check untuk mencegah gangguan elektrikal yang berpotensi menyebabkan downtime lebih lama.',
     commodityStatus: {
       BAT: 'Caution', GET: 'Good', TYR: 'N/A',
-      FCG: 'Critical', Autofire: 'Good', Autolube: 'Good', 'U/C': 'Good',
+      FCG: 'Critical', FIL: 'Caution', Autofire: 'Good', Autolube: 'Good', 'U/C': 'Good',
     },
+    inspectionReports: {
     inspectionReports: {
       'FCG': {
         metadata: {
@@ -241,6 +242,28 @@ export const unitHolisticData: UnitHolisticData[] = [
         recommendations: [
           { partNumber: '20Y-60-31650', description: 'Hydraulic Filter Element (Main)', quantity: 1, uom: 'Pcs', urgency: 'Critical', estimatedPrice: 850_000 },
           { partNumber: '600-181-9640', description: 'Air Filter Primary (Engine)', quantity: 1, uom: 'Pcs', urgency: 'Caution', estimatedPrice: 420_000 },
+        ],
+      },
+      'FIL': {
+        metadata: {
+          inspectionId: 'INS-2026-FIL-001',
+          inspectionDate: '2026-02-21',
+          mechanicName: 'Ahmad Fauzi',
+          mechanicId: 'MEC-BPP-015',
+          commodity: 'FIL',
+          overallStatus: 'Caution',
+          serviceMeterUnit: 9_800,
+        },
+        measurements: [
+          { id: 'fil-1', componentName: 'Fuel Filter Primary', position: 'Engine', actualValue: 72, measurementUnit: '%', standardValue: '< 80%', healthPercentage: 72, estimatedRemainingLife: 800, actionStatus: 'Caution' },
+          { id: 'fil-2', componentName: 'Fuel Filter Secondary', position: 'Engine', actualValue: 45, measurementUnit: '%', standardValue: '< 80%', healthPercentage: 45, estimatedRemainingLife: 1500, actionStatus: 'Good' },
+        ],
+        evidence: {
+          mechanicNotes: 'Fuel filter primary mulai menunjukkan penumpukan sedimentasi. Rekomendasi ganti pada jadwal maintenance 250 jam berikutnya.',
+          photoUrls: [PLACEHOLDER_PHOTOS[1]],
+        },
+        recommendations: [
+          { partNumber: '600-311-8221', description: 'Fuel Filter (Primary)', quantity: 1, uom: 'Pcs', urgency: 'Caution', estimatedPrice: 350_000 },
         ],
       },
       'BAT': {
@@ -280,7 +303,7 @@ export const unitHolisticData: UnitHolisticData[] = [
     aiSummary: 'Engine oil berada dalam kondisi sangat kritis (95% degradasi). Hentikan operasi unit dan lakukan penggantian segera untuk mencegah kerusakan engine senilai > Rp 800 juta.',
     commodityStatus: {
       BAT: 'Good', GET: 'Good', TYR: 'Good',
-      FCG: 'Good', Autofire: 'Good', Autolube: 'Critical', 'U/C': 'Good',
+      FCG: 'Good', FIL: 'Good', Autofire: 'Good', Autolube: 'Critical', 'U/C': 'Good',
     },
     inspectionReports: {
       'Autolube': {
@@ -322,7 +345,7 @@ export const unitHolisticData: UnitHolisticData[] = [
     aiSummary: 'Unit dalam kondisi prima. Semua parameter U/C dan GET berada dalam batas normal. Lanjutkan pemantauan rutin.',
     commodityStatus: {
       BAT: 'Good', GET: 'Good', TYR: 'N/A',
-      FCG: 'Good', Autofire: 'Good', Autolube: 'Good', 'U/C': 'Good',
+      FCG: 'Good', FIL: 'Good', Autofire: 'Good', Autolube: 'Good', 'U/C': 'Good',
     },
     inspectionReports: {},
   },
@@ -337,7 +360,7 @@ export const unitHolisticData: UnitHolisticData[] = [
     aiSummary: 'Kondisi unit secara umum baik. Terdapat indikasi keausan minor pada Bucket Teeth (GET), namun masih dalam batas toleransi.',
     commodityStatus: {
       BAT: 'Good', GET: 'Caution', TYR: 'N/A',
-      FCG: 'Good', Autofire: 'Good', Autolube: 'N/A', 'U/C': 'Good',
+      FCG: 'Good', FIL: 'Good', Autofire: 'Good', Autolube: 'N/A', 'U/C': 'Good',
     },
     inspectionReports: {},
   },
