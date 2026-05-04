@@ -109,7 +109,7 @@ export function CustomerPortal() {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("All Status");
   const [commodityFilter, setCommodityFilter] = useState("All Commodity");
-  const [isAiCopilotOpen, setIsAiCopilotOpen] = useState(true);
+  const [isAiCopilotOpen, setIsAiCopilotOpen] = useState(false);
   const navigate = useNavigate();
 
   const s = fleetHealthSummary;

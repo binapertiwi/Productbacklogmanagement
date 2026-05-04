@@ -221,7 +221,7 @@ const KPICard = ({
 
 export const InspectorProductivity = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [isAiCopilotOpen, setIsAiCopilotOpen] = useState(true);
+  const [isAiCopilotOpen, setIsAiCopilotOpen] = useState(false);
 
   const filteredInspectors = inspectorsData.filter(i => 
     i.name.toLowerCase().includes(searchTerm.toLowerCase()) || 

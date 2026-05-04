@@ -82,7 +82,7 @@ export function InternalDashboard() {
   const [regionFilter, setRegionFilter] = useState("All Regions");
   const [statusFilter, setStatusFilter] = useState("All Status");
   const [minBacklogFilter, setMinBacklogFilter] = useState("0");
-  const [isAiCopilotOpen, setIsAiCopilotOpen] = useState(true);
+  const [isAiCopilotOpen, setIsAiCopilotOpen] = useState(false);
   const navigate = useNavigate();
 
   const filtered = useMemo(() => {
