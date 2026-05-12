@@ -216,7 +216,7 @@ export function InternalDashboard() {
                     <ClipboardList className="w-5 h-5" />
                   </div>
                 </div>
-                <div className="mt-4 flex items-center gap-1.5 text-xs text-brand-green font-bold bg-brand-green/10 dark:bg-brand-green/5 px-2 py-1 rounded-md w-fit">
+                <div className="mt-4 flex items-center gap-1.5 text-xs text-brand-green font-bold">
                   <TrendingUp className="w-3.5 h-3.5 font-bold" />
                   <span>{kpiData.inspectionDelta}</span>
                 </div>
@@ -245,7 +245,7 @@ export function InternalDashboard() {
                     <TrendingUp className="w-5 h-5" />
                   </div>
                 </div>
-                <div className="mt-4 flex items-center gap-1.5 text-xs text-brand-green font-bold bg-brand-green/10 dark:bg-brand-green/5 px-2 py-1 rounded-md w-fit">
+                <div className="mt-4 flex items-center gap-1.5 text-xs text-brand-green font-bold">
                   <TrendingUp className="w-3.5 h-3.5 font-bold" />
                   <span>{kpiData.conversionDelta}</span>
                 </div>
@@ -300,7 +300,7 @@ export function InternalDashboard() {
                     <DollarSign className="w-5 h-5" />
                   </div>
                 </div>
-                <div className="mt-4 flex items-center gap-1.5 text-xs text-brand-green font-bold bg-brand-green/10 dark:bg-brand-green/5 px-2 py-1 rounded-md w-fit">
+                <div className="mt-4 flex items-center gap-1.5 text-xs text-brand-green font-bold">
                   <ArrowUpRight className="w-3.5 h-3.5 font-bold" />
                   <span>{kpiData.revenueDelta}</span>
                 </div>

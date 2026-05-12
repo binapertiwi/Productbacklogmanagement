@@ -34,7 +34,13 @@ export const generatePerformanceData = (commodity: CommodityType) => {
     coverage: BRANCH_COVERAGES[b.name] ?? 70,
   }));
 
-  const componentStatus = [
+  const componentStatus = commodity === 'U/C' ? [
+    { part: 'Track Link', Critical: 10, Caution: 30, Normal: 60 },
+    { part: 'Roller', Critical: 20, Caution: 20, Normal: 60 },
+    { part: 'Shoe', Critical: 5, Caution: 15, Normal: 80 },
+    { part: 'Idler', Critical: 15, Caution: 25, Normal: 60 },
+    { part: 'Sprocket', Critical: 25, Caution: 15, Normal: 60 },
+  ] : [
     { part: 'Component A', replace: 40, good: 60, monitor: 20 },
     { part: 'Component B', replace: 20, good: 50, monitor: 30 },
     { part: 'Component C', replace: 10, good: 80, monitor: 10 },
@@ -84,6 +90,16 @@ export const generatePerformanceData = (commodity: CommodityType) => {
     { pn: '15T-203-121C', minLine: 4100, avg: 5530, max: 7500, price: '3.800.000', costPerHour: 680 },
   ];
 
+  const backlogMatrix = commodity === 'U/C' ? [
+    { armada: 'D375A-6-50234', model: 'Komatsu D375A-6', customer: 'PT Adaro Energy', site: 'Kalsel', trackLink: 3, roller: 0, shoe: 2, idler: 0, sprocket: 1, activeBacklogs: 8, potensiPO: 'Rp 125 Jt', avgLeadTime: '14 DAYS' },
+    { armada: 'PC800-8-61823', model: 'Komatsu PC800-8', customer: 'PT Thiess', site: 'Kaltim', trackLink: 0, roller: 1, shoe: 0, idler: 0, sprocket: 0, activeBacklogs: 4, potensiPO: 'Rp 450 Jt', avgLeadTime: '21 DAYS' },
+    { armada: 'CAT785D-AX8801', model: 'CAT 785D', customer: 'PT Agincourt', site: 'Sumut', trackLink: 0, roller: 0, shoe: 0, idler: 0, sprocket: 0, activeBacklogs: 2, potensiPO: 'Rp 80 Jt', avgLeadTime: '5 DAYS' },
+    { armada: 'BP-UC-002', model: 'CAT D8T', customer: 'PT Berau Coal', site: 'Kaltim', trackLink: 0, roller: 0, shoe: 0, idler: 0, sprocket: 0, activeBacklogs: 0, potensiPO: '-', avgLeadTime: '0 DAYS' },
+    { armada: 'BP-HY-006', model: 'CAT 320F', customer: 'PT Baramulti', site: 'Kalsel', trackLink: 0, roller: 0, shoe: 0, idler: 0, sprocket: 0, activeBacklogs: 1, potensiPO: 'Rp 45 Jt', avgLeadTime: '4 DAYS' },
+  ] : [
+    { armada: 'UNIT-A', model: 'Model A', customer: 'Cust A', site: 'Site A', trackLink: 1, roller: 0, shoe: 0, idler: 0, sprocket: 0, activeBacklogs: 1, potensiPO: 'Rp 10 Jt', avgLeadTime: '1 DAY' },
+  ];
+
   return {
     populationData,
     branchData,
@@ -96,5 +112,6 @@ export const generatePerformanceData = (commodity: CommodityType) => {
     damageTrend,
     planTable,
     costTable,
+    backlogMatrix,
   };
 };

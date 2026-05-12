@@ -176,7 +176,7 @@ const KPICard = ({
   icon: any; 
   progress?: number 
 }) => (
-  <div className="bg-white rounded-xl border border-gray-100 p-6 shadow-sm hover:shadow-md transition-all group overflow-hidden relative">
+  <div className="bg-card rounded-xl border border-border p-6 shadow-sm hover:shadow-md transition-all group overflow-hidden relative">
     <div className="absolute -right-4 -bottom-4 w-20 h-20 bg-brand-navy/5 rounded-full group-hover:scale-110 transition-transform" />
     <div className="flex items-start justify-between relative z-10">
       <div>
@@ -202,7 +202,7 @@ const KPICard = ({
       </div>
     </div>
     {trend && (
-      <div className={`mt-4 flex items-center gap-1.5 text-xs font-bold px-2 py-1 rounded-md w-fit ${trend.pos ? 'text-green-600 bg-green-50' : 'text-red-600 bg-red-50'}`}>
+      <div className={`mt-4 inline-flex items-center text-xs font-bold ${trend.pos ? 'text-green-600' : 'text-red-600'} relative z-10`}>
         <ArrowUpRight className={`w-3.5 h-3.5 font-bold ${trend.pos ? '' : 'rotate-90'}`} />
         <span>{trend.val}</span>
       </div>

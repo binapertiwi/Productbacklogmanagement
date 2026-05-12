@@ -179,6 +179,15 @@ Aplikasi ini dapat dijalankan langsung dari direktori utama (root) atau dari dal
 ---
 
 ## Pembaruan & Riwayat Teknis
+- **[v 1.3.2] [2026-05-12] UI/UX: Scorecard Style Unification**:
+  - `src/app/components/InternalDashboard.tsx`, `src/app/components/InspectorProductivity.tsx`:
+    - Menyeragamkan gaya scorecard dengan menghapus background *pill* pada teks tren (Opsi 2: Gaya Teks Bersih).
+- **[v 1.3.1] [2026-05-12] Feature: U/C Commodity Dashboard Refinement**:
+  - `src/app/components/CommodityPerformanceDashboard.tsx`:
+    - Refaktor tampilan khusus komoditas 'U/C' dengan hierarki 3 Tier (Macro, Mid, Micro).
+    - Implementasi filter aktif sticky, grafik populasi, coverage analitik, lifetime distribution, component wear breakdown, cost per hour, financial efficiency table, dan plan replacement forecast table.
+  - `src/app/data/performanceMockData.ts`:
+    - Pembaruan data mock untuk menyertakan data status komponen U/C (Normal, Caution, Critical) yang spesifik.
 - **[v 1.3.0] [2026-05-12] Design System: Global UI/UX Audit & Refinement**:
   - `src/styles/theme.css`: Diperbarui dengan nilai eksak dari README.md untuk konsistensi token desain.
   - `src/app/components/InternalDashboard.tsx`, `CustomerPortal.tsx`, `InspectionReport.tsx`, `InspectorProductivity.tsx`, `UnitDetailPage.tsx`, `VisualMapping.tsx`, `CommodityPerformanceDashboard.tsx`:
