@@ -51,7 +51,7 @@ export function UnitDetailPage() {
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
           <p className="text-muted-foreground font-bold">Unit tidak ditemukan: {serialNumber}</p>
-          <button onClick={() => navigate(-1)} className="mt-4 text-brand-green font-black hover:underline flex items-center gap-1 mx-auto">
+          <button onClick={() => navigate(-1)} className="mt-4 text-brand-green font-bold hover:underline flex items-center gap-1 mx-auto">
             <ArrowLeft className="w-4 h-4" /> Kembali
           </button>
         </div>
@@ -103,7 +103,7 @@ export function UnitDetailPage() {
               </div>
               <div>
                 <div className="flex items-center gap-2 flex-wrap">
-                  <h1 className="text-base sm:text-lg font-black text-primary dark:text-foreground tracking-tight">{unit.serialNumber}</h1>
+                  <h1 className="text-base sm:text-lg font-bold text-primary dark:text-foreground tracking-tight">{unit.serialNumber}</h1>
                   <StatusBadge status={unit.overallHealth} size="sm" />
                 </div>
                 <div className="flex items-center gap-2 text-[10px] text-muted-foreground font-bold">
@@ -125,7 +125,7 @@ export function UnitDetailPage() {
                   <div
                     key={comm}
                     title={`${COMMODITY_LABELS[comm]}: ${s}`}
-                    className={`px-1.5 py-0.5 rounded border text-[8px] font-black flex flex-col items-center leading-tight cursor-default transition-all
+                    className={`px-1.5 py-0.5 rounded border text-[8px] font-bold flex flex-col items-center leading-tight cursor-default transition-all
                       ${isNA
                         ? 'bg-muted border-border text-muted-foreground opacity-50'
                         : s === 'Critical'
@@ -158,7 +158,7 @@ export function UnitDetailPage() {
                   key={comm}
                   disabled={isNA}
                   onClick={() => setActiveTab(comm)}
-                  className={`relative flex flex-col items-center gap-0 px-4 py-2 text-[10px] font-black border-b-2 transition-all whitespace-nowrap mr-1
+                  className={`relative flex flex-col items-center gap-0 px-4 py-2 text-[10px] font-bold border-b-2 transition-all whitespace-nowrap mr-1
                     ${isNA
                       ? 'border-transparent text-muted-foreground/40 cursor-not-allowed opacity-50'
                       : isActive
@@ -189,7 +189,7 @@ export function UnitDetailPage() {
       <div className="px-4 sm:px-6 py-6 space-y-6">
 
         {/* AI Summary Panel */}
-        <div className="bg-gradient-to-r from-[#43E97B] to-[#38F9D7] rounded-2xl border border-white/20 p-4 shadow-lg relative overflow-hidden">
+        <div className="bg-gradient-to-r from-[#34D399] to-[#2DD4BF] rounded-2xl border border-white/20 p-4 shadow-lg relative overflow-hidden">
           <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-white/20 rounded-full blur-[60px] -translate-y-1/2 translate-x-1/3 animate-pulse pointer-events-none"></div>
           
           <div className="flex items-start gap-3 relative z-10">
@@ -198,7 +198,7 @@ export function UnitDetailPage() {
             </div>
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-2">
-                <h3 className="text-teal-950 font-black tracking-tight uppercase">AI Unit Summary</h3>
+                <h3 className="text-teal-950 font-bold tracking-tight uppercase">AI Unit Summary</h3>
                 <span className="text-[9px] bg-teal-950 text-white px-1.5 py-0.5 rounded-full font-bold tracking-wider">Active Thinking</span>
               </div>
               <div className="bg-white/40 backdrop-blur-xl rounded-xl p-4 border border-white/60 flex flex-col justify-between shadow-sm">
@@ -236,12 +236,12 @@ export function UnitDetailPage() {
                 </div>
                 {tabStatus === 'N/A' ? (
                   <>
-                    <p className="text-sm font-black text-muted-foreground">Komoditas {activeTab} tidak diaplikasikan</p>
+                    <p className="text-sm font-bold text-muted-foreground">Komoditas {activeTab} tidak diaplikasikan</p>
                     <p className="text-xs text-muted-foreground/70">Unit ini tidak dilengkapi dengan {COMMODITY_LABELS[activeTab]}.</p>
                   </>
                 ) : (
                   <>
-                    <p className="text-sm font-black text-foreground">{COMMODITY_LABELS[activeTab]} — Status: <StatusBadge status={tabStatus} /></p>
+                    <p className="text-sm font-bold text-foreground">{COMMODITY_LABELS[activeTab]} — Status: <StatusBadge status={tabStatus} /></p>
                     <p className="text-xs text-muted-foreground max-w-md">
                       Laporan inspeksi detail untuk komoditas ini belum tersedia dalam sistem. Silakan hubungi mekanik untuk membuat laporan inspeksi.
                     </p>

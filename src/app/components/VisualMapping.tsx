@@ -10,7 +10,7 @@ interface VisualMappingProps {
 function getStatusColor(status: HealthStatus): string {
   if (status === 'Critical' || status === 'Replace') return '#ef4444';
   if (status === 'Caution' || status === 'Monitor') return '#eab308';
-  if (status === 'Good') return '#23a34e';
+  if (status === 'Good') return '#10B981';
   return '#94a3b8';
 }
 
@@ -61,7 +61,7 @@ function UCSvgDiagram({ measurements }: { measurements: MeasurementItem[] }) {
       <g transform="translate(10, 10)">
         <circle cx="10" cy="10" r="6" fill="#ef4444" /><text x="20" y="14" fontSize="9" fill="var(--muted-foreground)">Critical</text>
         <circle cx="80" cy="10" r="6" fill="#eab308" /><text x="90" y="14" fontSize="9" fill="var(--muted-foreground)">Caution</text>
-        <circle cx="150" cy="10" r="6" fill="#23a34e" /><text x="160" y="14" fontSize="9" fill="var(--muted-foreground)">Good</text>
+        <circle cx="150" cy="10" r="6" fill="#10B981" /><text x="160" y="14" fontSize="9" fill="var(--muted-foreground)">Good</text>
       </g>
     </svg>
   );
@@ -98,7 +98,7 @@ function TYRSvgDiagram({ measurements }: { measurements: MeasurementItem[] }) {
       <g transform="translate(10, 180)">
         <circle cx="10" cy="8" r="5" fill="#ef4444" /><text x="18" y="12" fontSize="9" fill="var(--muted-foreground)">Critical</text>
         <circle cx="75" cy="8" r="5" fill="#eab308" /><text x="83" y="12" fontSize="9" fill="var(--muted-foreground)">Caution</text>
-        <circle cx="140" cy="8" r="5" fill="#23a34e" /><text x="148" y="12" fontSize="9" fill="var(--muted-foreground)">Good</text>
+        <circle cx="140" cy="8" r="5" fill="#10B981" /><text x="148" y="12" fontSize="9" fill="var(--muted-foreground)">Good</text>
         <circle cx="195" cy="8" r="5" fill="#94a3b8" /><text x="203" y="12" fontSize="9" fill="var(--muted-foreground)">N/A</text>
       </g>
     </svg>
@@ -117,7 +117,7 @@ function BATSvgDiagram({ measurements }: { measurements: MeasurementItem[] }) {
           <g key={item.id}>
             <rect x={x} y="50" width="140" height="90" rx="8" fill={color} opacity="0.85" />
             <text x={x + 70} y="90" textAnchor="middle" fontSize="11" fontWeight="bold" fill="white">{item.componentName}</text>
-            <text x={x + 70} y="108" textAnchor="middle" fontSize="14" fontWeight="900" fill="white">{item.actualValue} {item.measurementUnit}</text>
+            <text x={x + 70} y="108" textAnchor="middle" fontSize="14" fontWeight="bold" fill="white">{item.actualValue} {item.measurementUnit}</text>
             <text x={x + 70} y="128" textAnchor="middle" fontSize="9" fill="white">{item.position ?? ''}</text>
           </g>
         );
@@ -157,7 +157,7 @@ function GenericDiagram({ commodityType, measurements }: { commodityType: Commod
               style={{ textOverflow: 'ellipsis' }}>
               {item.componentName.length > 22 ? item.componentName.substring(0, 20) + '…' : item.componentName}
             </text>
-            <text x={x + 75} y={y + 33} textAnchor="middle" fontSize="11" fontWeight="900" fill="white">
+            <text x={x + 75} y={y + 33} textAnchor="middle" fontSize="11" fontWeight="bold" fill="white">
               {item.actualValue} {item.measurementUnit}
             </text>
           </g>

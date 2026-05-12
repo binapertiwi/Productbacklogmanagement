@@ -22,12 +22,12 @@ export function CommodityPerformanceDashboard({ commodity }: Props) {
       <div className="bg-card rounded-2xl border border-border p-5 shadow-sm flex flex-wrap gap-4 items-end backdrop-blur-sm bg-card/80 sticky top-0 z-20">
         <div className="flex items-center gap-2 mb-1 mr-4">
            <Filter className="w-4 h-4 text-brand-green" />
-           <span className="text-sm font-black text-primary dark:text-foreground uppercase tracking-tight">Active Filters</span>
+           <span className="text-sm font-bold text-primary dark:text-foreground uppercase tracking-tight">Active Filters</span>
         </div>
         
         {(commodity === 'TYR' || commodity === 'GET' || commodity === 'U/C') && (
           <div className="flex flex-col gap-1.5 flex-1 min-w-[140px]">
-            <label className="text-[10px] text-muted-foreground font-black uppercase tracking-widest px-1">Brand</label>
+            <label className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest px-1">Brand</label>
             <div className="relative">
                <select className="w-full border border-border rounded-xl px-4 py-2 text-xs font-bold bg-background focus:outline-none focus:ring-2 focus:ring-brand-green/30 appearance-none cursor-pointer text-foreground">
                  <option>All Brands</option>
@@ -38,7 +38,7 @@ export function CommodityPerformanceDashboard({ commodity }: Props) {
         )}
         
         <div className="flex flex-col gap-1.5 flex-1 min-w-[140px]">
-          <label className="text-[10px] text-muted-foreground font-black uppercase tracking-widest px-1">Customer</label>
+          <label className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest px-1">Customer</label>
           <div className="relative">
              <select className="w-full border border-border rounded-xl px-4 py-2 text-xs font-bold bg-background focus:outline-none focus:ring-2 focus:ring-brand-green/30 appearance-none cursor-pointer text-foreground">
                <option>All Customers</option>
@@ -48,7 +48,7 @@ export function CommodityPerformanceDashboard({ commodity }: Props) {
         </div>
 
         <div className="flex flex-col gap-1.5 flex-1 min-w-[140px]">
-          <label className="text-[10px] text-muted-foreground font-black uppercase tracking-widest px-1">Period</label>
+          <label className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest px-1">Period</label>
           <div className="relative">
              <select className="w-full border border-border rounded-xl px-4 py-2 text-xs font-bold bg-background focus:outline-none focus:ring-2 focus:ring-brand-green/30 appearance-none cursor-pointer text-foreground">
                <option>Last 12 Months</option>
@@ -59,7 +59,7 @@ export function CommodityPerformanceDashboard({ commodity }: Props) {
           </div>
         </div>
         
-        <button className="px-5 py-2.5 bg-brand-navy dark:bg-brand-blue text-white rounded-xl text-xs font-black shadow-lg shadow-brand-navy/20 hover:scale-[1.02] active:scale-[0.98] transition-all">
+        <button className="px-5 py-2.5 bg-brand-navy dark:bg-brand-blue text-white rounded-xl text-xs font-bold shadow-lg shadow-brand-navy/20 hover:scale-[1.02] active:scale-[0.98] transition-all">
           APPLY
         </button>
       </div>
@@ -71,7 +71,7 @@ export function CommodityPerformanceDashboard({ commodity }: Props) {
           <div className="flex items-center justify-between mb-6">
              <div className="flex items-center gap-2">
                 <Database className="w-4 h-4 text-primary" />
-                <h3 className="text-sm font-black text-primary dark:text-foreground uppercase tracking-widest">Population Details: {commodity}</h3>
+                <h3 className="text-sm font-bold text-primary dark:text-foreground uppercase tracking-widest">Population Details: {commodity}</h3>
              </div>
              <TooltipUI>
                 <TooltipTrigger asChild>
@@ -115,7 +115,7 @@ export function CommodityPerformanceDashboard({ commodity }: Props) {
           <div className="flex items-center justify-between mb-6">
              <div className="flex items-center gap-2">
                 <Activity className="w-4 h-4 text-brand-green" />
-                <h3 className="text-sm font-black text-primary dark:text-foreground uppercase tracking-widest">Backlog Coverage Analytic</h3>
+                <h3 className="text-sm font-bold text-primary dark:text-foreground uppercase tracking-widest">Backlog Coverage Analytic</h3>
              </div>
              <TooltipUI>
                 <TooltipTrigger asChild>
@@ -144,7 +144,7 @@ export function CommodityPerformanceDashboard({ commodity }: Props) {
                 <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={data.backlogBranchData}>
                         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border)" opacity={0.5} />
-                        <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 10, fontWeight: 800, fill: "var(--muted-foreground)" }} />
+                        <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 10, fontWeight: 700, fill: "var(--muted-foreground)" }} />
                         <Tooltip contentStyle={{ fontSize: 11, fontWeight: 700, borderRadius: 12, backgroundColor: "var(--card)", border: "1px solid var(--border)" }} cursor={{ fill: "var(--muted)", opacity: 0.1 }} />
                         <Bar dataKey="coverage" radius={[4, 4, 0, 0]} barSize={25}>
                           {data.backlogBranchData.map((e, i) => <Cell key={i} fill={data.BRANCH_COLORS[i % data.BRANCH_COLORS.length]} />)}
@@ -162,7 +162,7 @@ export function CommodityPerformanceDashboard({ commodity }: Props) {
           <div className="flex items-center justify-between mb-6">
              <div className="flex items-center gap-2">
                 <BarChart3 className="w-4 h-4 text-primary" />
-                <h3 className="text-sm font-black text-primary dark:text-foreground uppercase tracking-widest">Lifetime Distribution</h3>
+                <h3 className="text-sm font-bold text-primary dark:text-foreground uppercase tracking-widest">Lifetime Distribution</h3>
              </div>
              <TooltipUI>
                 <TooltipTrigger asChild>
@@ -195,7 +195,7 @@ export function CommodityPerformanceDashboard({ commodity }: Props) {
            <div className="flex items-center justify-between mb-6">
              <div className="flex items-center gap-2">
                <TrendingUp className="w-4 h-4 text-brand-green" />
-               <h3 className="text-sm font-black text-primary dark:text-foreground uppercase tracking-widest">{commodity === 'GET' ? 'WEARNESS TREND' : 'COST PER HOUR TREND'}</h3>
+               <h3 className="text-sm font-bold text-primary dark:text-foreground uppercase tracking-widest">{commodity === 'GET' ? 'WEARNESS TREND' : 'COST PER HOUR TREND'}</h3>
              </div>
              <TooltipUI>
                 <TooltipTrigger asChild>
@@ -235,7 +235,7 @@ export function CommodityPerformanceDashboard({ commodity }: Props) {
       {/* Tables Section */}
        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden flex flex-col hover:shadow-md transition-all">
-                <div className="bg-brand-navy dark:bg-brand-blue text-white text-[10px] font-black px-6 py-3 uppercase tracking-widest flex items-center justify-between">
+                <div className="bg-brand-navy dark:bg-brand-blue text-white text-[10px] font-bold px-6 py-3 uppercase tracking-widest flex items-center justify-between">
                    <div className="flex items-center gap-2">
                      <Table className="w-3.5 h-3.5" /> Plan Replacement Forecast
                    </div>
@@ -252,24 +252,24 @@ export function CommodityPerformanceDashboard({ commodity }: Props) {
                 </div>
                 <div className="overflow-x-auto">
                     <table className="w-full text-[10px] text-center border-separate border-spacing-0">
-                        <thead className="bg-muted/50 text-muted-foreground uppercase font-black tracking-tighter">
+                        <thead className="bg-muted/50 text-muted-foreground uppercase font-bold tracking-tighter">
                             <tr>
                                 <th className="px-3 py-3 border-b border-r border-border sticky left-0 z-10 bg-muted/80 backdrop-blur-sm">Client</th>
                                 <th className="px-3 py-3 border-b border-border">P/N</th>
                                 {['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'].map(m => (
                                     <th key={m} className="px-2 py-3 border-b border-border">{m}</th>
                                 ))}
-                                <th className="px-3 py-3 border-b border-border font-black text-brand-green">Total</th>
+                                <th className="px-3 py-3 border-b border-border font-bold text-brand-green">Total</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-border/50 text-foreground">
                             {data.planTable.map((r) => (
                                 <tr key={`${r.customer}-${r.pn}`} className="hover:bg-muted/30 transition-colors group text-[9px] font-bold">
-                                    <td className="px-3 py-3 border-r border-border font-black text-primary dark:text-foreground sticky left-0 z-10 bg-card group-hover:bg-muted/30">{r.customer}</td>
-                                    <td className="px-3 py-3 font-black opacity-70">{r.pn}</td>
+                                    <td className="px-3 py-3 border-r border-border font-bold text-primary dark:text-foreground sticky left-0 z-10 bg-card group-hover:bg-muted/30">{r.customer}</td>
+                                    <td className="px-3 py-3 font-bold opacity-70">{r.pn}</td>
                                     <td className="px-2 py-3 bg-muted/5">{r.jan}</td>
                                     <td className="px-2 py-3">{r.feb}</td>
-                                    <td className="px-2 py-3 bg-muted/5 font-black text-brand-green/80">{r.mar}</td>
+                                    <td className="px-2 py-3 bg-muted/5 font-bold text-brand-green/80">{r.mar}</td>
                                     <td className="px-2 py-3">{r.apr}</td>
                                     <td className="px-2 py-3 bg-muted/5">{r.may}</td>
                                     <td className="px-2 py-3">{r.jun}</td>
@@ -279,7 +279,7 @@ export function CommodityPerformanceDashboard({ commodity }: Props) {
                                     <td className="px-2 py-3">{r.oct}</td>
                                     <td className="px-2 py-3 bg-muted/5">{r.nov}</td>
                                     <td className="px-2 py-3">{r.dec}</td>
-                                    <td className="px-3 py-3 font-black text-brand-green bg-brand-green/5">{r.total}</td>
+                                    <td className="px-3 py-3 font-bold text-brand-green bg-brand-green/5">{r.total}</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -288,7 +288,7 @@ export function CommodityPerformanceDashboard({ commodity }: Props) {
             </div>
             
             <div className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden flex flex-col hover:shadow-md transition-all">
-                 <div className="bg-accent text-accent-foreground text-[10px] font-black px-6 py-3 uppercase tracking-widest flex items-center justify-between">
+                 <div className="bg-accent text-accent-foreground text-[10px] font-bold px-6 py-3 uppercase tracking-widest flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <TrendingUp className="w-3.5 h-3.5" /> Financial Efficiency Analysis
                     </div>
@@ -305,21 +305,21 @@ export function CommodityPerformanceDashboard({ commodity }: Props) {
                  </div>
                 <div className="overflow-x-auto">
                     <table className="w-full text-center border-separate border-spacing-0">
-                        <thead className="bg-accent/10 text-accent dark:text-accent-foreground text-[10px] font-black uppercase tracking-widest">
+                        <thead className="bg-accent/10 text-accent dark:text-accent-foreground text-[10px] font-bold uppercase tracking-widest">
                             <tr>
                                 <th className="px-4 py-4 border-b border-border">Part Number</th>
                                 <th className="px-4 py-4 border-b border-border">Avg Life</th>
                                 <th className="px-4 py-4 border-b border-border">Market Price</th>
-                                <th className="px-4 py-4 border-b border-border text-primary font-black">Cost / Hour</th>
+                                <th className="px-4 py-4 border-b border-border text-primary font-bold">Cost / Hour</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-border/50">
                             {data.costTable.map((r) => (
                                 <tr key={r.pn} className="hover:bg-muted/30 transition-colors text-[11px] font-bold text-foreground">
-                                    <td className="px-4 py-4 font-black text-primary dark:text-foreground">{r.pn}</td>
+                                    <td className="px-4 py-4 font-bold text-primary dark:text-foreground">{r.pn}</td>
                                     <td className="px-4 py-4">{r.avg} H</td>
                                     <td className="px-4 py-4 opacity-70">Rp {r.price}</td>
-                                    <td className="px-4 py-4 font-black text-brand-green bg-brand-green/5">Rp {r.costPerHour}</td>
+                                    <td className="px-4 py-4 font-bold text-brand-green bg-brand-green/5">Rp {r.costPerHour}</td>
                                 </tr>
                             ))}
                         </tbody>

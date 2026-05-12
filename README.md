@@ -84,6 +84,75 @@ Sistem saat ini sepenuhnya dikelola dan dibangun menggunakan:
 - **Next-Themes** untuk manajemen tema (Light/Dark).
 - Simulasi skema AI / GCP Data Processing Warehouse terpusat.
 
+## 3. DESIGN SYSTEM & UI/UX STANDARDS (THE MASTER RULES)
+
+### A. Design Philosophy & Style
+Sistem desain ini menganut pendekatan **Industrial Premium** yang mengedepankan presisi, efisiensi, dan eksklusivitas untuk skala *B2B Enterprise Dashboard & Analytics*.
+
+*   **Flat Design (Data-Centric):** Digunakan untuk tabel data, matriks backlog, dan area dengan kepadatan informasi tinggi. Fokus pada keterbacaan data maksimal tanpa distraksi visual.
+*   **Glassmorphism & Subtle Depth (AI-Centric & Highlights):** Digunakan untuk panel AI Copilot, kartu metrik utama (KPI), dan elemen interaktif proaktif. Menciptakan kedalaman visual (z-axis) untuk memisahkan lapisan informasi statis dan dinamis.
+
+### B. Strict Color Palette & CSS Variables
+Semua elemen visual WAJIB merujuk pada variabel CSS berikut untuk menjamin konsistensi tema Light dan Dark.
+
+| Token | Light Mode Value | Dark Mode Value | CSS Variable | Keterangan |
+| :--- | :--- | :--- | :--- | :--- |
+| **Primary** | `#1E3A8A` | `#1E3A8A` | `--primary` | Brand Navy |
+| **Secondary** | `#10B981` | `#10B981` | `--secondary` | Brand Green |
+| **AI Accent** | `linear-gradient(to right, #34D399, #2DD4BF)` | `linear-gradient(to right, #34D399, #2DD4BF)` | `--ai-accent` | Aurora Theme (Emerald to Teal) |
+| **Muted** | `#64748B` | `#94A3B8` | `--muted` | Slate-500 / Slate-400 |
+| **Success** | `#10B981` | `#34D399` | `--success` | Green-500 / Emerald-400 |
+| **Warning** | `#D97706` | `#F59E0B` | `--warning` | Amber-600 (High Contrast) |
+| **Destructive**| `#EF4444` | `#EF4444` | `--destructive`| Red-500 |
+| **Info** | `#2563EB` | `#60A5FA` | `--info` | Blue-600 / Blue-400 |
+
+*   **Anti-pattern (DILARANG):**
+    *   Jangan gunakan warna hitam murni `#000000`. Gunakan `#0F172A` (Slate-900) untuk teks utama.
+    *   Jangan gunakan warna putih murni `#FFFFFF` untuk area background kerja besar. Gunakan `#F8FAFC` (Slate-50) di Light Mode.
+
+### C. Typography Scale (Outfit & Inter)
+Tipografi menggunakan sistem skala modular untuk menjamin hierarki informasi yang jelas.
+
+| Level | Font Family | Size (rem/px) | Weight | Line Height | Usage |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **H1** | Outfit | `2.25rem` (36px) | 700 (Bold) | `1.2` | Page Title |
+| **H2** | Outfit | `1.5rem` (24px) | 600 (SemiBold) | `1.3` | Section Title |
+| **H3** | Outfit | `1.25rem` (20px) | 600 (SemiBold) | `1.4` | Card Title |
+| **Body** | Inter | `1.0rem` (16px) | 400 (Regular) | `1.5` | Default Text |
+| **Small** | Inter | `0.875rem` (14px)| 400 (Regular) | `1.4` | Labels, Captions |
+| **Muted** | Inter | `0.875rem` (14px)| 300 (Light) | `1.4` | Secondary Info |
+| **Metric**| Inter | `1.875rem` (30px)| 700 (Bold) | `1.2` | Numbers (`tabular-nums`) |
+
+### D. Spacing, Grid & Layout Rules
+*   **Sistem Spasial:** Berbasis kelipatan 8px (Tailwind: `p-1`=4px, `p-2`=8px, `p-4`=16px, `p-8`=32px).
+*   **Hybrid Grid Layout:**
+    *   **Sidebar AI Width:** Maksimal `w-80` (`20rem` / `320px`).
+    *   **White-Space Management:** Gunakan `gap-6` untuk jarak antar kartu utama. Komponen berat (tabel/matriks) harus membentang 100% lebar jika berada di bawah area sidebar.
+    *   **Sticky Behavior:** Kolom "Armada/Model" pada tabel matriks wajib menggunakan `sticky left-0` untuk navigasi horizontal yang aman.
+
+### E. Component Anatomy & States
+*   **Cards:**
+    *   *Background:* `bg-white` (Light) / `bg-slate-800` (Dark).
+    *   *Border:* `border-slate-200` (Light) / `border-slate-700` (Dark).
+    *   *Radius:* `rounded-2xl` (16px).
+    *   *Shadow:* `shadow-sm` untuk kondisi statis, `shadow-md` saat aktif/hover.
+*   **Buttons & Inputs:**
+    *   *Touch Target:* Tinggi minimal `44px` (Tailwind `h-11`) untuk form interaktif.
+    *   *Hover State:* Transisi warna halus (`transition-colors duration-200`).
+    *   *Focus State:* `ring-2 ring-primary ring-offset-2`.
+*   **Modals & Tooltips:**
+    *   *Z-index Hierarchy:* Tooltip (`z-50`), Modal (`z-40`), Header (`z-30`).
+    *   *Backdrop:* `bg-black/50 backdrop-blur-sm` (opacity/blur).
+*   **Data Viz (Recharts):**
+    *   Wajib menggunakan warna `--primary` dan `--secondary` untuk data series utama.
+    *   Dilarang keras menggunakan palet warna default bawaan library Recharts.
+
+### F. Global Transitions & Animations
+*   **Default Transition:** `transition-all duration-200 ease-in-out` untuk semua elemen interaktif standar.
+*   **Custom Animations:**
+    *   **Pulse (Active Thinking):** Digunakan untuk indikator status AI yang sedang memproses data atau status Kritis pada matriks.
+    *   **Fade-In-Up:** Digunakan untuk komponen yang dimuat secara dinamis dari AI stream.
+
 ## Menjalankan Aplikasi
 
 Aplikasi ini dapat dijalankan langsung dari direktori utama (root) atau dari dalam folder `site`.
@@ -110,6 +179,13 @@ Aplikasi ini dapat dijalankan langsung dari direktori utama (root) atau dari dal
 ---
 
 ## Pembaruan & Riwayat Teknis
+- **[2026-05-12] Design System: Global UI/UX Audit & Refinement**:
+  - `src/styles/theme.css`: Diperbarui dengan nilai eksak dari README.md untuk konsistensi token desain.
+  - `src/app/components/InternalDashboard.tsx`, `CustomerPortal.tsx`, `InspectionReport.tsx`, `InspectorProductivity.tsx`, `UnitDetailPage.tsx`, `VisualMapping.tsx`, `CommodityPerformanceDashboard.tsx`:
+    - **Typography Standardization**: Mengganti semua penggunaan `font-black` (weight 900) dengan `font-bold` (weight 700) untuk estetika "Industrial Premium" yang lebih elegan.
+    - **Brand Color Enforcement**: Memastikan penggunaan variabel warna brand (Navy `#1E3A8A` dan Green `#10B981`) dan menghapus nilai warna hardcoded.
+    - **Aurora Theme Unification**: Memperbarui gradien AI ke tema Aurora (`from-[#34D399] to-[#2DD4BF]`).
+    - **SVG Optimization**: Pada `VisualMapping.tsx`, mengubah `fontWeight="900"` menjadi `"bold"` pada elemen teks SVG.
 - **[2026-05-04] Data Unification: LUB (Lubricant) Commodity Integration**:
   - `src/app/data/inspectionTypes.ts`: Menambahkan `'LUB'` ke dalam `CommodityKey` dan `ALL_COMMODITIES` array.
   - `src/app/data/performanceMockData.ts`: Menambahkan `'LUB'` ke dalam `CommodityType`.
