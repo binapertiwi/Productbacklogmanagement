@@ -147,7 +147,7 @@ export function Layout() {
         <div className="max-w-7xl mx-auto flex flex-col items-center text-center space-y-6">
           {/* BPT Branding */}
           <div className="flex flex-col items-center gap-2">
-            <span className="text-[11px] font-black text-brand-navy dark:text-brand-blue flex items-center gap-1.5 uppercase tracking-widest">
+            <span className="text-[11px] font-bold text-brand-navy dark:text-brand-blue flex items-center gap-1.5 uppercase tracking-widest">
               Made with <span className="text-red-500 animate-pulse text-sm">❤</span> by BPT
             </span>
             <div className="flex flex-col items-center gap-1">
@@ -165,8 +165,11 @@ export function Layout() {
             <span className="text-[10px] font-bold text-foreground/70 tracking-wide uppercase">
               © 2026 PT Bina Pertiwi
             </span>
-            <span className="text-[9px] text-muted-foreground/60 uppercase tracking-[0.2em] font-black">
+            <span className="text-[9px] text-muted-foreground/60 uppercase tracking-[0.2em] font-bold">
               All rights reserved
+            </span>
+            <span className="text-[9px] text-muted-foreground/50 uppercase tracking-wider font-bold mt-1">
+              v 1.3.0
             </span>
           </div>
         </div>

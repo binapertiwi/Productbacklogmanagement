@@ -179,47 +179,47 @@ Aplikasi ini dapat dijalankan langsung dari direktori utama (root) atau dari dal
 ---
 
 ## Pembaruan & Riwayat Teknis
-- **[2026-05-12] Design System: Global UI/UX Audit & Refinement**:
+- **[v 1.3.0] [2026-05-12] Design System: Global UI/UX Audit & Refinement**:
   - `src/styles/theme.css`: Diperbarui dengan nilai eksak dari README.md untuk konsistensi token desain.
   - `src/app/components/InternalDashboard.tsx`, `CustomerPortal.tsx`, `InspectionReport.tsx`, `InspectorProductivity.tsx`, `UnitDetailPage.tsx`, `VisualMapping.tsx`, `CommodityPerformanceDashboard.tsx`:
     - **Typography Standardization**: Mengganti semua penggunaan `font-black` (weight 900) dengan `font-bold` (weight 700) untuk estetika "Industrial Premium" yang lebih elegan.
     - **Brand Color Enforcement**: Memastikan penggunaan variabel warna brand (Navy `#1E3A8A` dan Green `#10B981`) dan menghapus nilai warna hardcoded.
     - **Aurora Theme Unification**: Memperbarui gradien AI ke tema Aurora (`from-[#34D399] to-[#2DD4BF]`).
     - **SVG Optimization**: Pada `VisualMapping.tsx`, mengubah `fontWeight="900"` menjadi `"bold"` pada elemen teks SVG.
-- **[2026-05-04] Data Unification: LUB (Lubricant) Commodity Integration**:
+- **[v 1.2.4] [2026-05-04] Data Unification: LUB (Lubricant) Commodity Integration**:
   - `src/app/data/inspectionTypes.ts`: Menambahkan `'LUB'` ke dalam `CommodityKey` dan `ALL_COMMODITIES` array.
   - `src/app/data/performanceMockData.ts`: Menambahkan `'LUB'` ke dalam `CommodityType`.
   - `src/app/data/mockData.ts`: Menambahkan entri data simulasi untuk komoditas LUB pada `commodityData`, `revenueByCommodityData`, `inspectionTableData`, dan `unitHealthData`.
   - `src/app/components/InternalDashboard.tsx`: Memperbarui `commKeys` untuk menampilkan tab navigasi "LUB" tepat di sebelah "FCG".
   - `README.md`: Memperbarui dokumentasi untuk mencakup 8 komoditas utama.
 
-- **[2026-05-04] Data Visualization: Advanced Analytics & Commercialization**:
+- **[v 1.2.3] [2026-05-04] Data Visualization: Advanced Analytics & Commercialization**:
   - `src/app/components/InspectorProductivity.tsx`:
     - **Quadrant Analysis (Scatter Chart)**: Upgrade visualisasi konversi PO dengan garis referensi (Crosshairs) pada sumbu X (Durasi) dan Y (Rate) untuk membagi data menjadi 4 kuadran performa.
     - **Absolute Value Visualization**: Menambahkan informasi nominal (unit/total) pada tooltip dan label grafik *Coverage by Site* untuk akurasi data operasional.
     - **Composed Yield Trend**: Transformasi grafik hit rate menjadi `ComposedChart` yang menggabungkan `Stacked Bar` (temuan) dengan `Line Chart` (Yield Rate %) pada sumbu Y ganda.
     - **Leaderboard Commercialization**: Penambahan metrik finansial (**Est. Revenue**) dan urgensi (**Critical Findings**) pada tabel peringkat inspektur untuk menggeser fokus dari sekadar volume ke nilai bisnis.
 
-- **[2026-05-04] UI/UX & Documentation: Inspector Productivity Finalization**:
+- **[v 1.2.2] [2026-05-04] UI/UX & Documentation: Inspector Productivity Finalization**:
   - `README.md`: Menambahkan narasi lengkap halaman "Inspector Productivity & Coverage" pada bagian Fitur Utama Terkini.
   - `src/app/components/InspectorProductivity.tsx`: 
     - Penambahan **Information Tooltips** (ikon `Info`) pada seluruh kartu grafik (*Manpower vs Workload, Coverage, Quality Conversion,* dan *Hit Rate*) untuk meningkatkan literasi data melalui penjelasan proaktif saat hover.
 
-- **[2026-05-04] UI/UX Refinement: Inspector Productivity Optimization**:
+- **[v 1.2.1] [2026-05-04] UI/UX Refinement: Inspector Productivity Optimization**:
   - `src/app/components/InspectorProductivity.tsx`:
     - **Resource Allocation Integration**: Memindahkan widget "Resource Allocation" ke dalam panel *AI Workforce Copilot* sebagai *inner card* untuk alur informasi yang lebih kontekstual.
     - **New Widget: Inspection Hit Rate (Yield)**: Implementasi grafik `Stacked BarChart` untuk memvisualisasikan rasio temuan kritis vs normal per wilayah.
     - **Strict Brand Color Enforcement**: Standardisasi seluruh grafik menggunakan palet **Brand Navy (#1E3A8A)** dan **Brand Green (#10B981)**, serta menghilangkan penggunaan warna hitam solid pada elemen bar dan scatter.
     - **KPI Icon Styling**: Pembaruan gaya ikon pada kartu KPI utama agar mengikuti estetika *muted Navy/Green* yang premium.
 
-- **[2026-05-04] Design System: Inspector Productivity Unification**:
+- **[v 1.2.0] [2026-05-04] Design System: Inspector Productivity Unification**:
   - `src/app/components/InspectorProductivity.tsx`:
     - **AI Workforce Copilot Refactoring**: Transformasi widget AI menjadi desain *Aurora* premium dengan gradien `from-emerald-400 to-teal-400`. Menambahkan indikator status **"ACTIVE THINKING"** dengan animasi pulse dan fitur **Collapse/Expand** untuk fleksibilitas ruang kerja.
     - **Card & Typography Standardization**: Penerapan sistem kartu `bg-white` dengan border halus dan bayangan *Industrial Premium*. Judul grafik diseragamkan menggunakan gaya tipografi *bold uppercase* untuk keterbacaan tingkat enterprise.
     - **Enhanced Interactivity**: Penambahan komponen `Tooltip` (Info) pada metrik KPI utama untuk penjelasan data proaktif.
     - **Responsive Sidebar**: Penataan ulang layout menjadi *Hybrid Grid* yang memastikan tabel leaderboard tetap memiliki ruang maksimal saat panel AI ditutup.
 
-- **[2026-04-28] Functional: Advanced PO Table & Sticky Navigation**:
+- **[v 1.1.3] [2026-04-28] Functional: Advanced PO Table & Sticky Navigation**:
   - `src/app/components/Layout.tsx` & `src/app/components/UnitDetailPage.tsx`:
     - Implementasi **Layered Sticky Strategy** untuk navigasi multi-level. Header utama, breadcrumb, dan identitas unit tetap terkunci (*frozen*) di posisi atas saat scrolling panjang, menjaga konteks pengguna tetap terjaga.
   - `src/app/components/InspectionReport.tsx`:
@@ -229,21 +229,21 @@ Aplikasi ini dapat dijalankan langsung dari direktori utama (root) atau dari dal
     - **AI Insight Summarization**: Penambahan ringkasan otomatis per komponen menggunakan ikon `Sparkles` untuk memberikan interpretasi data cepat bagi pengguna.
   - **Media Asset Optimization**: Migrasi dari placeholder eksternal ke aset gambar AI berkualitas tinggi yang disimpan secara lokal di `/public/images/components/` untuk menjamin stabilitas perenderan dan privasi data.
 
-- **[2026-04-28] Design System: Industrial Premium Unification**:
+- **[v 1.1.2] [2026-04-28] Design System: Industrial Premium Unification**:
   - `src/styles/theme.css` & `src/styles/fonts.css`:
     - Implementasi unifikasi tipografi global: **Outfit** untuk seluruh heading (h1-h6) dan **Inter** untuk teks body (font-sans).
     - Refinansi palet warna menggunakan sistem **HSL Harmonious** (Brand Navy, Brand Green, Brand Blue) untuk tampilan yang lebih dalam dan eksklusif.
     - Standarisasi elemen dasar (`@layer base`) termasuk tombol, label, dan input agar konsisten di seluruh modul (Internal, Customer, & Admin).
   - Penyeragaman gaya kartu (cards) dengan shadow halus, border-radius `2xl`, dan interaktivitas mikro yang premium.
 
-- **[2026-04-28] UI Enhancement: Information Tooltips**:
+- **[v 1.1.1] [2026-04-28] UI Enhancement: Information Tooltips**:
   - `src/app/components/InternalDashboard.tsx` & `src/app/components/CustomerPortal.tsx`: 
     - Penambahan fitur **Information Pop-up (Tooltip)** pada setiap card KPI dan Strategic Insights.
     - Menggunakan komponen `shadcn/ui/tooltip` (Radix UI) yang muncul saat hover pada ikon "i" (Info).
     - Memberikan penjelasan singkat mengenai metrik di setiap card untuk meningkatkan literasi data pengguna (Internal & Customer).
   - Integrasi ikon `Info` dari Lucide-React pada header setiap card secara konsisten.
 
-- **[2026-04-28] Expansion: Customer Strategic Insights**:
+- **[v 1.1.0] [2026-04-28] Expansion: Customer Strategic Insights**:
   - `src/app/components/InternalDashboard.tsx`: 
     - Menambahkan baris baru **"Customer Strategic Insight"** dengan 4 visualisasi data:
       - **Top 5 Customers**: Bar chart horizontal dengan drill-down filter ke tabel matriks.
@@ -256,12 +256,12 @@ Aplikasi ini dapat dijalankan langsung dari direktori utama (root) atau dari dal
       - Penambahan kolom baru **"Active Backlogs"** yang merangkum total temuan per unit dengan indikator visual *High Risk* (ikon 🔥).
   - `src/app/data/mockData.ts`: Penambahan data simulasi untuk mendukung visualisasi baru (topCustomersData, backlogDensityData, regionalRevenueData, captureRateData).
 
-- **[2026-03-27] Performance & Theme Optimization**:
+- **[v 1.0.4] [2026-03-27] Performance & Theme Optimization**:
   - `src/styles/theme.css`: Penambahan CSS Variables `--input-background` dan `--switch-background` pada `.dark` class untuk menjamin konsistensi background form di Dark Mode.
   - `src/app/components/CommodityPerformanceDashboard.tsx` & `src/app/components/figma/ImageWithFallback.tsx`: Penghapusan *hardcoded colors* (seperti `bg-[#59cae3]`, `bg-gray-100`) dan diganti dengan *semantic variables* (`bg-accent`, `bg-muted`) agar Dark Mode bekerja sempurna.
   - Penambahan `loading="lazy"` pada elemen `<img />` untuk meningkatkan kecepatan muat (Lazy Loading).
 
-- **[2026-03-27] UI/UX Best Practices Implementation**:
+- **[v 1.0.3] [2026-03-27] UI/UX Best Practices Implementation**:
   - `src/app/components/InternalDashboard.tsx` & `src/app/components/CustomerPortal.tsx`: 
     - Implementasi **Sticky Right Sidebar (Flexbox Layout)** untuk fitur *AI Revenue & Operation Copilot* dan *AI Fleet Reliability Advisor*. Panel ini kini berada berdampingan dengan konten utama (*side-by-side context*) dengan lebar tetap (`w-80`) sehingga terlihat seketika (*above the fold*) tanpa *scrolling* dan tidak menyebabkan konten utama squashed.
     - Menambahkan tombol *Collapse* (perkecil panel) dan ikon *Floating* untuk membuka ulang panel AI jika layar ingin dimaksimalkan untuk melihat tabel matriks.
@@ -277,20 +277,20 @@ Aplikasi ini dapat dijalankan langsung dari direktori utama (root) atau dari dal
     - Tombol CTA *"Export Maintenance Proposal"* dipindahkan dari bagian bawah accordion ke bagian atas persis berdampingan dengan Header Unit, mengeliminasi isu hilangnya tombol jika item kerusakannya banyak.
     - Memperbaiki alur interaksi Akordion *Progressive Disclosure* yang sebelumnya salah rute menjadi fitur yang sepenuhnya berfungsi.
 
-- **[2026-03-27] UI/UX & Layout Hybrid Optimization**:
+- **[v 1.0.2] [2026-03-27] UI/UX & Layout Hybrid Optimization**:
   - `src/app/components/InternalDashboard.tsx` & `src/app/components/CustomerPortal.tsx`: 
     - Rekonstruksi arsitektur tata letak menjadi **Hybrid Layout**. Fitur *AI Copilot/Advisor* kini hanya menjadi sidebar vertikal untuk baris konten teratas (KPI & Strategic Insights).
     - Bagian konten berat seperti *Revenue Potential*, *Performance Gap Map*, dan *Cross-Commodity Matrix/Technical Details* kini menggunakan **lebar penuh (100% width)** di bawah area sidebar untuk memaksimalkan ruang baca data.
     - Hal ini menyelesaikan isu "ruang kosong" di bawah sidebar dan mencegah grafik utama terhimpit, sekaligus tetap mempertahankan keunggulan *above-the-fold* untuk AI insights.
   - Perbaikan teknis pada JSX untuk menangani *character escaping* (>) dan stabilitas *dynamic class names* pada Tailwind.
 
-- **[2026-03-27] Layout Hybrid & White-Space Optimization**:
+- **[v 1.0.1] [2026-03-27] Layout Hybrid & White-Space Optimization**:
   - `src/app/components/InternalDashboard.tsx` & `src/app/components/CustomerPortal.tsx`: 
     - Rekonstruksi arsitektur tata letak menjadi **Grid-Hybrid**. Fitur *AI Copilot/Advisor* kini menggunakan `row-span-2` sehingga berdampingan hanya dengan 2 baris konten teratas (KPI & Ringkasan Strategis).
     - Menghilangkan isu *empty white space* (ruang kosong di bawah sidebar) dengan menarik bagian konten berat (*Charts*, *Matrix*, dan *Technical Details*) ke posisi **lebar penuh (100% width)** di bawah area sidebar.
     - Hal ini memberikan visibilitas maksimal bagi tabel data tanpa mengorbankan aksesibilitas proaktif dari AI Insights.
 
-- **[2026-03-27] AI Copilot Content Restoration**:
+- **[v 1.0.0] [2026-03-27] AI Copilot Content Restoration**:
   - `src/app/components/InternalDashboard.tsx` & `src/app/components/CustomerPortal.tsx`: 
     - Mengembalikan kelengkapan *Insight Card* ke-3 (Force Balancing & Budget Forecast) di dalam AI Sidebar agar analisis AI kembali utuh dan komprehensif.
     - Tinggi dari 3 *card* AI vertikal pada layout baru ini tetap proporsional dan mengisi secara pas kedalaman ruang di samping konten utama (KPI & Insights), tanpa menghasilkan *white-space* atau ruang kosong di kedua halaman.
