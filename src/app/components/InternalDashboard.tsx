@@ -728,7 +728,7 @@ export function InternalDashboard() {
                       </SelectContent>
                     </Select>
                   </div>
-                  <div className="relative group"><Search className="w-4 h-4 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2 group-focus-within:text-brand-green transition-colors" /><input type="text" placeholder="Search Unit ID or Customer..." className="pl-10 pr-4 py-2 text-xs border border-border rounded-xl bg-background focus:outline-none focus:ring-2 focus:ring-brand-green/30 w-full sm:w-56 text-foreground font-bold transition-all shadow-inner" value={search} onChange={handleSearchChange} /></div>
+                  <div className="relative group"><Search className="w-4 h-4 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2 group-focus-within:text-brand-green transition-colors" /><input id="search-matrix" name="search-matrix" type="text" placeholder="Search Unit ID or Customer..." className="pl-10 pr-4 py-2 text-xs border border-border rounded-xl bg-background focus:outline-none focus:ring-2 focus:ring-brand-green/30 w-full sm:w-56 text-foreground font-bold transition-all shadow-inner" value={search} onChange={handleSearchChange} /></div>
                   <button className="flex items-center gap-2 px-4 py-2 bg-brand-green text-white rounded-xl text-xs font-bold hover:opacity-90 transition-all shadow-md shadow-brand-green/20"><Download className="w-4 h-4" /> EXPORT MATRIX</button>
                 </div>
               </div>

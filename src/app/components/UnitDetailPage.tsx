@@ -14,6 +14,10 @@ const InspectionReport = lazy(() =>
   import('./InspectionReport').then((m) => ({ default: m.InspectionReport }))
 );
 
+const FCGReportLayout = lazy(() =>
+  import('./FCGReportLayout').then((m) => ({ default: m.FCGReportLayout }))
+);
+
 const statusRank = { Critical: 0, Caution: 1, Monitor: 2, Good: 3, Replace: 0, 'N/A': 4 };
 
 export function UnitDetailPage() {
@@ -211,7 +215,15 @@ export function UnitDetailPage() {
         {/* ── TAB CONTENT AREA ─────────────────────────────────────────────────── */}
         <div className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden">
           <div className="p-4 sm:p-6">
-            {activeReport ? (
+            {activeTab === 'FCG' ? (
+              <Suspense fallback={<div className="flex justify-center py-24"><div className="w-8 h-8 border-4 border-primary/20 border-t-brand-green rounded-full animate-spin" /></div>}>
+                <FCGReportLayout
+                  unit={unit as any}
+                  activeReport={activeReport}
+                  onExportPO={handleExportPO}
+                />
+              </Suspense>
+            ) : activeReport ? (
               <Suspense fallback={<div className="flex justify-center py-24"><div className="w-8 h-8 border-4 border-primary/20 border-t-brand-green rounded-full animate-spin" /></div>}>
                 <InspectionReport
                   key={activeTab}

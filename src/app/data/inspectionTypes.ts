@@ -4,7 +4,7 @@
 
 export type CommodityKey = 'U/C' | 'BAT' | 'GET' | 'TYR' | 'FCG' | 'LUB' | 'Autofire' | 'Autolube';
 
-export const ALL_COMMODITIES: CommodityKey[] = ['U/C', 'BAT', 'GET', 'TYR', 'FCG', 'LUB', 'Autofire', 'Autolube'];
+export const ALL_COMMODITIES: CommodityKey[] = ['U/C', 'FCG', 'BAT', 'GET', 'TYR', 'LUB', 'Autofire', 'Autolube'];
 
 export const COMMODITY_LABELS: Record<CommodityKey, string> = {
   'U/C': 'Undercarriage',
