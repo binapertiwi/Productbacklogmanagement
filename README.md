@@ -204,6 +204,13 @@ Aplikasi ini dapat dijalankan langsung dari direktori utama (root) atau dari dal
 
 ## Pembaruan & Riwayat Teknis
 
+- **[v 1.3.3] [2026-05-19] Feature & Data Hardening: Multi-Tab Inspection History & Mechanic Safety Audit**:
+  - `src/app/components/InspectionReport.tsx`:
+    - Menambahkan tabel **Inspection History** pada bagian summary untuk seluruh komoditas umum (U/C, GET, TYR, BAT, LUB, Autofire).
+    - Implementasi generator riwayat inspeksi dinamis menggunakan React `useMemo` berdasarkan komoditas aktif, tanggal inspeksi terkini, dan nama mekanik/inspektor aktif.
+    - Styling premium dengan dukungan penuh Light/Dark Mode yang terintegrasi secara seamless dengan visual token UI Bina Pertiwi.
+  - `src/app/data/inspectionMockData.ts` & `src/app/components/FCGReportLayout.tsx`:
+    - Melakukan audit data inspeksi untuk menghilangkan seluruh penggunaan nama "Budi Santoso", dan menggantinya secara menyeluruh dengan nama **"Dwi Cahyono"** sebagai inspektor/mekanik yang tersertifikasi demi standarisasi keamanan dan privasi data operasional.
 - **[v 1.3.2] [2026-05-12] UI/UX: Scorecard Style Unification**:
   - `src/app/components/InternalDashboard.tsx`, `src/app/components/InspectorProductivity.tsx`:
     - Menyeragamkan gaya scorecard dengan menghapus background *pill* pada teks tren (Opsi 2: Gaya Teks Bersih).

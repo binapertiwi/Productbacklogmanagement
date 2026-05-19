@@ -32,7 +32,7 @@ export const unitHolisticData: UnitHolisticData[] = [
         metadata: {
           inspectionId: 'INS-2026-UC-001',
           inspectionDate: '2026-02-14',
-          mechanicName: 'Budi Santoso',
+          mechanicName: 'Dwi Cahyono',
           mechanicId: 'MEC-BJM-021',
           commodity: 'U/C',
           overallStatus: 'Critical',
@@ -135,7 +135,7 @@ export const unitHolisticData: UnitHolisticData[] = [
         metadata: {
           inspectionId: 'INS-2026-GET-001',
           inspectionDate: '2026-02-14',
-          mechanicName: 'Budi Santoso',
+          mechanicName: 'Dwi Cahyono',
           mechanicId: 'MEC-BJM-021',
           commodity: 'GET',
           overallStatus: 'Critical',
@@ -161,7 +161,7 @@ export const unitHolisticData: UnitHolisticData[] = [
         metadata: {
           inspectionId: 'INS-2026-TYR-001',
           inspectionDate: '2026-02-14',
-          mechanicName: 'Budi Santoso',
+          mechanicName: 'Dwi Cahyono',
           mechanicId: 'MEC-BJM-021',
           commodity: 'TYR',
           overallStatus: 'Caution',
@@ -183,7 +183,7 @@ export const unitHolisticData: UnitHolisticData[] = [
         metadata: {
           inspectionId: 'INS-2026-BAT-001',
           inspectionDate: '2026-02-14',
-          mechanicName: 'Budi Santoso',
+          mechanicName: 'Dwi Cahyono',
           mechanicId: 'MEC-BJM-021',
           commodity: 'BAT',
           overallStatus: 'Good',
@@ -203,7 +203,7 @@ export const unitHolisticData: UnitHolisticData[] = [
         metadata: {
           inspectionId: 'INS-2026-LUB-000',
           inspectionDate: '2026-02-14',
-          mechanicName: 'Budi Santoso',
+          mechanicName: 'Dwi Cahyono',
           mechanicId: 'MEC-BJM-021',
           commodity: 'LUB',
           overallStatus: 'Good',

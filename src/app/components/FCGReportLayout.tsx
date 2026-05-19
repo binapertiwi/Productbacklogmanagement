@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { Camera, Download, Package, FileText, ClipboardList, Bot, AlertTriangle, ChevronRight, Activity, Calendar, User, Clock, Shield } from 'lucide-react';
+import React, { useState, useMemo } from 'react';
+import { Camera, Download, Package, FileText, ClipboardList, Bot, AlertTriangle, ChevronRight, Activity, Calendar, User, Clock, Shield, Search, Eye } from 'lucide-react';
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip as RechartsTooltip } from 'recharts';
 import { StatusBadge } from './StatusBadge';
 import { RecommendedPart, CommodityInspectionReport } from '../data/inspectionTypes';
 
@@ -151,6 +152,12 @@ const FCG_RECOMMENDED_PARTS: RecommendedPart[] = [
   }
 ];
 
+const INSPECTION_HISTORY_MOCK = [
+  { id: 'INS-2026-FCG-001', date: '2026-02-21', inspector: 'Ahmad Fauzi', approvalDate: '2026-02-22' },
+  { id: 'INS-2025-FCG-089', date: '2025-11-15', inspector: 'Dwi Cahyono', approvalDate: '2025-11-16' },
+  { id: 'INS-2025-FCG-042', date: '2025-08-10', inspector: 'Ahmad Fauzi', approvalDate: '2025-08-11' },
+];
+
 const PLACEHOLDER_PHOTOS = [
   'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=400&h=300&fit=crop',
   'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=400&h=300&fit=crop',
@@ -160,23 +167,10 @@ const PLACEHOLDER_PHOTOS = [
 
 export function FCGReportLayout({ unit, activeReport, onExportPO }: FCGReportLayoutProps) {
   const [activePhoto, setActivePhoto] = useState<string | null>(null);
+  const [searchPart, setSearchPart] = useState('');
+  const [urgencyFilter, setUrgencyFilter] = useState('All');
   
-  // Format price helper
-  const formatRupiah = (value: number) => {
-    return `Rp ${value.toLocaleString('id-ID')}`;
-  };
-
-  // Metadata Extraction
-  const metadata = {
-    reportNo: activeReport?.metadata.inspectionId ?? 'INS-2026-FCG-001',
-    createdDate: activeReport?.metadata.inspectionDate ?? '2026-02-21',
-    inspector: activeReport?.metadata.mechanicName ?? 'Ahmad Fauzi',
-    serialNumber: unit.serialNumber,
-    vehicleType: unit.model,
-    vehicleBrand: unit.model.toLowerCase().includes('komatsu') ? 'Komatsu' : unit.model.toLowerCase().includes('cat') ? 'Caterpillar' : 'Komatsu',
-    workingHour: activeReport?.metadata.serviceMeterUnit ?? unit.hoursOperated,
-    hmUnit: 'Hrs'
-  };
+  const formatRupiah = (value: number) => `Rp ${value.toLocaleString('id-ID')}`;
 
   const handleExportCSV = () => {
     const headers = ['Part Number', 'Description', 'Qty', 'UoM', 'Urgency', 'Est Price'];
@@ -189,11 +183,7 @@ export function FCGReportLayout({ unit, activeReport, onExportPO }: FCGReportLay
       p.estimatedPrice || 0
     ]);
     
-    const csvContent = [
-      headers.join(','),
-      ...rows.map(r => r.join(','))
-    ].join('\n');
-
+    const csvContent = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -204,256 +194,383 @@ export function FCGReportLayout({ unit, activeReport, onExportPO }: FCGReportLay
     document.body.removeChild(link);
   };
 
-  const totalEstimatedPO = FCG_RECOMMENDED_PARTS.reduce(
-    (sum, part) => sum + (part.estimatedPrice ?? 0) * part.quantity, 
-    0
-  );
+  const filteredParts = useMemo(() => {
+    return FCG_RECOMMENDED_PARTS.filter(p => {
+      const matchSearch = p.partNumber.toLowerCase().includes(searchPart.toLowerCase()) || 
+                          p.description.toLowerCase().includes(searchPart.toLowerCase());
+      const matchUrgency = urgencyFilter === 'All' || p.urgency === urgencyFilter;
+      return matchSearch && matchUrgency;
+    });
+  }, [searchPart, urgencyFilter]);
+
+  const totalEstimatedPO = filteredParts.reduce((sum, part) => sum + (part.estimatedPrice ?? 0) * part.quantity, 0);
+
+  // Chart Data Dummies
+  const componentCheckData = [
+    { name: 'Done Check', value: 42, color: '#10B981' },
+    { name: 'Not Yet', value: 8, color: '#E5E7EB' }
+  ];
+
+  const tirapDistributionData = [
+    { name: 'Merah (Critical)', value: 5, color: '#EF4444' },
+    { name: 'Kuning (Caution)', value: 14, color: '#F59E0B' },
+    { name: 'Hijau (Good)', value: 23, color: '#10B981' }
+  ];
 
   return (
     <div className="space-y-8 animate-in fade-in duration-300">
       
-      {/* ── 1. INSPECTION METADATA BAR ── */}
-      <div className="bg-gray-50 dark:bg-muted/30 rounded-xl p-4 border border-border/80 shadow-sm">
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4">
-          <div className="flex flex-col">
-            <span className="text-[10px] text-muted-foreground font-semibold uppercase tracking-wider mb-0.5">Report No</span>
-            <span className="text-xs sm:text-sm font-bold text-gray-800 dark:text-gray-200 break-all">{metadata.reportNo}</span>
-          </div>
-          <div className="flex flex-col">
-            <span className="text-[10px] text-muted-foreground font-semibold uppercase tracking-wider mb-0.5">Created Date</span>
-            <span className="text-xs sm:text-sm font-bold text-gray-800 dark:text-gray-200">{metadata.createdDate}</span>
-          </div>
-          <div className="flex flex-col">
-            <span className="text-[10px] text-muted-foreground font-semibold uppercase tracking-wider mb-0.5">Inspector</span>
-            <span className="text-xs sm:text-sm font-bold text-gray-800 dark:text-gray-200 truncate">{metadata.inspector}</span>
-          </div>
-          <div className="flex flex-col">
-            <span className="text-[10px] text-muted-foreground font-semibold uppercase tracking-wider mb-0.5">Serial Number</span>
-            <span className="text-xs sm:text-sm font-bold text-gray-800 dark:text-gray-200">{metadata.serialNumber}</span>
-          </div>
-          <div className="flex flex-col">
-            <span className="text-[10px] text-muted-foreground font-semibold uppercase tracking-wider mb-0.5">Vehicle Type</span>
-            <span className="text-xs sm:text-sm font-bold text-gray-800 dark:text-gray-200 truncate">{metadata.vehicleType}</span>
-          </div>
-          <div className="flex flex-col">
-            <span className="text-[10px] text-muted-foreground font-semibold uppercase tracking-wider mb-0.5">Vehicle Brand</span>
-            <span className="text-xs sm:text-sm font-bold text-gray-800 dark:text-gray-200">{metadata.vehicleBrand}</span>
-          </div>
-          <div className="flex flex-col">
-            <span className="text-[10px] text-muted-foreground font-semibold uppercase tracking-wider mb-0.5">Working Hour</span>
-            <span className="text-xs sm:text-sm font-bold text-gray-800 dark:text-gray-200">{metadata.workingHour.toLocaleString()}</span>
-          </div>
-          <div className="flex flex-col">
-            <span className="text-[10px] text-muted-foreground font-semibold uppercase tracking-wider mb-0.5">HM Unit</span>
-            <span className="text-xs sm:text-sm font-bold text-gray-800 dark:text-gray-200">{metadata.hmUnit}</span>
-          </div>
-        </div>
-      </div>
-
-      {/* ── 2. COMPONENT DETAIL CARDS (The Parameter Matrix) ── */}
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Bot className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-            <h3 className="text-base sm:text-lg font-bold text-primary dark:text-foreground uppercase tracking-tight">FCG Parameter Matrix</h3>
-          </div>
-          <div className="flex items-center gap-2 bg-blue-50 dark:bg-blue-950/30 px-3 py-1 rounded-lg border border-blue-100 dark:border-blue-900/50">
-            <Shield className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
-            <span className="text-[10px] font-bold text-blue-700 dark:text-blue-400 uppercase tracking-widest">Hydraulic Connector Standardized Data</span>
-          </div>
-        </div>
-
-        <div className="space-y-6">
-          {FCG_COMPONENTS_MOCK.map((item, idx) => {
-            const fields = [
-              { label: 'Category', value: item.category },
-              { label: 'Size', value: item.size },
-              { label: 'Brand', value: item.brand },
-              { label: 'HM/KM Install', value: item.hmKmInstall },
-              { label: 'Plant Replacement Date', value: item.plantReplacementDate },
-              { label: 'Action', value: item.action },
-              { label: 'Component', value: item.component },
-              { label: 'Part Number', value: item.partNumber },
-              { label: 'Production Number', value: item.productionNumber },
-              { label: 'Qty', value: `${item.qty} ${item.uom}` },
-              { label: 'Condition', value: item.condition },
-              { label: 'Remark', value: item.remark },
-              { label: 'Hose Location', value: item.hoseLocation },
-              { label: 'Part Desc.', value: item.partDesc },
-              { label: 'Install Date', value: item.installDate },
-              { label: 'UOM', value: item.uom },
-              { label: 'Recommendation', value: item.recommendation },
-            ];
-
-            return (
-              <div 
-                key={idx} 
-                className="bg-card rounded-xl border border-border p-5 shadow-sm space-y-4 hover:shadow-md transition-shadow ring-1 ring-transparent hover:ring-brand-green/10"
-              >
-                {/* Header of component card */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-border/80 gap-2">
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-600 dark:text-blue-400">
-                      <Bot className="w-4.5 h-4.5" />
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-primary dark:text-foreground text-sm sm:text-base">{item.component}</h4>
-                      <p className="text-[10px] text-muted-foreground font-semibold uppercase tracking-wider mt-0.5">Location: {item.hoseLocation}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-[10px] text-muted-foreground font-medium italic">Action Status:</span>
-                    <StatusBadge 
-                      status={item.action.toLowerCase().includes('replace') ? 'Critical' : item.action.toLowerCase().includes('monitor') ? 'Caution' : 'Good'} 
-                      size="sm" 
-                    />
-                  </div>
-                </div>
-                
-                {/* 17 Parameters dense grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-3.5 gap-x-6">
-                  {fields.map((f, fIdx) => (
-                    <div key={fIdx} className="pb-2 border-b border-gray-100 dark:border-border/40 flex flex-col justify-center">
-                      <span className="text-blue-600 dark:text-blue-400 font-semibold text-[11px] uppercase tracking-wider mb-0.5">{f.label}</span>
-                      <span 
-                        className={`text-[12px] sm:text-sm font-bold truncate block ${
-                          f.label === 'Action' && f.value.toLowerCase().includes('replace') ? 'text-red-500' :
-                          f.label === 'Action' && f.value.toLowerCase().includes('monitor') ? 'text-amber-500' :
-                          f.label === 'Condition' && f.value.toLowerCase().includes('critical') ? 'text-red-500 font-bold' :
-                          'text-gray-800 dark:text-gray-200'
-                        }`}
-                        title={f.value?.toString()}
-                      >
-                        {f.value}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* ── 3. INSPECTION FIELD EVIDENCE ── */}
-      <div className="space-y-4">
-        <div className="flex items-center gap-2">
-          <Camera className="w-5 h-5 text-primary" />
-          <h3 className="text-base sm:text-lg font-bold text-primary dark:text-foreground uppercase tracking-tight">Inspection Field Evidence</h3>
-        </div>
-
-        <div className="bg-card rounded-xl border border-border p-5 shadow-sm">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {PLACEHOLDER_PHOTOS.map((url, idx) => {
-              const captions = [
-                "Fig. 1 - Abraded Hose Sleeve showing inner wire reinforcement",
-                "Fig. 2 - Differential pressure gauge reading red at 82% threshold",
-                "Fig. 3 - Left travel motor pipeline checking under active load",
-                "Fig. 4 - Boom cylinder mounting brackets structural inspection"
-              ];
-              return (
-                <button
-                  key={idx}
-                  onClick={() => setActivePhoto(url)}
-                  className="aspect-[4/3] rounded-lg overflow-hidden border border-border hover:border-brand-green transition-all group relative bg-muted"
+      {/* ── 1. EXECUTIVE SUMMARY WIDGETS ── */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        {/* Card 1: OVERALL HEALTH */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col items-center justify-center">
+          <h4 className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mb-4">Overall Health</h4>
+          <div className="relative w-32 h-32 flex items-center justify-center">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={[{ value: 72 }, { value: 28 }]}
+                  cx="50%" cy="50%"
+                  innerRadius={45} outerRadius={60}
+                  startAngle={90} endAngle={-270}
+                  dataKey="value" stroke="none"
                 >
-                  <img 
-                    src={url} 
-                    alt={`Evidence ${idx + 1}`} 
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" 
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity flex items-end p-2 sm:p-3">
-                    <p className="text-[9px] sm:text-[10px] font-bold text-white leading-tight uppercase tracking-wide">
-                      {captions[idx]}
-                    </p>
-                  </div>
-                </button>
-              );
-            })}
+                  <Cell fill="#F59E0B" />
+                  <Cell fill="#E5E7EB" />
+                </Pie>
+              </PieChart>
+            </ResponsiveContainer>
+            <div className="absolute inset-0 flex items-center justify-center flex-col">
+              <span className="text-2xl font-bold text-brand-navy">72</span>
+              <span className="text-[10px] text-muted-foreground font-semibold">/100</span>
+            </div>
+          </div>
+          <div className="mt-4">
+            <StatusBadge status="Caution" size="md" />
+          </div>
+        </div>
+
+        {/* Card 2: URGENCY MATRIX */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col justify-center">
+          <h4 className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mb-4 text-center">Urgency Matrix</h4>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                <span className="text-xs font-bold text-gray-700">Critical</span>
+              </div>
+              <span className="text-sm font-bold text-red-600 bg-red-50 px-2 py-0.5 rounded">5</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                <span className="text-xs font-bold text-gray-700">Caution</span>
+              </div>
+              <span className="text-sm font-bold text-yellow-600 bg-yellow-50 px-2 py-0.5 rounded">14</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-brand-green"></div>
+                <span className="text-xs font-bold text-gray-700">Good</span>
+              </div>
+              <span className="text-sm font-bold text-green-700 bg-green-50 px-2 py-0.5 rounded">23</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 3: COMPONENT CHECK */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col items-center justify-center">
+          <h4 className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mb-4">Component Check</h4>
+          <div className="w-full h-32 relative">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie data={componentCheckData} cx="50%" cy="50%" innerRadius={35} outerRadius={55} dataKey="value" stroke="none">
+                  {componentCheckData.map((entry, index) => <Cell key={`cell-${index}`} fill={entry.color} />)}
+                </Pie>
+                <RechartsTooltip contentStyle={{ fontSize: '10px', borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
+              </PieChart>
+            </ResponsiveContainer>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="text-xl font-bold text-brand-navy">42</span>
+            </div>
+          </div>
+          <div className="mt-3 flex items-center justify-center gap-4 text-[10px] font-semibold text-muted-foreground">
+            <div className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-brand-green"></div> Done</div>
+            <div className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-gray-200"></div> Not Yet</div>
+          </div>
+        </div>
+
+        {/* Card 4: DISTRIBUTION OF TIRAP */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col items-center justify-center">
+          <h4 className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mb-4">Distribution of Tirap</h4>
+          <div className="w-full h-32">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie data={tirapDistributionData} cx="50%" cy="50%" innerRadius={35} outerRadius={55} dataKey="value" stroke="none">
+                  {tirapDistributionData.map((entry, index) => <Cell key={`cell-${index}`} fill={entry.color} />)}
+                </Pie>
+                <RechartsTooltip contentStyle={{ fontSize: '10px', borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+          <div className="mt-3 flex items-center justify-center gap-3 text-[10px] font-semibold text-muted-foreground">
+            <div className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-red-500"></div> Cr</div>
+            <div className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-yellow-500"></div> Ca</div>
+            <div className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-brand-green"></div> Go</div>
           </div>
         </div>
       </div>
 
-      {/* ── 4. RECOMMENDED PARTS FOR PO ── */}
-      <div className="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
-        <div className="px-5 py-4 border-b border-border flex flex-col sm:flex-row sm:items-center gap-4 bg-muted/25">
+      {/* ── 2. INSPECTION HISTORY TABLE ── */}
+      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-8">
+        <div className="px-6 py-4 border-b border-gray-100 bg-gray-50/50 flex items-center gap-2">
+          <ClipboardList className="w-4 h-4 text-brand-navy" />
+          <h3 className="text-sm font-bold text-brand-navy uppercase tracking-tight">Inspection History</h3>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm text-left">
+            <thead className="bg-gray-50/50 text-[10px] uppercase font-bold tracking-widest text-muted-foreground border-b border-gray-100">
+              <tr>
+                <th className="px-6 py-3 font-bold">Inspection Date</th>
+                <th className="px-6 py-3 font-bold">Report No</th>
+                <th className="px-6 py-3 font-bold">Inspector Name</th>
+                <th className="px-6 py-3 font-bold">Serial No</th>
+                <th className="px-6 py-3 font-bold">Approval Date</th>
+                <th className="px-6 py-3 font-bold text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-100">
+              {INSPECTION_HISTORY_MOCK.map((row, idx) => (
+                <tr key={idx} className="hover:bg-gray-50/50 transition-colors">
+                  <td className="px-6 py-4 font-semibold text-gray-800">{row.date}</td>
+                  <td className="px-6 py-4 font-mono text-xs font-bold text-brand-navy">{row.id}</td>
+                  <td className="px-6 py-4 font-medium text-gray-700">{row.inspector}</td>
+                  <td className="px-6 py-4 font-semibold text-gray-800">{unit.serialNumber}</td>
+                  <td className="px-6 py-4 text-gray-600">{row.approvalDate}</td>
+                  <td className="px-6 py-4 text-center">
+                    <button className="p-2 bg-gray-50 hover:bg-brand-navy hover:text-white rounded-lg transition-colors text-gray-400 inline-flex">
+                      <Eye className="w-4 h-4" />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* ── 3. RECOMMENDED PARTS FOR PO ── */}
+      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-8">
+        <div className="px-6 py-4 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center gap-4 bg-gray-50/50">
           <div className="flex items-center gap-2">
-            <Package className="w-4.5 h-4.5 text-brand-green" />
-            <h4 className="font-bold text-primary dark:text-foreground text-sm uppercase tracking-tight">Recommended Parts for PO</h4>
+            <Package className="w-4 h-4 text-brand-green" />
+            <h4 className="font-bold text-brand-navy text-sm uppercase tracking-tight">Recommended Parts for PO</h4>
           </div>
-          <div className="flex items-center gap-2 sm:ml-auto">
+          <div className="flex flex-wrap items-center gap-2 sm:ml-auto">
+            <div className="relative">
+              <Search className="w-3.5 h-3.5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <input 
+                type="text" 
+                placeholder="Search part..." 
+                value={searchPart}
+                onChange={(e) => setSearchPart(e.target.value)}
+                className="pl-8 pr-3 py-1.5 text-xs bg-white border border-gray-200 rounded-lg focus:outline-none focus:border-brand-green w-40 font-medium"
+              />
+            </div>
+            <select 
+              value={urgencyFilter}
+              onChange={(e) => setUrgencyFilter(e.target.value)}
+              className="px-3 py-1.5 text-xs bg-white border border-gray-200 rounded-lg focus:outline-none focus:border-brand-green font-medium"
+            >
+              <option value="All">All Status</option>
+              <option value="Critical">Critical Only</option>
+              <option value="Caution">Caution Only</option>
+            </select>
             <button 
               onClick={handleExportCSV}
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 dark:bg-muted dark:hover:bg-muted/80 text-foreground rounded-lg text-xs font-bold transition-all border border-border"
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 rounded-lg text-xs font-bold transition-all shadow-sm"
             >
               <Download className="w-3.5 h-3.5" />
-              CSV Export
+              Export Excel
             </button>
           </div>
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-sm text-left whitespace-nowrap border-separate border-spacing-0">
-            <thead className="bg-muted/30 text-[10px] uppercase font-bold tracking-widest text-muted-foreground border-b border-border">
+          <table className="w-full text-sm text-left">
+            <thead className="bg-gray-50/30 text-[10px] uppercase font-bold tracking-widest text-muted-foreground border-b border-gray-100">
               <tr>
-                <th className="px-5 py-3 border-b border-border">Part Number</th>
-                <th className="px-4 py-3 border-b border-border">Description</th>
-                <th className="px-3 py-3 border-b border-border text-center">Qty</th>
-                <th className="px-3 py-3 border-b border-border text-center">UoM</th>
-                <th className="px-4 py-3 border-b border-border text-center">Urgency</th>
-                <th className="px-4 py-3 border-b border-border text-right">Est. Price</th>
+                <th className="px-6 py-3">Part Number</th>
+                <th className="px-6 py-3">Description</th>
+                <th className="px-6 py-3 text-center">Qty</th>
+                <th className="px-6 py-3 text-center">UoM</th>
+                <th className="px-6 py-3 text-center">Urgency</th>
+                <th className="px-6 py-3 text-right">Est. Price</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-border/50">
-              {FCG_RECOMMENDED_PARTS.map((part) => (
-                <tr key={part.partNumber} className="hover:bg-muted/30 transition-colors">
-                  <td className="px-5 py-3.5 font-mono font-bold text-primary dark:text-brand-green text-xs">{part.partNumber}</td>
-                  <td className="px-4 py-3.5 text-xs font-bold text-gray-800 dark:text-gray-200">{part.description}</td>
-                  <td className="px-3 py-3.5 text-center font-bold text-foreground">{part.quantity}</td>
-                  <td className="px-3 py-3.5 text-center text-[10px] font-bold text-muted-foreground uppercase">{part.uom}</td>
-                  <td className="px-4 py-3.5 text-center"><StatusBadge status={part.urgency} size="sm" /></td>
-                  <td className="px-4 py-3.5 text-right font-bold text-primary dark:text-foreground text-xs">
+            <tbody className="divide-y divide-gray-100">
+              {filteredParts.length > 0 ? filteredParts.map((part) => (
+                <tr key={part.partNumber} className="hover:bg-gray-50/50 transition-colors">
+                  <td className="px-6 py-4 font-mono font-bold text-brand-navy text-xs">{part.partNumber}</td>
+                  <td className="px-6 py-4 text-xs font-semibold text-gray-800">{part.description}</td>
+                  <td className="px-6 py-4 text-center font-bold text-gray-900">{part.quantity}</td>
+                  <td className="px-6 py-4 text-center text-[10px] font-bold text-muted-foreground uppercase">{part.uom}</td>
+                  <td className="px-6 py-4 text-center"><StatusBadge status={part.urgency} size="sm" /></td>
+                  <td className="px-6 py-4 text-right font-bold text-brand-navy text-xs">
                     {part.estimatedPrice != null ? formatRupiah(part.estimatedPrice) : '—'}
                   </td>
                 </tr>
-              ))}
+              )) : (
+                <tr>
+                  <td colSpan={6} className="px-6 py-8 text-center text-xs text-muted-foreground font-medium italic">
+                    No parts match your filter.
+                  </td>
+                </tr>
+              )}
             </tbody>
-            <tfoot>
-              <tr className="bg-muted/20">
-                <td colSpan={5} className="px-5 py-3 text-xs font-bold text-muted-foreground uppercase tracking-widest">Total Estimasi PO (Fluid Connector)</td>
-                <td className="px-4 py-3 text-right font-bold text-brand-green text-sm sm:text-base">
-                  {formatRupiah(totalEstimatedPO)}
-                </td>
-              </tr>
-            </tfoot>
+            {filteredParts.length > 0 && (
+              <tfoot>
+                <tr className="bg-brand-green/5 border-t border-brand-green/20">
+                  <td colSpan={5} className="px-6 py-4 text-xs font-bold text-brand-green uppercase tracking-widest">Total Estimasi PO (Filtered)</td>
+                  <td className="px-6 py-4 text-right font-bold text-brand-green text-base">
+                    {formatRupiah(totalEstimatedPO)}
+                  </td>
+                </tr>
+              </tfoot>
+            )}
           </table>
         </div>
         
-        <div className="px-5 py-4 bg-muted/10 flex justify-between items-center border-t border-border/80">
-          <span className="text-[10px] text-muted-foreground font-bold italic">Total recommendations: {FCG_RECOMMENDED_PARTS.length} spare parts</span>
+        <div className="px-6 py-4 bg-gray-50 flex justify-end items-center border-t border-gray-100">
           <button
-            onClick={() => onExportPO(FCG_RECOMMENDED_PARTS)}
-            className="flex items-center gap-2 px-6 py-2.5 bg-brand-green hover:bg-brand-green/90 text-white rounded-xl text-xs sm:text-sm font-bold shadow-lg shadow-brand-green/20 transition-all active:scale-95"
+            onClick={() => onExportPO(filteredParts)}
+            disabled={filteredParts.length === 0}
+            className="flex items-center gap-2 px-6 py-2.5 bg-brand-green hover:bg-brand-green/90 text-white rounded-lg text-sm font-bold shadow-md shadow-brand-green/20 transition-all active:scale-95 disabled:opacity-50"
           >
             <FileText className="w-4 h-4" />
-            Add to PO Draft ({FCG_RECOMMENDED_PARTS.length} items)
+            Add to PO Draft ({filteredParts.length} items)
           </button>
         </div>
       </div>
 
-      {/* Lightbox for physical evidence */}
+      {/* ── VISUAL SEPARATOR BETWEEN HEADER/SUMMARY & DETAILS ── */}
+      <div className="relative my-10">
+        <div className="absolute inset-0 flex items-center" aria-hidden="true">
+          <div className="w-full border-t border-dashed border-gray-300"></div>
+        </div>
+        <div className="relative flex justify-center">
+          <span className="bg-white px-4 py-1.5 text-[10px] font-bold uppercase tracking-widest text-brand-navy border border-gray-200 rounded-full shadow-sm flex items-center gap-2">
+            <Activity className="w-3.5 h-3.5 text-brand-navy animate-pulse" />
+            Detailed Inspection Findings & Technical Data
+          </span>
+        </div>
+      </div>
+
+      {/* ── DETAILS WRAPPER CONTAINER ── */}
+      <div className="bg-gray-50/50 border border-gray-200/60 rounded-2xl p-6 space-y-8 shadow-inner">
+        {/* ── 4. DETAILED INSPECTION FINDINGS ── */}
+        <div className="space-y-6">
+          <h3 className="text-sm font-bold text-brand-navy uppercase tracking-wider">Detailed Technical Parameters</h3>
+          
+          <div className="space-y-6">
+            {FCG_COMPONENTS_MOCK.map((item, idx) => {
+              const fields = [
+                { label: 'Category', value: item.category },
+                { label: 'Size', value: item.size },
+                { label: 'Brand', value: item.brand },
+                { label: 'HM/KM Install', value: item.hmKmInstall },
+                { label: 'Plant Replacement Date', value: item.plantReplacementDate },
+                { label: 'Action', value: item.action },
+                { label: 'Component', value: item.component },
+                { label: 'Part Number', value: item.partNumber },
+                { label: 'Production Number', value: item.productionNumber },
+                { label: 'Qty', value: `${item.qty} ${item.uom}` },
+                { label: 'Condition', value: item.condition },
+                { label: 'Remark', value: item.remark },
+                { label: 'Hose Location', value: item.hoseLocation },
+                { label: 'Part Desc.', value: item.partDesc },
+                { label: 'Install Date', value: item.installDate },
+                { label: 'UOM', value: item.uom },
+                { label: 'Recommendation', value: item.recommendation },
+              ];
+
+              return (
+                <div key={idx} className="bg-white rounded-xl border border-gray-100 p-6 shadow-sm space-y-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-gray-100 gap-2">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600">
+                        <Bot className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-brand-navy text-base">{item.component}</h4>
+                        <p className="text-[10px] text-muted-foreground font-semibold uppercase tracking-wider mt-0.5">Location: {item.hoseLocation}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] text-muted-foreground font-medium italic">Action Status:</span>
+                      <StatusBadge 
+                        status={item.action.toLowerCase().includes('replace') ? 'Critical' : item.action.toLowerCase().includes('monitor') ? 'Caution' : 'Good'} 
+                        size="md" 
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-y-4 gap-x-8">
+                    {fields.map((f, fIdx) => (
+                      <div key={fIdx} className="pb-2 border-b border-gray-50 flex flex-col justify-center">
+                        <span className="text-gray-400 font-semibold text-[10px] uppercase tracking-widest mb-1">{f.label}</span>
+                        <span 
+                          className={`text-sm font-semibold truncate block ${
+                            f.label === 'Action' && f.value.toLowerCase().includes('replace') ? 'text-red-500' :
+                            f.label === 'Action' && f.value.toLowerCase().includes('monitor') ? 'text-yellow-600' :
+                            f.label === 'Condition' && f.value.toLowerCase().includes('critical') ? 'text-red-500 font-bold' :
+                            'text-gray-800'
+                          }`}
+                          title={f.value?.toString()}
+                        >
+                          {f.value}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Inspection Field Evidence */}
+          <div className="mt-8">
+            <div className="flex items-center gap-2 mb-4">
+              <Camera className="w-5 h-5 text-brand-navy" />
+              <h4 className="text-base font-bold text-brand-navy uppercase tracking-tight">Inspection Field Evidence</h4>
+            </div>
+            <div className="bg-white rounded-xl border border-gray-100 p-6 shadow-sm">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {PLACEHOLDER_PHOTOS.map((url, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setActivePhoto(url)}
+                    className="aspect-[4/3] rounded-lg overflow-hidden border border-gray-200 hover:border-brand-green transition-all group relative bg-gray-100"
+                  >
+                    <img src={url} alt={`Evidence ${idx + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
+                      <p className="text-[10px] font-bold text-white uppercase tracking-wider">View Full Photo</p>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {activePhoto && (
         <div
           className="fixed inset-0 bg-black/85 z-50 flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in duration-200"
           onClick={() => setActivePhoto(null)}
         >
           <img src={activePhoto} alt="Evidence detail" className="max-w-4xl max-h-[85vh] rounded-xl object-contain shadow-2xl" />
-          <button 
-            className="absolute top-4 right-4 text-white hover:text-red-400 text-3xl font-bold transition-colors" 
-            onClick={() => setActivePhoto(null)}
-          >
-            ✕
-          </button>
+          <button className="absolute top-4 right-4 text-white hover:text-red-400 text-3xl font-bold" onClick={() => setActivePhoto(null)}>✕</button>
         </div>
       )}
     </div>
