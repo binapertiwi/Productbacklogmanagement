@@ -73,7 +73,7 @@ const CommodityPerformanceDashboard = lazy(() =>
 
 type TabType = "Overview" | CommodityType;
 
-const commKeys: CommodityType[] = ["U/C", "BAT", "GET", "TYR", "FCG", "LUB", "Autofire", "Autolube"];
+const commKeys: CommodityType[] = ["U/C", "FCG", "BAT", "GET", "TYR", "LUB", "Autofire", "Autolube"];
 
 export function InternalDashboard() {
   const [activeTab, setActiveTab] = useState<TabType>("Overview");
