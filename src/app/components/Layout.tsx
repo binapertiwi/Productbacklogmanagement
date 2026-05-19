@@ -68,6 +68,7 @@ export function Layout() {
               <span className="hidden xs:inline sm:inline">Customer</span>
               <span className="hidden md:inline"> Portal</span>
             </NavLink>
+            {/* 
             <NavLink
               to="/inspector"
               className={({ isActive }) =>
@@ -82,6 +83,7 @@ export function Layout() {
               <span className="hidden xs:inline sm:inline">Inspector</span>
               <span className="hidden md:inline"> Productivity</span>
             </NavLink>
+            */}
           </nav>
 
           {/* Right Side */}
