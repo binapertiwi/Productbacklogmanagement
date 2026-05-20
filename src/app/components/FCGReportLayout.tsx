@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Camera, Download, Package, FileText, ClipboardList, Bot, AlertTriangle, ChevronRight, Activity, Calendar, User, Clock, Shield, Search, Eye } from 'lucide-react';
+import { Camera, Download, Package, FileText, ClipboardList, Bot, AlertTriangle, ChevronRight, Activity, Calendar, User, Clock, Shield, Search, Eye, CheckCircle2, XCircle } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip as RechartsTooltip } from 'recharts';
 import { StatusBadge } from './StatusBadge';
 import { RecommendedPart, CommodityInspectionReport } from '../data/inspectionTypes';
@@ -169,6 +169,7 @@ export function FCGReportLayout({ unit, activeReport, onExportPO }: FCGReportLay
   const [activePhoto, setActivePhoto] = useState<string | null>(null);
   const [searchPart, setSearchPart] = useState('');
   const [urgencyFilter, setUrgencyFilter] = useState('All');
+  const [selectedInspectionId, setSelectedInspectionId] = useState<string | null>(null);
   
   const formatRupiah = (value: number) => `Rp ${value.toLocaleString('id-ID')}`;
 
@@ -220,6 +221,9 @@ export function FCGReportLayout({ unit, activeReport, onExportPO }: FCGReportLay
   return (
     <div className="space-y-8 animate-in fade-in duration-300">
       
+      {/* ── HEADER / SUMMARY MAIN WRAPPER CONTAINER ── */}
+      <div className="space-y-8 bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800">
+      
       {/* ── 1. EXECUTIVE SUMMARY WIDGETS ── */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         {/* Card 1: OVERALL HEALTH */}
@@ -251,29 +255,33 @@ export function FCGReportLayout({ unit, activeReport, onExportPO }: FCGReportLay
         </div>
 
         {/* Card 2: URGENCY MATRIX */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col justify-center">
-          <h4 className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mb-4 text-center">Urgency Matrix</h4>
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                <span className="text-xs font-bold text-gray-700">Critical</span>
-              </div>
-              <span className="text-sm font-bold text-red-600 bg-red-50 px-2 py-0.5 rounded">5</span>
+        <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-border p-5 transition-all hover:shadow-md">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <h3 className="text-primary dark:text-foreground font-bold text-sm uppercase tracking-tight">Urgency Matrix</h3>
             </div>
-            <div className="flex items-center justify-between">
+          </div>
+          <div className="grid grid-cols-1 gap-2">
+            <div className="flex items-center justify-between p-2 bg-destructive/5 rounded-lg border border-destructive/10">
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                <span className="text-xs font-bold text-gray-700">Caution</span>
+                <XCircle className="w-4 h-4 text-destructive" />
+                <span className="text-xs text-destructive font-bold">Critical</span>
               </div>
-              <span className="text-sm font-bold text-yellow-600 bg-yellow-50 px-2 py-0.5 rounded">14</span>
+              <span className="text-lg font-bold text-destructive">5</span>
             </div>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between p-2 bg-amber-500/5 rounded-lg border border-amber-500/10">
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-brand-green"></div>
-                <span className="text-xs font-bold text-gray-700">Good</span>
+                <AlertTriangle className="w-4 h-4 text-amber-600" />
+                <span className="text-xs text-amber-700 dark:text-amber-400 font-bold">Caution</span>
               </div>
-              <span className="text-sm font-bold text-green-700 bg-green-50 px-2 py-0.5 rounded">23</span>
+              <span className="text-lg font-bold text-amber-600">14</span>
+            </div>
+            <div className="flex items-center justify-between p-2 bg-brand-green/5 rounded-lg border border-brand-green/10">
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-brand-green" />
+                <span className="text-xs text-brand-green font-bold">Good</span>
+              </div>
+              <span className="text-lg font-bold text-brand-green">23</span>
             </div>
           </div>
         </div>
@@ -321,45 +329,7 @@ export function FCGReportLayout({ unit, activeReport, onExportPO }: FCGReportLay
         </div>
       </div>
 
-      {/* ── 2. INSPECTION HISTORY TABLE ── */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-8">
-        <div className="px-6 py-4 border-b border-gray-100 bg-gray-50/50 flex items-center gap-2">
-          <ClipboardList className="w-4 h-4 text-brand-navy" />
-          <h3 className="text-sm font-bold text-brand-navy uppercase tracking-tight">Inspection History</h3>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm text-left">
-            <thead className="bg-gray-50/50 text-[10px] uppercase font-bold tracking-widest text-muted-foreground border-b border-gray-100">
-              <tr>
-                <th className="px-6 py-3 font-bold">Inspection Date</th>
-                <th className="px-6 py-3 font-bold">Report No</th>
-                <th className="px-6 py-3 font-bold">Inspector Name</th>
-                <th className="px-6 py-3 font-bold">Serial No</th>
-                <th className="px-6 py-3 font-bold">Approval Date</th>
-                <th className="px-6 py-3 font-bold text-center">Action</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100">
-              {INSPECTION_HISTORY_MOCK.map((row, idx) => (
-                <tr key={idx} className="hover:bg-gray-50/50 transition-colors">
-                  <td className="px-6 py-4 font-semibold text-gray-800">{row.date}</td>
-                  <td className="px-6 py-4 font-mono text-xs font-bold text-brand-navy">{row.id}</td>
-                  <td className="px-6 py-4 font-medium text-gray-700">{row.inspector}</td>
-                  <td className="px-6 py-4 font-semibold text-gray-800">{unit.serialNumber}</td>
-                  <td className="px-6 py-4 text-gray-600">{row.approvalDate}</td>
-                  <td className="px-6 py-4 text-center">
-                    <button className="p-2 bg-gray-50 hover:bg-brand-navy hover:text-white rounded-lg transition-colors text-gray-400 inline-flex">
-                      <Eye className="w-4 h-4" />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {/* ── 3. RECOMMENDED PARTS FOR PO ── */}
+      {/* ── 2. RECOMMENDED PARTS FOR PO ── */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-8">
         <div className="px-6 py-4 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center gap-4 bg-gray-50/50">
           <div className="flex items-center gap-2">
@@ -453,116 +423,231 @@ export function FCGReportLayout({ unit, activeReport, onExportPO }: FCGReportLay
         </div>
       </div>
 
-      {/* ── VISUAL SEPARATOR BETWEEN HEADER/SUMMARY & DETAILS ── */}
-      <div className="relative my-10">
-        <div className="absolute inset-0 flex items-center" aria-hidden="true">
-          <div className="w-full border-t border-dashed border-gray-300"></div>
+      {/* ── 3. INSPECTION HISTORY TABLE ── */}
+      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-8">
+        <div className="px-6 py-4 border-b border-gray-100 bg-gray-50/50 flex items-center gap-2">
+          <ClipboardList className="w-4 h-4 text-brand-navy" />
+          <h3 className="text-sm font-bold text-brand-navy uppercase tracking-tight">Inspection History</h3>
         </div>
-        <div className="relative flex justify-center">
-          <span className="bg-white px-4 py-1.5 text-[10px] font-bold uppercase tracking-widest text-brand-navy border border-gray-200 rounded-full shadow-sm flex items-center gap-2">
-            <Activity className="w-3.5 h-3.5 text-brand-navy animate-pulse" />
-            Detailed Inspection Findings & Technical Data
-          </span>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm text-left">
+            <thead className="bg-gray-50/50 text-[10px] uppercase font-bold tracking-widest text-muted-foreground border-b border-gray-100">
+              <tr>
+                <th className="px-6 py-3 font-bold">Inspection Date</th>
+                <th className="px-6 py-3 font-bold">Report No</th>
+                <th className="px-6 py-3 font-bold">Inspector Name</th>
+                <th className="px-6 py-3 font-bold">Serial No</th>
+                <th className="px-6 py-3 font-bold">Approval Date</th>
+                <th className="px-6 py-3 font-bold text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-100">
+              {INSPECTION_HISTORY_MOCK.map((row, idx) => (
+                <tr 
+                  key={idx} 
+                  className={`hover:bg-gray-50/50 cursor-pointer border-l-4 transition-all duration-200 ${
+                    selectedInspectionId === row.id 
+                      ? 'bg-brand-navy/5 dark:bg-brand-green/5 border-l-brand-green font-medium' 
+                      : 'border-l-transparent'
+                  }`}
+                  onClick={() => setSelectedInspectionId(row.id === selectedInspectionId ? null : row.id)}
+                >
+                  <td className="px-6 py-4 font-semibold text-gray-800">{row.date}</td>
+                  <td className="px-6 py-4 font-mono text-xs font-bold text-brand-navy">{row.id}</td>
+                  <td className="px-6 py-4 font-medium text-gray-700">{row.inspector}</td>
+                  <td className="px-6 py-4 font-semibold text-gray-800">{unit.serialNumber}</td>
+                  <td className="px-6 py-4 text-gray-600">{row.approvalDate}</td>
+                  <td className="px-6 py-4 text-center">
+                    <button 
+                      className={`p-2 rounded-lg transition-all duration-200 inline-flex items-center justify-center hover:scale-105 active:scale-95 ${
+                        selectedInspectionId === row.id 
+                          ? 'bg-brand-green text-white shadow-sm shadow-brand-green/20 ring-2 ring-brand-green/20 scale-105' 
+                          : 'bg-gray-50 hover:bg-brand-navy hover:text-white text-gray-400'
+                      }`}
+                    >
+                      <Eye className="w-4 h-4" />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
+      </div> {/* ── END OF HEADER / SUMMARY MAIN WRAPPER CONTAINER ── */}
 
-      {/* ── DETAILS WRAPPER CONTAINER ── */}
-      <div className="bg-gray-50/50 border border-gray-200/60 rounded-2xl p-6 space-y-8 shadow-inner">
-        {/* ── 4. DETAILED INSPECTION FINDINGS ── */}
-        <div className="space-y-6">
-          <h3 className="text-sm font-bold text-brand-navy uppercase tracking-wider">Detailed Technical Parameters</h3>
+      {selectedInspectionId && (
+        <div className="mt-12 pt-12 border-t border-slate-200 dark:border-slate-800 space-y-8 animate-in fade-in slide-in-from-top-4 duration-500 ease-out">
           
-          <div className="space-y-6">
-            {FCG_COMPONENTS_MOCK.map((item, idx) => {
-              const fields = [
-                { label: 'Category', value: item.category },
-                { label: 'Size', value: item.size },
-                { label: 'Brand', value: item.brand },
-                { label: 'HM/KM Install', value: item.hmKmInstall },
-                { label: 'Plant Replacement Date', value: item.plantReplacementDate },
-                { label: 'Action', value: item.action },
-                { label: 'Component', value: item.component },
-                { label: 'Part Number', value: item.partNumber },
-                { label: 'Production Number', value: item.productionNumber },
-                { label: 'Qty', value: `${item.qty} ${item.uom}` },
-                { label: 'Condition', value: item.condition },
-                { label: 'Remark', value: item.remark },
-                { label: 'Hose Location', value: item.hoseLocation },
-                { label: 'Part Desc.', value: item.partDesc },
-                { label: 'Install Date', value: item.installDate },
-                { label: 'UOM', value: item.uom },
-                { label: 'Recommendation', value: item.recommendation },
-              ];
+          {/* ── METADATA HEADER (Moved to Item Inspection Details & Dynamic) ── */}
+          {(() => {
+            const selectedRow = INSPECTION_HISTORY_MOCK.find(r => r.id === selectedInspectionId);
+            if (!selectedRow) return null;
+            
+            const isLatest = selectedRow.id === INSPECTION_HISTORY_MOCK[0].id;
+            const isSecond = selectedRow.id === INSPECTION_HISTORY_MOCK[1]?.id;
+            
+            const displaySMU = isLatest 
+              ? unit.hoursOperated 
+              : isSecond 
+                ? unit.hoursOperated - 1200 
+                : unit.hoursOperated - 2500;
+                
+            const displayStatus = isLatest 
+              ? unit.overallHealth 
+              : isSecond 
+                ? 'Caution' 
+                : 'Good';
 
-              return (
-                <div key={idx} className="bg-white rounded-xl border border-gray-100 p-6 shadow-sm space-y-4">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-gray-100 gap-2">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600">
-                        <Bot className="w-5 h-5" />
-                      </div>
-                      <div>
-                        <h4 className="font-bold text-brand-navy text-base">{item.component}</h4>
-                        <p className="text-[10px] text-muted-foreground font-semibold uppercase tracking-wider mt-0.5">Location: {item.hoseLocation}</p>
-                      </div>
-                    </div>
+            return (
+              <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 flex-1">
+                  <div className="space-y-1">
+                    <h6 className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest">No. Inspeksi</h6>
+                    <p className="text-sm font-bold text-primary dark:text-foreground font-mono">{selectedRow.id}</p>
+                  </div>
+                  <div className="space-y-1">
+                    <h6 className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest">Tanggal</h6>
+                    <p className="text-sm font-bold text-primary dark:text-foreground">
+                      {new Date(selectedRow.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
+                    </p>
+                  </div>
+                  <div className="space-y-1">
+                    <h6 className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest">Inspektor</h6>
                     <div className="flex items-center gap-2">
-                      <span className="text-[10px] text-muted-foreground font-medium italic">Action Status:</span>
-                      <StatusBadge 
-                        status={item.action.toLowerCase().includes('replace') ? 'Critical' : item.action.toLowerCase().includes('monitor') ? 'Caution' : 'Good'} 
-                        size="md" 
-                      />
+                      <div className="w-6 h-6 rounded-full bg-brand-green/20 flex items-center justify-center text-[10px] font-bold text-brand-green">
+                        {selectedRow.inspector.charAt(0)}
+                      </div>
+                      <p className="text-sm font-bold text-primary dark:text-foreground truncate">{selectedRow.inspector}</p>
                     </div>
                   </div>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-y-4 gap-x-8">
-                    {fields.map((f, fIdx) => (
-                      <div key={fIdx} className="pb-2 border-b border-gray-50 flex flex-col justify-center">
-                        <span className="text-gray-400 font-semibold text-[10px] uppercase tracking-widest mb-1">{f.label}</span>
-                        <span 
-                          className={`text-sm font-semibold truncate block ${
-                            f.label === 'Action' && f.value.toLowerCase().includes('replace') ? 'text-red-500' :
-                            f.label === 'Action' && f.value.toLowerCase().includes('monitor') ? 'text-yellow-600' :
-                            f.label === 'Condition' && f.value.toLowerCase().includes('critical') ? 'text-red-500 font-bold' :
-                            'text-gray-800'
-                          }`}
-                          title={f.value?.toString()}
-                        >
-                          {f.value}
-                        </span>
+                  <div className="space-y-1">
+                    <h6 className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest">SMU Unit</h6>
+                    <p className="text-sm font-bold text-primary dark:text-foreground">{displaySMU.toLocaleString()} Hrs</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4 pl-6 border-l border-slate-200 dark:border-slate-800 hidden md:flex">
+                  <div className="text-right">
+                    <h6 className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mb-1">Health Status</h6>
+                    <StatusBadge status={displayStatus} size="lg" />
+                  </div>
+                </div>
+              </div>
+            );
+          })()}
+
+          {/* ── VISUAL SEPARATOR BETWEEN HEADER/SUMMARY & DETAILS ── */}
+          <div className="relative my-10">
+            <div className="absolute inset-0 flex items-center" aria-hidden="true">
+              <div className="w-full border-t border-dashed border-gray-300 dark:border-slate-800"></div>
+            </div>
+            <div className="relative flex justify-center">
+              <span className="bg-card px-4 py-1.5 text-[10px] font-bold uppercase tracking-widest text-brand-navy dark:text-brand-green border border-border rounded-full shadow-sm flex items-center gap-2">
+                <Activity className="w-3.5 h-3.5 text-brand-navy dark:text-brand-green animate-pulse" />
+                Detailed Inspection Findings & Technical Data ({selectedInspectionId})
+              </span>
+            </div>
+          </div>
+
+          {/* ── DETAILS WRAPPER CONTAINER ── */}
+          <div className="bg-[#f8fafc] dark:bg-[#090d16] border border-slate-200 dark:border-slate-800 rounded-2xl p-6 space-y-8 shadow-inner">
+            {/* ── 4. DETAILED INSPECTION FINDINGS ── */}
+            <div className="space-y-6">
+              <h3 className="text-sm font-bold text-brand-navy uppercase tracking-wider">Detailed Technical Parameters</h3>
+              
+              <div className="space-y-6">
+                {FCG_COMPONENTS_MOCK.map((item, idx) => {
+                  const fields = [
+                    { label: 'Category', value: item.category },
+                    { label: 'Size', value: item.size },
+                    { label: 'Brand', value: item.brand },
+                    { label: 'HM/KM Install', value: item.hmKmInstall },
+                    { label: 'Plant Replacement Date', value: item.plantReplacementDate },
+                    { label: 'Action', value: item.action },
+                    { label: 'Component', value: item.component },
+                    { label: 'Part Number', value: item.partNumber },
+                    { label: 'Production Number', value: item.productionNumber },
+                    { label: 'Qty', value: `${item.qty} ${item.uom}` },
+                    { label: 'Condition', value: item.condition },
+                    { label: 'Remark', value: item.remark },
+                    { label: 'Hose Location', value: item.hoseLocation },
+                    { label: 'Part Desc.', value: item.partDesc },
+                    { label: 'Install Date', value: item.installDate },
+                    { label: 'UOM', value: item.uom },
+                    { label: 'Recommendation', value: item.recommendation },
+                  ];
+
+                  return (
+                    <div key={idx} className="bg-white rounded-xl border border-gray-100 p-6 shadow-sm space-y-4">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-gray-100 gap-2">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600">
+                            <Bot className="w-5 h-5" />
+                          </div>
+                          <div>
+                            <h4 className="font-bold text-brand-navy text-base">{item.component}</h4>
+                            <p className="text-[10px] text-muted-foreground font-semibold uppercase tracking-wider mt-0.5">Location: {item.hoseLocation}</p>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-[10px] text-muted-foreground font-medium italic">Action Status:</span>
+                          <StatusBadge 
+                            status={item.action.toLowerCase().includes('replace') ? 'Critical' : item.action.toLowerCase().includes('monitor') ? 'Caution' : 'Good'} 
+                            size="md" 
+                          />
+                        </div>
                       </div>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-y-4 gap-x-8">
+                        {fields.map((f, fIdx) => (
+                          <div key={fIdx} className="pb-2 border-b border-gray-50 flex flex-col justify-center">
+                            <span className="text-gray-400 font-semibold text-[10px] uppercase tracking-widest mb-1">{f.label}</span>
+                            <span 
+                              className={`text-sm font-semibold truncate block ${
+                                f.label === 'Action' && f.value.toLowerCase().includes('replace') ? 'text-red-500' :
+                                f.label === 'Action' && f.value.toLowerCase().includes('monitor') ? 'text-yellow-600' :
+                                f.label === 'Condition' && f.value.toLowerCase().includes('critical') ? 'text-red-500 font-bold' :
+                                'text-gray-800'
+                              }`}
+                              title={f.value?.toString()}
+                            >
+                              {f.value}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Inspection Field Evidence */}
+              <div className="mt-8">
+                <div className="flex items-center gap-2 mb-4">
+                  <Camera className="w-5 h-5 text-brand-navy" />
+                  <h4 className="text-base font-bold text-brand-navy uppercase tracking-tight">Inspection Field Evidence</h4>
+                </div>
+                <div className="bg-white rounded-xl border border-gray-100 p-6 shadow-sm">
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    {PLACEHOLDER_PHOTOS.map((url, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => setActivePhoto(url)}
+                        className="aspect-[4/3] rounded-lg overflow-hidden border border-gray-200 hover:border-brand-green transition-all group relative bg-gray-100"
+                      >
+                        <img src={url} alt={`Evidence ${idx + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
+                          <p className="text-[10px] font-bold text-white uppercase tracking-wider">View Full Photo</p>
+                        </div>
+                      </button>
                     ))}
                   </div>
                 </div>
-              );
-            })}
-          </div>
-
-          {/* Inspection Field Evidence */}
-          <div className="mt-8">
-            <div className="flex items-center gap-2 mb-4">
-              <Camera className="w-5 h-5 text-brand-navy" />
-              <h4 className="text-base font-bold text-brand-navy uppercase tracking-tight">Inspection Field Evidence</h4>
-            </div>
-            <div className="bg-white rounded-xl border border-gray-100 p-6 shadow-sm">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {PLACEHOLDER_PHOTOS.map((url, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => setActivePhoto(url)}
-                    className="aspect-[4/3] rounded-lg overflow-hidden border border-gray-200 hover:border-brand-green transition-all group relative bg-gray-100"
-                  >
-                    <img src={url} alt={`Evidence ${idx + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
-                      <p className="text-[10px] font-bold text-white uppercase tracking-wider">View Full Photo</p>
-                    </div>
-                  </button>
-                ))}
               </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
 
       {activePhoto && (
         <div

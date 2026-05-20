@@ -537,88 +537,48 @@ export function CommodityPerformanceDashboard({ commodity }: Props) {
           </div>
         </div>
 
-        {/* Tier 3 - Trends & Efficiency Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Cost/Wear Trend */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-            <h3 className="text-sm font-bold text-blue-900 uppercase tracking-widest mb-6 flex items-center gap-1">
-              {commodity === 'GET' ? 'WEARNESS TREND' : 'COST PER HOUR TREND'}
-              <TooltipUI>
-                <TooltipTrigger>
-                  <Info className="w-3.5 h-3.5 text-gray-400 cursor-pointer" />
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p className="text-xs text-slate-100">
-                    {commodity === 'GET' 
-                      ? 'Analisis tren keausan komponen GET berdasarkan ukuran komponen.'
-                      : `Tren grafik rata-rata biaya per jam operasional (${config.unit}) untuk komoditas.`
-                    }
-                  </p>
-                </TooltipContent>
-              </TooltipUI>
-            </h3>
-            <div className="h-[280px]">
-              <ResponsiveContainer width="100%" height="100%">
-                {commodity === 'GET' ? (
-                  <LineChart data={transformedData.costPerHour}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#f5f5f5" />
-                    <XAxis dataKey="size" tick={{ fontSize: 10, fontWeight: 700 }} />
-                    <YAxis tick={{ fontSize: 10, fontWeight: 700 }} />
-                    <Tooltip contentStyle={{ fontSize: 10, fontWeight: 700 }} />
-                    <Line type="monotone" dataKey="cost" stroke="#1E3A8A" strokeWidth={3} dot={{ stroke: '#1E3A8A', strokeWidth: 2, r: 4, fill: '#fff' }} activeDot={{ r: 6, strokeWidth: 0 }}>
-                      <LabelList dataKey="cost" position="top" style={{ fontSize: 10, fontWeight: 700, fill: '#4b5563' }} />
-                    </Line>
-                  </LineChart>
-                ) : (
-                  <BarChart data={transformedData.costPerHour}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#f5f5f5" />
-                    <XAxis dataKey="size" tick={{ fontSize: 10, fontWeight: 700 }} />
-                    <YAxis tick={{ fontSize: 10, fontWeight: 700 }} />
-                    <Tooltip contentStyle={{ fontSize: 10, fontWeight: 700 }} />
-                    <Bar dataKey="cost" fill="#1E3A8A" radius={[4, 4, 0, 0]} barSize={20}>
-                      <LabelList dataKey="cost" position="top" style={{ fontSize: 10, fontWeight: 700, fill: '#4b5563' }} />
-                    </Bar>
-                  </BarChart>
-                )}
-              </ResponsiveContainer>
-            </div>
-          </div>
-
-          {/* Financial Efficiency Analysis */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col">
-            <h3 className="text-sm font-bold text-blue-900 uppercase tracking-widest mb-6 flex items-center gap-1">
-              FINANCIAL EFFICIENCY ANALYSIS
-              <TooltipUI>
-                <TooltipTrigger>
-                  <Info className="w-3.5 h-3.5 text-gray-400 cursor-pointer" />
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p className="text-xs text-slate-100">Tabel analisis efisiensi biaya operasional per jam untuk komponen dengan P/N tertentu.</p>
-                </TooltipContent>
-              </TooltipUI>
-            </h3>
-            <div className="overflow-x-auto flex-1">
-              <table className="w-full text-center border-separate border-spacing-0">
-                <thead className="bg-gray-50 text-gray-500 text-[10px] font-bold uppercase tracking-widest">
-                  <tr>
-                    <th className="px-4 py-4 border-b border-gray-200">Part Number</th>
-                    <th className="px-4 py-4 border-b border-gray-200">Avg Life</th>
-                    <th className="px-4 py-4 border-b border-gray-200">Market Price</th>
-                    <th className="px-4 py-4 border-b border-gray-200">Cost / Hour</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-100">
-                  {transformedData.costTable.map((r) => (
-                    <tr key={r.pn} className="hover:bg-gray-50 transition-colors text-[11px] font-bold text-gray-700">
-                      <td className="px-4 py-4 font-bold text-blue-900">{r.pn}</td>
-                      <td className="px-4 py-4 tabular-nums">{r.avg} H</td>
-                      <td className="px-4 py-4 opacity-70 tabular-nums">Rp {r.price}</td>
-                      <td className="px-4 py-4 font-bold text-green-600 bg-green-50 tabular-nums">Rp {r.costPerHour}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+        {/* Tier 3 - Trends (Cost/Wear Trend 100% Width) */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+          <h3 className="text-sm font-bold text-blue-900 uppercase tracking-widest mb-6 flex items-center gap-1">
+            {commodity === 'GET' ? 'WEARNESS TREND' : 'COST PER HOUR TREND'}
+            <TooltipUI>
+              <TooltipTrigger>
+                <Info className="w-3.5 h-3.5 text-gray-400 cursor-pointer" />
+              </TooltipTrigger>
+              <TooltipContent>
+                <p className="text-xs text-slate-100">
+                  {commodity === 'GET' 
+                    ? 'Analisis tren keausan komponen GET berdasarkan ukuran komponen.'
+                    : `Tren grafik rata-rata biaya per jam operasional (${config.unit}) untuk komoditas.`
+                  }
+                </p>
+              </TooltipContent>
+            </TooltipUI>
+          </h3>
+          <div className="h-[280px]">
+            <ResponsiveContainer width="100%" height="100%">
+              {commodity === 'GET' ? (
+                <LineChart data={transformedData.costPerHour}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#f5f5f5" />
+                  <XAxis dataKey="size" tick={{ fontSize: 10, fontWeight: 700 }} />
+                  <YAxis tick={{ fontSize: 10, fontWeight: 700 }} />
+                  <Tooltip contentStyle={{ fontSize: 10, fontWeight: 700 }} />
+                  <Line type="monotone" dataKey="cost" stroke="#1E3A8A" strokeWidth={3} dot={{ stroke: '#1E3A8A', strokeWidth: 2, r: 4, fill: '#fff' }} activeDot={{ r: 6, strokeWidth: 0 }}>
+                    <LabelList dataKey="cost" position="top" style={{ fontSize: 10, fontWeight: 700, fill: '#4b5563' }} />
+                  </Line>
+                </LineChart>
+              ) : (
+                <BarChart data={transformedData.costPerHour}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#f5f5f5" />
+                  <XAxis dataKey="size" tick={{ fontSize: 10, fontWeight: 700 }} />
+                  <YAxis tick={{ fontSize: 10, fontWeight: 700 }} />
+                  <Tooltip contentStyle={{ fontSize: 10, fontWeight: 700 }} />
+                  <Bar dataKey="cost" fill="#1E3A8A" radius={[4, 4, 0, 0]} barSize={20}>
+                    <LabelList dataKey="cost" position="top" style={{ fontSize: 10, fontWeight: 700, fill: '#4b5563' }} />
+                  </Bar>
+                </BarChart>
+              )}
+            </ResponsiveContainer>
           </div>
         </div>
 

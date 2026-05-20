@@ -438,8 +438,8 @@ export const InspectorProductivity = () => {
                     <h3 className="text-teal-950 font-bold tracking-tight leading-tight uppercase text-sm">AI Workforce Copilot</h3>
                   </div>
                   <div className="flex items-center gap-1.5 ml-10">
-                    <span className="flex h-1.5 w-1.5 rounded-full bg-black animate-pulse"></span>
-                    <span className="text-[10px] font-bold text-black uppercase tracking-wider bg-black/10 px-2 py-0.5 rounded-full">Active Thinking</span>
+                    <span className="flex h-1.5 w-1.5 rounded-full bg-slate-900 animate-pulse"></span>
+                    <span className="text-[10px] font-bold text-slate-900 uppercase tracking-wider bg-slate-900/10 px-2 py-0.5 rounded-full">Active Thinking</span>
                   </div>
                 </div>
                 <button onClick={() => setIsAiCopilotOpen(false)} className="w-6 h-6 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/40 text-teal-950 transition-colors shrink-0">
@@ -456,7 +456,7 @@ export const InspectorProductivity = () => {
                   <p className="text-[11px] text-teal-950/90 leading-relaxed font-bold mb-3">
                     Kalsel memiliki populasi <span className="underline decoration-red-500 decoration-2">500 unit aktif</span> namun hanya di-cover oleh 8 inspektur.
                   </p>
-                  <Button size="sm" className="text-[10px] font-bold text-white bg-teal-900 hover:bg-black transition-all h-8 w-full flex items-center justify-center gap-1.5 shadow-lg">
+                  <Button size="sm" className="text-[10px] font-bold text-white bg-teal-900 hover:bg-slate-900 transition-all h-8 w-full flex items-center justify-center gap-1.5 shadow-lg">
                     <RotateCcw className="w-3 h-3" /> Rebalance Workforce
                   </Button>
                 </div>

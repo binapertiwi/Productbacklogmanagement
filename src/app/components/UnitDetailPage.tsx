@@ -192,25 +192,6 @@ export function UnitDetailPage() {
       {/* ── MAIN CONTENT ─────────────────────────────────────────────────────── */}
       <div className="px-4 sm:px-6 py-6 space-y-6">
 
-        {/* AI Summary Panel */}
-        <div className="bg-gradient-to-r from-[#34D399] to-[#2DD4BF] rounded-2xl border border-white/20 p-4 shadow-lg relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-white/20 rounded-full blur-[60px] -translate-y-1/2 translate-x-1/3 animate-pulse pointer-events-none"></div>
-          
-          <div className="flex items-start gap-3 relative z-10">
-            <div className="w-10 h-10 bg-white/30 backdrop-blur-md rounded-xl flex items-center justify-center flex-shrink-0 shadow-inner">
-              <Sparkles className="w-5 h-5 text-teal-900" />
-            </div>
-            <div className="flex-1">
-              <div className="flex items-center gap-2 mb-2">
-                <h3 className="text-teal-950 font-bold tracking-tight uppercase">AI Unit Summary</h3>
-                <span className="text-[9px] bg-teal-950 text-white px-1.5 py-0.5 rounded-full font-bold tracking-wider">Active Thinking</span>
-              </div>
-              <div className="bg-white/40 backdrop-blur-xl rounded-xl p-4 border border-white/60 flex flex-col justify-between shadow-sm">
-                <p className="text-[12px] sm:text-sm font-bold text-teal-950/90 leading-relaxed">{unit.aiSummary}</p>
-              </div>
-            </div>
-          </div>
-        </div>
 
         {/* ── TAB CONTENT AREA ─────────────────────────────────────────────────── */}
         <div className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden">
