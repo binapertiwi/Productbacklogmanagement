@@ -204,6 +204,12 @@ Aplikasi ini dapat dijalankan langsung dari direktori utama (root) atau dari dal
 
 ## Pembaruan & Riwayat Teknis
 
+- **[v 1.3.4] [2026-05-20] Layout Structural Separation & Urgency Matrix Styling Sync**:
+  - **AI Summary Removal**: Menghapus seluruh komponen **AI Unit Summary** dari halaman Detail Unit untuk semua komoditas demi menyederhanakan tata letak dan hierarki informasi.
+  - **Relokasi & Dinamisasi Kartu Metadata**: Memindahkan kartu informasi metadata inspeksi (No. Inspeksi, Tanggal, Inspektor, SMU, Status Kesehatan) dari header atas yang statis menjadi berada di bagian paling atas kontainer temuan inspeksi terperinci (`InspectionReport.tsx` dan `FCGReportLayout.tsx`). Nilai metadata diperbarui secara dinamis mengikuti baris riwayat inspeksi yang sedang dipilih.
+  - **Desain Kontras Latar Belakang Baru**: Menerapkan warna latar belakang kontras yang lembut (`bg-[#f8fafc]` di Light Mode, `bg-[#090d16]` di Dark Mode) pada kontainer detail temuan untuk mempertegas pemisahan area atas (Summary) dan bawah (Detail).
+  - **Sinkronisasi Urgency Matrix**: Menyelaraskan desain visual kartu **Urgency Matrix** pada halaman Detail Unit agar persis dengan template Customer Portal (menggunakan baris kartu berwarna lembut dengan border tipis dan dilengkapi ikon status `XCircle`, `AlertTriangle`, `CheckCircle2`).
+
 - **[v 1.3.3] [2026-05-19] Feature & Data Hardening: Multi-Tab Inspection History & Mechanic Safety Audit**:
   - `src/app/components/InspectionReport.tsx`:
     - Menambahkan tabel **Inspection History** pada bagian summary untuk seluruh komoditas umum (U/C, GET, TYR, BAT, LUB, Autofire).
