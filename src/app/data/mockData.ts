@@ -360,6 +360,271 @@ export const unitHealthData = [
     ],
     poStatus: "Partial PO",
   },
+  // ── ADDITIONAL UNITS FOR PT ADARO ENERGY ──
+  {
+    serialNumber: "PC2000-8-70112",
+    model: "Komatsu PC2000-8",
+    site: "Tambang Adaro - Kalimantan Selatan",
+    lastInspection: "2026-02-28",
+    hoursOperated: 18_400,
+    overallHealth: "Caution",
+    commodityStatus: {
+      BAT: "Good",
+      GET: "Caution",
+      TYR: "N/A",
+      FCG: "Critical",
+      LUB: "Good",
+      Autofire: "Good",
+      Autolube: "Good",
+      "U/C": "Good"
+    },
+    maintenanceBundling: {
+      hasRecommendation: true,
+      message: "FCG Hydraulic Hoses critical wear. Replace together with GET tooth bucket to optimize PM window."
+    },
+    components: [
+      {
+        name: "Main Hydraulic Hose",
+        wear: 84,
+        threshold: 80,
+        remainingLife: "~250 hrs",
+        recommendedAction: "Segera ganti sebelum terjadi kebocoran oli hidrolik.",
+        priority: "Critical",
+        commodity: "FCG"
+      },
+      {
+        name: "Bucket Lip Shroud",
+        wear: 76,
+        threshold: 80,
+        remainingLife: "~450 hrs",
+        recommendedAction: "Persiapkan sparepart untuk penggantian PM mendatang.",
+        priority: "Caution",
+        commodity: "GET"
+      }
+    ],
+    poStatus: "Draft PO",
+  },
+  {
+    serialNumber: "HD785-7-80421",
+    model: "Komatsu HD785-7",
+    site: "Tambang Adaro - Kalimantan Selatan",
+    lastInspection: "2026-03-02",
+    hoursOperated: 11_200,
+    overallHealth: "Good",
+    commodityStatus: {
+      BAT: "Good",
+      GET: "N/A",
+      TYR: "Good",
+      FCG: "Good",
+      LUB: "Good",
+      Autofire: "Good",
+      Autolube: "Good",
+      "U/C": "N/A"
+    },
+    maintenanceBundling: {
+      hasRecommendation: false,
+      message: ""
+    },
+    components: [
+      {
+        name: "Front Tyre RH",
+        wear: 45,
+        threshold: 80,
+        remainingLife: "> 1,500 hrs",
+        recommendedAction: "Kondisi normal. Lanjutkan pemantauan rutin.",
+        priority: "Good",
+        commodity: "TYR"
+      }
+    ],
+    poStatus: "PO Issued",
+  },
+  {
+    serialNumber: "D375A-6-50239",
+    model: "Komatsu D375A-6",
+    site: "Tambang Adaro - Kalimantan Selatan",
+    lastInspection: "2026-02-18",
+    hoursOperated: 16_800,
+    overallHealth: "Critical",
+    commodityStatus: {
+      BAT: "Caution",
+      GET: "Critical",
+      TYR: "N/A",
+      FCG: "Good",
+      LUB: "Caution",
+      Autofire: "Good",
+      Autolube: "Good",
+      "U/C": "Critical"
+    },
+    maintenanceBundling: {
+      hasRecommendation: true,
+      message: "Undercarriage link & GET Ripper Point critical. Bundling both repairs recommended."
+    },
+    components: [
+      {
+        name: "Ripper Point RH",
+        wear: 90,
+        threshold: 80,
+        remainingLife: "< 150 hrs",
+        recommendedAction: "Ganti segera — penetrasi tanah menurun drastis.",
+        priority: "Critical",
+        commodity: "GET"
+      },
+      {
+        name: "Track Roller Assy",
+        wear: 86,
+        threshold: 80,
+        remainingLife: "< 300 hrs",
+        recommendedAction: "Order track roller set baru.",
+        priority: "Critical",
+        commodity: "U/C"
+      }
+    ],
+    poStatus: "No PO",
+  },
+  {
+    serialNumber: "PC1250-8-65022",
+    model: "Komatsu PC1250-8",
+    site: "Tambang Adaro - Kalimantan Selatan",
+    lastInspection: "2026-03-01",
+    hoursOperated: 8_900,
+    overallHealth: "Good",
+    commodityStatus: {
+      BAT: "Good",
+      GET: "Good",
+      TYR: "N/A",
+      FCG: "Good",
+      LUB: "Good",
+      Autofire: "Good",
+      Autolube: "Good",
+      "U/C": "Good"
+    },
+    maintenanceBundling: {
+      hasRecommendation: false,
+      message: ""
+    },
+    components: [],
+    poStatus: "PO Issued",
+  },
+  {
+    serialNumber: "HD785-7-80435",
+    model: "Komatsu HD785-7",
+    site: "Tambang Adaro - Kalimantan Selatan",
+    lastInspection: "2026-02-24",
+    hoursOperated: 13_500,
+    overallHealth: "Caution",
+    commodityStatus: {
+      BAT: "Good",
+      GET: "N/A",
+      TYR: "Caution",
+      FCG: "Good",
+      LUB: "Caution",
+      Autofire: "Good",
+      Autolube: "Good",
+      "U/C": "N/A"
+    },
+    maintenanceBundling: {
+      hasRecommendation: true,
+      message: "Tyre tread wear approaching 75%. Schedule rotation on next PM."
+    },
+    components: [
+      {
+        name: "Rear Tyre Outer LH",
+        wear: 76,
+        threshold: 80,
+        remainingLife: "~400 hrs",
+        recommendedAction: "Rotasi ban belakang ke posisi depan.",
+        priority: "Caution",
+        commodity: "TYR"
+      }
+    ],
+    poStatus: "Partial PO",
+  },
+
+  // ── ADDITIONAL UNITS FOR OTHER CUSTOMERS ──
+  {
+    serialNumber: "HD785-7-81055",
+    model: "Komatsu HD785-7",
+    site: "Tambang Thiess - Kalimantan Timur",
+    lastInspection: "2026-02-26",
+    hoursOperated: 15_100,
+    overallHealth: "Caution",
+    commodityStatus: {
+      BAT: "Good",
+      GET: "N/A",
+      TYR: "Caution",
+      FCG: "Caution",
+      LUB: "Good",
+      Autofire: "Good",
+      Autolube: "Good",
+      "U/C": "N/A"
+    },
+    maintenanceBundling: { hasRecommendation: false, message: "" },
+    components: [],
+    poStatus: "Draft PO",
+  },
+  {
+    serialNumber: "CAT785D-AX9912",
+    model: "CAT 785D",
+    site: "Tambang Berau Coal - Kalimantan Timur",
+    lastInspection: "2026-02-27",
+    hoursOperated: 12_800,
+    overallHealth: "Caution",
+    commodityStatus: {
+      BAT: "Good",
+      GET: "N/A",
+      TYR: "Caution",
+      FCG: "Good",
+      LUB: "Good",
+      Autofire: "Good",
+      Autolube: "Good",
+      "U/C": "N/A"
+    },
+    maintenanceBundling: { hasRecommendation: false, message: "" },
+    components: [],
+    poStatus: "Partial PO",
+  },
+  {
+    serialNumber: "CAT785D-AX8805",
+    model: "CAT 785D",
+    site: "Tambang Agincourt - Sumatera Utara",
+    lastInspection: "2026-02-22",
+    hoursOperated: 17_600,
+    overallHealth: "Caution",
+    commodityStatus: {
+      BAT: "Caution",
+      GET: "N/A",
+      TYR: "Good",
+      FCG: "Caution",
+      LUB: "Good",
+      Autofire: "Good",
+      Autolube: "Good",
+      "U/C": "N/A"
+    },
+    maintenanceBundling: { hasRecommendation: false, message: "" },
+    components: [],
+    poStatus: "Draft PO",
+  },
+  {
+    serialNumber: "BP-HY-010",
+    model: "CAT 390F",
+    site: "Tambang Baramulti - Kalimantan Selatan",
+    lastInspection: "2026-02-23",
+    hoursOperated: 7_100,
+    overallHealth: "Caution",
+    commodityStatus: {
+      BAT: "Good",
+      GET: "Caution",
+      TYR: "N/A",
+      FCG: "Good",
+      LUB: "Good",
+      Autofire: "Good",
+      Autolube: "Good",
+      "U/C": "Good"
+    },
+    maintenanceBundling: { hasRecommendation: false, message: "" },
+    components: [],
+    poStatus: "Partial PO",
+  }
 ];
 
 // ─── Strategic Strategic KPIs (Enriched Data) ────────────────────────────────
