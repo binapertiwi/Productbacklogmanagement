@@ -57,20 +57,6 @@ export function Layout() {
             </NavLink>
             */}
             <NavLink
-              to="/customer"
-              className={({ isActive }) =>
-                `flex items-center gap-1.5 px-3 sm:px-5 text-xs sm:text-sm border-b-2 transition-colors ${
-                  isActive
-                    ? "border-brand-green text-white dark:text-brand-green bg-white/10 dark:bg-brand-green/10"
-                    : "border-transparent text-white/70 dark:text-muted-foreground hover:text-white dark:hover:text-foreground hover:bg-white/5 dark:hover:bg-accent"
-                }`
-              }
-            >
-              <Users className="w-4 h-4 flex-shrink-0" />
-              <span className="hidden xs:inline sm:inline">Customer</span>
-              <span className="hidden md:inline"> Portal</span>
-            </NavLink>
-            <NavLink
               to="/login"
               className={({ isActive }) =>
                 `flex items-center gap-1.5 px-3 sm:px-5 text-xs sm:text-sm border-b-2 transition-colors ${
@@ -83,6 +69,20 @@ export function Layout() {
               <LogIn className="w-4 h-4 flex-shrink-0" />
               <span className="hidden xs:inline sm:inline">Login</span>
               <span className="hidden md:inline"> Screen</span>
+            </NavLink>
+            <NavLink
+              to="/customer"
+              className={({ isActive }) =>
+                `flex items-center gap-1.5 px-3 sm:px-5 text-xs sm:text-sm border-b-2 transition-colors ${
+                  isActive
+                    ? "border-brand-green text-white dark:text-brand-green bg-white/10 dark:bg-brand-green/10"
+                    : "border-transparent text-white/70 dark:text-muted-foreground hover:text-white dark:hover:text-foreground hover:bg-white/5 dark:hover:bg-accent"
+                }`
+              }
+            >
+              <Users className="w-4 h-4 flex-shrink-0" />
+              <span className="hidden xs:inline sm:inline">Customer</span>
+              <span className="hidden md:inline"> Portal</span>
             </NavLink>
           </nav>
 
