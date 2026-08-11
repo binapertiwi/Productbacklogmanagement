@@ -9,6 +9,9 @@ const InternalDashboard = lazy(() =>
 const CustomerPortal = lazy(() =>
   import("./components/CustomerPortal").then((m) => ({ default: m.CustomerPortal }))
 );
+const CustomerInternalPortal = lazy(() =>
+  import("./components/CustomerInternalPortal").then((m) => ({ default: m.CustomerInternalPortal }))
+);
 const LoginScreen = lazy(() =>
   import("./components/LoginScreen").then((m) => ({ default: m.LoginScreen }))
 );
@@ -27,6 +30,7 @@ export const router = createBrowserRouter([
       { index: true, Component: LoginScreen },
       { path: "internal", Component: InternalDashboard },
       { path: "customer", Component: CustomerPortal },
+      { path: "customer-internal", Component: CustomerInternalPortal },
       { path: "login", Component: LoginScreen },
       { path: "unit/:serialNumber", Component: UnitDetailPage },
       { path: "inspector", Component: InspectorProductivity },

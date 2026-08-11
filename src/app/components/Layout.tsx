@@ -39,23 +39,6 @@ export function Layout() {
 
           {/* Center Nav Tabs */}
           <nav className="flex items-stretch h-14 flex-1 justify-center sm:justify-start sm:flex-none">
-            {/* 
-            <NavLink
-              to="/internal"
-              end
-              className={({ isActive }) =>
-                `flex items-center gap-1.5 px-3 sm:px-5 text-xs sm:text-sm border-b-2 transition-colors ${
-                  isActive
-                    ? "border-brand-green text-white dark:text-brand-green bg-white/10 dark:bg-brand-green/10"
-                    : "border-transparent text-white/70 dark:text-muted-foreground hover:text-white dark:hover:text-foreground hover:bg-white/5 dark:hover:bg-accent"
-                }`
-              }
-            >
-              <LayoutDashboard className="w-4 h-4 flex-shrink-0" />
-              <span className="hidden xs:inline sm:inline">Internal</span>
-              <span className="hidden md:inline"> Dashboard</span>
-            </NavLink>
-            */}
             <NavLink
               to="/login"
               className={({ isActive }) =>
@@ -69,6 +52,20 @@ export function Layout() {
               <LogIn className="w-4 h-4 flex-shrink-0" />
               <span className="hidden xs:inline sm:inline">Login</span>
               <span className="hidden md:inline"> Screen</span>
+            </NavLink>
+            <NavLink
+              to="/customer-internal"
+              className={({ isActive }) =>
+                `flex items-center gap-1.5 px-3 sm:px-5 text-xs sm:text-sm border-b-2 transition-colors ${
+                  isActive
+                    ? "border-brand-green text-white dark:text-brand-green bg-white/10 dark:bg-brand-green/10"
+                    : "border-transparent text-white/70 dark:text-muted-foreground hover:text-white dark:hover:text-foreground hover:bg-white/5 dark:hover:bg-accent"
+                }`
+              }
+            >
+              <LayoutDashboard className="w-4 h-4 flex-shrink-0" />
+              <span className="hidden xs:inline sm:inline">Customer</span>
+              <span className="hidden md:inline"> Internal</span>
             </NavLink>
             <NavLink
               to="/customer"

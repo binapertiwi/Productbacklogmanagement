@@ -56,7 +56,7 @@ export function LoginScreen() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    navigate("/customer");
+    navigate("/customer-internal");
   };
 
   return (
