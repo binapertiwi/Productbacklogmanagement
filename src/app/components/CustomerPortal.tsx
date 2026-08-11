@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useCallback } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import {
   CheckCircle2,
   AlertTriangle,
@@ -14,7 +14,8 @@ import {
   Filter,
   Layers,
   Info,
-  Sparkles
+  Sparkles,
+  Building2
 } from "lucide-react";
 import {
   Tooltip,
@@ -107,14 +108,39 @@ export function CustomerPortal() {
   const [isAiCopilotOpen, setIsAiCopilotOpen] = useState(false);
   const navigate = useNavigate();
 
-  // ── DYNAMIC SUMMARY COMPUTATION BASED ON COMMODITY FILTER ─────────────
+  const [searchParams, setSearchParams] = useSearchParams();
+  const selectedCustomer = searchParams.get("customer") || "PT Adaro Energy";
+
+  const handleCustomerChange = (customerName: string) => {
+    const newParams = new URLSearchParams(searchParams);
+    if (customerName === "All Customers") {
+      newParams.delete("customer");
+    } else {
+      newParams.set("customer", customerName);
+    }
+    setSearchParams(newParams, { replace: true });
+  };
+
+  const customerUnits = useMemo(() => {
+    if (selectedCustomer === "All Customers") return unitHealthData;
+    return unitHealthData.filter((u) => {
+      if (selectedCustomer === "PT Adaro Energy") return u.site.includes("Adaro");
+      if (selectedCustomer === "PT Thiess") return u.site.includes("Thiess");
+      if (selectedCustomer === "PT Agincourt Resources") return u.site.includes("Agincourt");
+      if (selectedCustomer === "PT Berau Coal") return u.site.includes("Berau");
+      if (selectedCustomer === "PT Baramulti") return u.site.includes("Baramulti");
+      return true;
+    });
+  }, [selectedCustomer]);
+
+  // ── DYNAMIC SUMMARY COMPUTATION BASED ON COMMODITY FILTER & CUSTOMER ─────
   const summaryData = useMemo(() => {
     let criticalCount = 0;
     let cautionCount = 0;
     let goodCount = 0;
     let totalEvaluated = 0;
 
-    unitHealthData.forEach((unit) => {
+    customerUnits.forEach((unit) => {
       let status = unit.overallHealth;
       if (commodityFilter !== "All Commodity") {
         status = (unit.commodityStatus as Record<string, string>)[commodityFilter] || "N/A";
@@ -151,25 +177,27 @@ export function CustomerPortal() {
       good: goodCount,
       total: totalEvaluated
     };
-  }, [commodityFilter]);
+  }, [commodityFilter, customerUnits]);
 
-  // Dynamic calculation for Units at Risk based on Commodity Filter
+  // Dynamic calculation for Units at Risk based on Commodity Filter & Customer
   const dynamicUnitsAtRisk = useMemo(() => {
-    if (commodityFilter === "All Commodity") {
-      return topUnitsAtRisk;
-    }
-    const atRisk = unitHealthData
+    const atRisk = customerUnits
       .filter((u) => {
+        if (commodityFilter === "All Commodity") {
+          return u.overallHealth === "Critical" || u.overallHealth === "Caution";
+        }
         const st = (u.commodityStatus as Record<string, string>)[commodityFilter];
         return st === "Critical" || st === "Caution";
       })
       .map((u) => {
-        const st = (u.commodityStatus as Record<string, string>)[commodityFilter];
+        const st = commodityFilter === "All Commodity"
+          ? u.overallHealth
+          : (u.commodityStatus as Record<string, string>)[commodityFilter];
         return {
           unitId: u.serialNumber,
           model: u.model,
           site: u.site.split("-")[1]?.trim() || u.site,
-          fatalCommodity: commodityFilter,
+          fatalCommodity: commodityFilter === "All Commodity" ? "Multi" : commodityFilter,
           riskLevel: st,
           daysToBreakdown: st === "Critical" ? 5 : 12,
         };
@@ -177,11 +205,11 @@ export function CustomerPortal() {
       .slice(0, 3);
 
     return atRisk.length > 0 ? atRisk : topUnitsAtRisk;
-  }, [commodityFilter]);
+  }, [commodityFilter, customerUnits]);
 
   const filtered = useMemo(() => {
     const q = search.toLowerCase();
-    return unitHealthData.filter((u) => {
+    return customerUnits.filter((u) => {
       const matchesSearch = u.serialNumber.toLowerCase().includes(q) || u.model.toLowerCase().includes(q) || u.site.toLowerCase().includes(q);
       const matchesStatus = statusFilter === "All Status" || (
         commodityFilter === "All Commodity"
@@ -191,7 +219,7 @@ export function CustomerPortal() {
       const matchesCommodity = commodityFilter === "All Commodity" || (u.commodityStatus as Record<string, string>)[commodityFilter] !== "N/A";
       return matchesSearch && matchesStatus && matchesCommodity;
     });
-  }, [search, statusFilter, commodityFilter]);
+  }, [search, statusFilter, commodityFilter, customerUnits]);
 
   const handleExportPO = useCallback(() => { alert("Export PO Recommendation\n\nPO akan digenerate dan dikelompokkan secara otomatis...\n\n[Demo Mode]"); }, []);
   const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value), []);
@@ -212,7 +240,7 @@ export function CustomerPortal() {
       </div>
 
       {/* ── TOP GLOBAL FILTER TOOLBAR ────────────────────────────────────── */}
-      <div className="bg-card rounded-xl border border-border p-4 shadow-sm flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+      <div className="bg-card rounded-xl border border-border p-4 shadow-sm flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
         <div className="flex flex-wrap items-center gap-2 flex-1">
           <div className="flex items-center gap-1.5 text-xs font-bold text-muted-foreground mr-2">
             <Filter className="w-4 h-4 text-brand-green" />
@@ -243,10 +271,28 @@ export function CustomerPortal() {
           ))}
         </div>
 
-        <div className="flex items-center gap-2 flex-shrink-0 border-t md:border-t-0 border-border pt-3 md:pt-0">
+        <div className="flex flex-wrap items-center gap-2 flex-shrink-0 border-t lg:border-t-0 border-border pt-3 lg:pt-0">
+          {/* Customer Dropdown */}
+          <div className="relative">
+            <Select value={selectedCustomer} onValueChange={handleCustomerChange}>
+              <SelectTrigger className="w-[170px] h-9 text-xs font-bold bg-background text-brand-navy dark:text-brand-green border-brand-green/30">
+                <Building2 className="w-3.5 h-3.5 mr-1 text-brand-green" />
+                <SelectValue placeholder="Select Customer" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="All Customers">All Customers</SelectItem>
+                <SelectItem value="PT Adaro Energy">PT Adaro Energy</SelectItem>
+                <SelectItem value="PT Thiess">PT Thiess</SelectItem>
+                <SelectItem value="PT Agincourt Resources">PT Agincourt Resources</SelectItem>
+                <SelectItem value="PT Berau Coal">PT Berau Coal</SelectItem>
+                <SelectItem value="PT Baramulti">PT Baramulti</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
           <div className="relative">
             <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-[130px] h-9 text-xs font-bold bg-background">
+              <SelectTrigger className="w-[120px] h-9 text-xs font-bold bg-background">
                 <SelectValue placeholder="All Status" />
               </SelectTrigger>
               <SelectContent>
@@ -262,7 +308,7 @@ export function CustomerPortal() {
             <input
               type="text"
               placeholder="Cari unit / site..."
-              className="pl-9 pr-4 text-xs h-9 border border-border rounded-lg bg-background focus:outline-none focus:ring-1 focus:ring-primary/30 w-44 text-foreground font-medium"
+              className="pl-9 pr-4 text-xs h-9 border border-border rounded-lg bg-background focus:outline-none focus:ring-1 focus:ring-primary/30 w-40 text-foreground font-medium"
               value={search}
               onChange={handleSearchChange}
             />

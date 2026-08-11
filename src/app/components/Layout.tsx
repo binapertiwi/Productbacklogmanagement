@@ -39,8 +39,9 @@ export function Layout() {
 
           {/* Center Nav Tabs */}
           <nav className="flex items-stretch h-14 flex-1 justify-center sm:justify-start sm:flex-none">
+            {/* 
             <NavLink
-              to="/"
+              to="/internal"
               end
               className={({ isActive }) =>
                 `flex items-center gap-1.5 px-3 sm:px-5 text-xs sm:text-sm border-b-2 transition-colors ${
@@ -54,6 +55,7 @@ export function Layout() {
               <span className="hidden xs:inline sm:inline">Internal</span>
               <span className="hidden md:inline"> Dashboard</span>
             </NavLink>
+            */}
             <NavLink
               to="/customer"
               className={({ isActive }) =>
@@ -82,22 +84,6 @@ export function Layout() {
               <span className="hidden xs:inline sm:inline">Login</span>
               <span className="hidden md:inline"> Screen</span>
             </NavLink>
-            {/* 
-            <NavLink
-              to="/inspector"
-              className={({ isActive }) =>
-                `flex items-center gap-1.5 px-3 sm:px-5 text-xs sm:text-sm border-b-2 transition-colors ${
-                  isActive
-                    ? "border-brand-green text-white dark:text-brand-green bg-white/10 dark:bg-brand-green/10"
-                    : "border-transparent text-white/70 dark:text-muted-foreground hover:text-white dark:hover:text-foreground hover:bg-white/5 dark:hover:bg-accent"
-                }`
-              }
-            >
-              <ClipboardCheck className="w-4 h-4 flex-shrink-0" />
-              <span className="hidden xs:inline sm:inline">Inspector</span>
-              <span className="hidden md:inline"> Productivity</span>
-            </NavLink>
-            */}
           </nav>
 
           {/* Right Side */}
@@ -134,17 +120,40 @@ export function Layout() {
         <span className="hidden sm:inline">PT Bina Pertiwi</span>
         <span className="hidden sm:inline">/</span>
         <span className="text-brand-navy dark:text-brand-blue truncate font-bold">
-          {location.pathname.startsWith("/unit/") ? (
-            <span className="flex items-center gap-1">
-              Unit <span className="text-brand-green">{location.pathname.split("/").pop()}</span>
-            </span>
-          ) : location.pathname === "/inspector" ? (
-            "Inspector Productivity Dashboard"
-          ) : isInternal ? (
-            "Operation & Inventory Dashboard"
-          ) : (
-            "Fleet Health & Procurement Portal"
-          )}
+          {(() => {
+            const searchParams = new URLSearchParams(location.search);
+            const customerParam = searchParams.get("customer") || "PT Adaro Energy";
+
+            let currentCustomer = customerParam;
+            if (location.pathname.startsWith("/unit/")) {
+              const serial = location.pathname.split("/").pop();
+              if (serial === "D375A-6-50234") currentCustomer = "PT Adaro Energy";
+              else if (serial === "PC800-8-61823") currentCustomer = "PT Thiess";
+              else if (serial === "CAT785D-AX8801") currentCustomer = "PT Agincourt Resources";
+              else if (serial === "BP-UC-002") currentCustomer = "PT Berau Coal";
+              else if (serial === "BP-HY-006") currentCustomer = "PT Baramulti";
+            }
+
+            if (location.pathname === "/login") {
+              return "Login Screen";
+            } else if (location.pathname === "/inspector") {
+              return "Inspector Productivity Dashboard";
+            } else if (location.pathname === "/internal") {
+              return "Operation & Inventory Dashboard";
+            } else {
+              return (
+                <span className="flex items-center gap-1">
+                  <span className="text-brand-navy dark:text-brand-green font-bold">{currentCustomer}</span>
+                  {location.pathname.startsWith("/unit/") && (
+                    <>
+                      <span>/</span>
+                      <span className="text-foreground">Unit {location.pathname.split("/").pop()}</span>
+                    </>
+                  )}
+                </span>
+              );
+            }
+          })()}
         </span>
         <div className="ml-auto flex items-center gap-1 sm:gap-2 flex-shrink-0 capitalize tracking-normal text-xs">
           <span className="text-muted-foreground/60 hidden sm:inline">Periode:</span>
