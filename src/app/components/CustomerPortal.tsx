@@ -108,18 +108,8 @@ export function CustomerPortal() {
   const [isAiCopilotOpen, setIsAiCopilotOpen] = useState(false);
   const navigate = useNavigate();
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const selectedCustomer = searchParams.get("customer") || "PT Adaro Energy";
-
-  const handleCustomerChange = (customerName: string) => {
-    const newParams = new URLSearchParams(searchParams);
-    if (customerName === "All Customers") {
-      newParams.delete("customer");
-    } else {
-      newParams.set("customer", customerName);
-    }
-    setSearchParams(newParams, { replace: true });
-  };
 
   const customerUnits = useMemo(() => {
     if (selectedCustomer === "All Customers") return unitHealthData;
@@ -272,23 +262,7 @@ export function CustomerPortal() {
         </div>
 
         <div className="flex flex-wrap items-center gap-2 flex-shrink-0 border-t lg:border-t-0 border-border pt-3 lg:pt-0">
-          {/* Customer Dropdown */}
-          <div className="relative">
-            <Select value={selectedCustomer} onValueChange={handleCustomerChange}>
-              <SelectTrigger className="w-[170px] h-9 text-xs font-bold bg-background text-brand-navy dark:text-brand-green border-brand-green/30">
-                <Building2 className="w-3.5 h-3.5 mr-1 text-brand-green" />
-                <SelectValue placeholder="Select Customer" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="All Customers">All Customers</SelectItem>
-                <SelectItem value="PT Adaro Energy">PT Adaro Energy</SelectItem>
-                <SelectItem value="PT Thiess">PT Thiess</SelectItem>
-                <SelectItem value="PT Agincourt Resources">PT Agincourt Resources</SelectItem>
-                <SelectItem value="PT Berau Coal">PT Berau Coal</SelectItem>
-                <SelectItem value="PT Baramulti">PT Baramulti</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+
 
           <div className="relative">
             <Select value={statusFilter} onValueChange={setStatusFilter}>
