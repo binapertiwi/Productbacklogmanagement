@@ -113,11 +113,7 @@ export function CustomerInternalPortal() {
 
   const handleCustomerChange = (customerName: string) => {
     const newParams = new URLSearchParams(searchParams);
-    if (customerName === "All Customers") {
-      newParams.delete("customer");
-    } else {
-      newParams.set("customer", customerName);
-    }
+    newParams.set("customer", customerName);
     setSearchParams(newParams, { replace: true });
   };
 
