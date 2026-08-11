@@ -251,6 +251,7 @@ export function InspectionReport({ report, unitId, onExportPO }: InspectionRepor
                     <th className="px-4 py-3 border-b border-border">Description</th>
                     <th className="px-3 py-3 border-b border-border text-center">Qty</th>
                     <th className="px-3 py-3 border-b border-border text-center">UoM</th>
+                    <th className="px-3 py-3 border-b border-border text-center">Bulan/Tahun</th>
                     <th className="px-4 py-3 border-b border-border text-center">Urgency</th>
                     <th className="px-4 py-3 border-b border-border text-right">Est. Price</th>
                   </tr>
@@ -262,6 +263,7 @@ export function InspectionReport({ report, unitId, onExportPO }: InspectionRepor
                       <td className="px-4 py-3 text-xs font-bold text-foreground/90">{part.description}</td>
                       <td className="px-3 py-3 text-center font-bold text-foreground">{part.quantity}</td>
                       <td className="px-3 py-3 text-center text-[10px] font-bold text-muted-foreground">{part.uom}</td>
+                      <td className="px-3 py-3 text-center text-xs font-bold text-muted-foreground">{part.period || 'Feb 2026'}</td>
                       <td className="px-4 py-3 text-center"><StatusBadge status={part.urgency} size="sm" /></td>
                       <td className="px-4 py-3 text-right font-bold text-primary dark:text-foreground text-xs">
                         {part.estimatedPrice != null ? formatRupiah(part.estimatedPrice) : '—'}
@@ -269,7 +271,7 @@ export function InspectionReport({ report, unitId, onExportPO }: InspectionRepor
                     </tr>
                   )) : (
                     <tr>
-                      <td colSpan={6} className="px-5 py-8 text-center text-xs text-muted-foreground font-bold italic">
+                      <td colSpan={7} className="px-5 py-8 text-center text-xs text-muted-foreground font-bold italic">
                         Tidak ada data yang sesuai dengan filter.
                       </td>
                     </tr>
@@ -278,7 +280,7 @@ export function InspectionReport({ report, unitId, onExportPO }: InspectionRepor
                 {filteredParts.length > 0 && (
                   <tfoot>
                     <tr className="bg-muted/20">
-                      <td colSpan={5} className="px-5 py-3 text-xs font-bold text-muted-foreground uppercase tracking-widest">Total Estimasi PO (Filtered)</td>
+                      <td colSpan={6} className="px-5 py-3 text-xs font-bold text-muted-foreground uppercase tracking-widest">Total Estimasi PO (Filtered)</td>
                       <td className="px-4 py-3 text-right font-bold text-brand-green text-sm">
                         {formatRupiah(filteredParts.reduce((sum, r) => sum + (r.estimatedPrice ?? 0) * r.quantity, 0))}
                       </td>

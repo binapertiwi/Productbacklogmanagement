@@ -374,6 +374,7 @@ export function FCGReportLayout({ unit, activeReport, onExportPO }: FCGReportLay
                 <th className="px-6 py-3">Description</th>
                 <th className="px-6 py-3 text-center">Qty</th>
                 <th className="px-6 py-3 text-center">UoM</th>
+                <th className="px-6 py-3 text-center">Bulan/Tahun</th>
                 <th className="px-6 py-3 text-center">Urgency</th>
                 <th className="px-6 py-3 text-right">Est. Price</th>
               </tr>
@@ -385,6 +386,7 @@ export function FCGReportLayout({ unit, activeReport, onExportPO }: FCGReportLay
                   <td className="px-6 py-4 text-xs font-semibold text-gray-800">{part.description}</td>
                   <td className="px-6 py-4 text-center font-bold text-gray-900">{part.quantity}</td>
                   <td className="px-6 py-4 text-center text-[10px] font-bold text-muted-foreground uppercase">{part.uom}</td>
+                  <td className="px-6 py-4 text-center text-xs font-bold text-gray-600">{part.period || 'Feb 2026'}</td>
                   <td className="px-6 py-4 text-center"><StatusBadge status={part.urgency} size="sm" /></td>
                   <td className="px-6 py-4 text-right font-bold text-brand-navy text-xs">
                     {part.estimatedPrice != null ? formatRupiah(part.estimatedPrice) : '—'}
@@ -392,7 +394,7 @@ export function FCGReportLayout({ unit, activeReport, onExportPO }: FCGReportLay
                 </tr>
               )) : (
                 <tr>
-                  <td colSpan={6} className="px-6 py-8 text-center text-xs text-muted-foreground font-medium italic">
+                  <td colSpan={7} className="px-6 py-8 text-center text-xs text-muted-foreground font-medium italic">
                     No parts match your filter.
                   </td>
                 </tr>
@@ -401,7 +403,7 @@ export function FCGReportLayout({ unit, activeReport, onExportPO }: FCGReportLay
             {filteredParts.length > 0 && (
               <tfoot>
                 <tr className="bg-brand-green/5 border-t border-brand-green/20">
-                  <td colSpan={5} className="px-6 py-4 text-xs font-bold text-brand-green uppercase tracking-widest">Total Estimasi PO (Filtered)</td>
+                  <td colSpan={6} className="px-6 py-4 text-xs font-bold text-brand-green uppercase tracking-widest">Total Estimasi PO (Filtered)</td>
                   <td className="px-6 py-4 text-right font-bold text-brand-green text-base">
                     {formatRupiah(totalEstimatedPO)}
                   </td>

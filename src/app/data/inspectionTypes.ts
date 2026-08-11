@@ -61,12 +61,12 @@ export interface FieldEvidence {
   photoUrls: string[]; // URL foto temuan di lapangan
 }
 
-// Rekomendasi Part untuk PO
 export interface RecommendedPart {
   partNumber: string;
   description: string;
   quantity: number;
   uom: string; // Unit of Measure: "Pcs", "Set", "Liter"
+  period?: string; // Target Month/Year: e.g. "Feb 2026", "Mar 2026"
   urgency: HealthStatus;
   estimatedPrice?: number; // Estimasi harga (Rupiah)
 }

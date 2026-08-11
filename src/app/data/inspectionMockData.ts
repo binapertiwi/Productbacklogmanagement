@@ -125,10 +125,10 @@ export const unitHolisticData: UnitHolisticData[] = [
           photoUrls: PLACEHOLDER_PHOTOS,
         },
         recommendations: [
-          { partNumber: 'D37-32-81130', description: 'Track Shoe Assembly LH (Set)', quantity: 1, uom: 'Set', urgency: 'Critical', estimatedPrice: 45_000_000 },
-          { partNumber: 'D37-32-82130', description: 'Track Shoe Assembly RH (Set)', quantity: 1, uom: 'Set', urgency: 'Critical', estimatedPrice: 45_000_000 },
-          { partNumber: 'D37-32-41230', description: 'Sprocket LH', quantity: 1, uom: 'Pcs', urgency: 'Critical', estimatedPrice: 12_500_000 },
-          { partNumber: 'D37-13-41100', description: 'Top Roller LH (Standard)', quantity: 2, uom: 'Pcs', urgency: 'Caution', estimatedPrice: 4_200_000 },
+          { partNumber: 'D37-32-81130', description: 'Track Shoe Assembly LH (Set)', quantity: 1, uom: 'Set', period: 'Feb 2026', urgency: 'Critical', estimatedPrice: 45_000_000 },
+          { partNumber: 'D37-32-82130', description: 'Track Shoe Assembly RH (Set)', quantity: 1, uom: 'Set', period: 'Feb 2026', urgency: 'Critical', estimatedPrice: 45_000_000 },
+          { partNumber: 'D37-32-41230', description: 'Sprocket LH', quantity: 1, uom: 'Pcs', period: 'Feb 2026', urgency: 'Critical', estimatedPrice: 12_500_000 },
+          { partNumber: 'D37-13-41100', description: 'Top Roller LH (Standard)', quantity: 2, uom: 'Pcs', period: 'Mar 2026', urgency: 'Caution', estimatedPrice: 4_200_000 },
         ],
       },
       'GET': {
