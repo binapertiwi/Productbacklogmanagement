@@ -24,7 +24,7 @@ export const router = createBrowserRouter([
     path: "/",
     Component: Layout,
     children: [
-      { index: true, Component: CustomerPortal },
+      { index: true, Component: LoginScreen },
       { path: "internal", Component: InternalDashboard },
       { path: "customer", Component: CustomerPortal },
       { path: "login", Component: LoginScreen },

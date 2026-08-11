@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router";
 import { Eye, EyeOff, ChevronLeft, ChevronRight, Activity } from "lucide-react";
 
 const slides = [
@@ -20,6 +21,7 @@ const slides = [
 ];
 
 export function LoginScreen() {
+  const navigate = useNavigate();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
@@ -54,8 +56,7 @@ export function LoginScreen() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    // Login logic would go here
-    alert(`Login dengan: ${email}`);
+    navigate("/customer");
   };
 
   return (
