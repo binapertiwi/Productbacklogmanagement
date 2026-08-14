@@ -19,7 +19,7 @@ export function Layout() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col transition-colors duration-300">
+    <div className="min-h-screen print:min-h-0 print:h-auto print:block bg-background text-foreground flex flex-col transition-colors duration-300">
       {/* Top Header */}
       <header className="print:hidden sticky top-0 z-50 bg-brand-navy dark:bg-card text-white dark:text-foreground shadow-lg transition-colors duration-300">
         <div className="px-3 sm:px-6 py-0 flex items-center justify-between h-14 gap-2">
@@ -160,7 +160,7 @@ export function Layout() {
       </div>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-auto bg-background transition-colors duration-300">
+      <main className="flex-1 overflow-auto print:overflow-visible bg-background transition-colors duration-300">
         <Outlet />
       </main>
 
