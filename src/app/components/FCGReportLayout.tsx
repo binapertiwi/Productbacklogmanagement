@@ -534,7 +534,14 @@ export function FCGReportLayout({ unit, activeReport, onExportPO, isInternal }: 
                     <p className="text-sm font-bold text-primary dark:text-foreground">{displaySMU.toLocaleString()} Hrs</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-4 pl-6 border-l border-slate-200 dark:border-slate-800 hidden md:flex">
+                <div className="flex items-center gap-6 pl-6 border-l border-slate-200 dark:border-slate-800 hidden md:flex">
+                  <button 
+                    onClick={() => window.print()}
+                    className="flex flex-col items-center justify-center gap-1 px-4 py-2 bg-white dark:bg-slate-800 hover:bg-muted border border-border text-brand-navy dark:text-brand-green rounded-xl transition-all shadow-sm group"
+                  >
+                    <Download className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                    <span className="text-[9px] font-bold uppercase tracking-wider">Download/Print</span>
+                  </button>
                   <div className="text-right">
                     <h6 className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mb-1">Health Status</h6>
                     <StatusBadge status={displayStatus} size="lg" />
