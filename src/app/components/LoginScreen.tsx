@@ -200,11 +200,7 @@ export function LoginScreen() {
               Masuk
             </button>
 
-            {/* Sign up */}
-            <p className="login-signup">
-              Belum punya akun?{" "}
-              <a href="#" className="login-signup-link">Daftar sekarang</a>
-            </p>
+
           </form>
         </div>
       </div>

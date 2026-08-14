@@ -105,6 +105,10 @@ export function CustomerPortal() {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("All Status");
   const [commodityFilter, setCommodityFilter] = useState("All Commodity");
+  const [bulanFilter, setBulanFilter] = useState("All Bulan");
+  const [modelFilter, setModelFilter] = useState("All Model");
+  const [brandFilter, setBrandFilter] = useState("All Brand");
+  const [areaFilter, setAreaFilter] = useState("All Area");
   const [isAiCopilotOpen, setIsAiCopilotOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -207,9 +211,15 @@ export function CustomerPortal() {
           : (u.commodityStatus as Record<string, string>)[commodityFilter] === statusFilter
       );
       const matchesCommodity = commodityFilter === "All Commodity" || (u.commodityStatus as Record<string, string>)[commodityFilter] !== "N/A";
-      return matchesSearch && matchesStatus && matchesCommodity;
+      
+      const matchesBulan = bulanFilter === "All Bulan" || true; // Dummy logic
+      const matchesModel = modelFilter === "All Model" || u.model.includes(modelFilter);
+      const matchesBrand = brandFilter === "All Brand" || true; // Dummy logic
+      const matchesArea = areaFilter === "All Area" || true; // Dummy logic
+
+      return matchesSearch && matchesStatus && matchesCommodity && matchesBulan && matchesModel && matchesBrand && matchesArea;
     });
-  }, [search, statusFilter, commodityFilter, customerUnits]);
+  }, [search, statusFilter, commodityFilter, bulanFilter, modelFilter, brandFilter, areaFilter, customerUnits]);
 
   const handleExportPO = useCallback(() => { alert("Export PO Recommendation\n\nPO akan digenerate dan dikelompokkan secara otomatis...\n\n[Demo Mode]"); }, []);
   const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value), []);
@@ -262,8 +272,6 @@ export function CustomerPortal() {
         </div>
 
         <div className="flex flex-wrap items-center gap-2 flex-shrink-0 border-t lg:border-t-0 border-border pt-3 lg:pt-0">
-
-
           <div className="relative">
             <Select value={statusFilter} onValueChange={setStatusFilter}>
               <SelectTrigger className="w-[120px] h-9 text-xs font-bold bg-background">
@@ -277,6 +285,63 @@ export function CustomerPortal() {
               </SelectContent>
             </Select>
           </div>
+
+          <div className="relative">
+            <Select value={bulanFilter} onValueChange={setBulanFilter}>
+              <SelectTrigger className="w-[110px] h-9 text-xs font-bold bg-background">
+                <SelectValue placeholder="All Bulan" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="All Bulan">All Bulan</SelectItem>
+                <SelectItem value="Januari">Januari</SelectItem>
+                <SelectItem value="Februari">Februari</SelectItem>
+                <SelectItem value="Maret">Maret</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="relative">
+            <Select value={modelFilter} onValueChange={setModelFilter}>
+              <SelectTrigger className="w-[110px] h-9 text-xs font-bold bg-background">
+                <SelectValue placeholder="All Model" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="All Model">All Model</SelectItem>
+                <SelectItem value="PC800">PC800</SelectItem>
+                <SelectItem value="D85ESS">D85ESS</SelectItem>
+                <SelectItem value="WA500">WA500</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="relative">
+            <Select value={brandFilter} onValueChange={setBrandFilter}>
+              <SelectTrigger className="w-[110px] h-9 text-xs font-bold bg-background">
+                <SelectValue placeholder="All Brand" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="All Brand">All Brand</SelectItem>
+                <SelectItem value="Komatsu">Komatsu</SelectItem>
+                <SelectItem value="Caterpillar">Caterpillar</SelectItem>
+                <SelectItem value="Hitachi">Hitachi</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="relative">
+            <Select value={areaFilter} onValueChange={setAreaFilter}>
+              <SelectTrigger className="w-[110px] h-9 text-xs font-bold bg-background">
+                <SelectValue placeholder="All Area" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="All Area">All Area</SelectItem>
+                <SelectItem value="Kalimantan">Kalimantan</SelectItem>
+                <SelectItem value="Sumatera">Sumatera</SelectItem>
+                <SelectItem value="Sulawesi">Sulawesi</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
           <div className="relative">
             <Search className="w-4 h-4 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2" />
             <input
@@ -478,7 +543,7 @@ export function CustomerPortal() {
                               return (
                                 <div
                                   key={comm}
-                                  onClick={(e) => { e.stopPropagation(); if (status !== 'N/A') navigate(`/unit/${unit.serialNumber}?tab=${comm}`); }}
+                                  onClick={(e) => { e.stopPropagation(); if (status !== 'N/A') navigate(`/unit/${unit.serialNumber}?tab=${comm}&source=external`); }}
                                   className={`flex items-center gap-1.5 px-2 py-0.5 rounded-md border text-[10px] font-bold transition-all ${isSelected ? 'ring-2 ring-brand-green scale-105' : ''} ${status !== 'N/A' ? 'cursor-pointer hover:scale-105 active:scale-95' : 'cursor-default opacity-50'} ${(healthColor[status as keyof typeof healthColor] || healthColor["N/A"]).bg} ${(healthColor[status as keyof typeof healthColor] || healthColor["N/A"]).border} ${(healthColor[status as keyof typeof healthColor] || healthColor["N/A"]).text}`}
                                 >
                                   <div className={`w-1.5 h-1.5 rounded-full ${(healthColor[status as keyof typeof healthColor] || healthColor["N/A"]).dot}`} />
@@ -497,7 +562,7 @@ export function CustomerPortal() {
                             <h4 className="text-sm font-bold text-primary dark:text-foreground">Komponen Dominan & Status Keausan</h4>
                             <p className="text-xs text-muted-foreground mt-0.5">Rekomendasi tindakan berdasar temuan inspeksi terakhir</p>
                           </div>
-                          <button onClick={(e) => { e.stopPropagation(); navigate(`/unit/${unit.serialNumber}`); }} className="flex items-center justify-center gap-2 px-4 py-2 bg-brand-navy dark:bg-brand-blue text-white rounded-lg text-xs font-bold shadow-md hover:opacity-90 transition-opacity w-full sm:w-auto min-h-[44px]">
+                          <button onClick={(e) => { e.stopPropagation(); navigate(`/unit/${unit.serialNumber}?source=external`); }} className="flex items-center justify-center gap-2 px-4 py-2 bg-brand-navy dark:bg-brand-blue text-white rounded-lg text-xs font-bold shadow-md hover:opacity-90 transition-opacity w-full sm:w-auto min-h-[44px]">
                             <FileText className="w-3.5 h-3.5" /> Full Inspection Report
                           </button>
                         </div>

@@ -38,6 +38,8 @@ export function UnitDetailPage() {
 
   const [searchParams] = useSearchParams();
   const tabParam = searchParams.get('tab') as CommodityKey | null;
+  const sourceParam = searchParams.get('source');
+  const isInternal = sourceParam === 'internal';
   const initialTab = tabParam && ALL_COMMODITIES.includes(tabParam) ? tabParam : defaultCommodity;
 
   const [activeTab, setActiveTab] = useState<CommodityKey>(initialTab);
@@ -202,6 +204,7 @@ export function UnitDetailPage() {
                   unit={unit as any}
                   activeReport={activeReport}
                   onExportPO={handleExportPO}
+                  isInternal={isInternal}
                 />
               </Suspense>
             ) : activeReport ? (
@@ -211,6 +214,7 @@ export function UnitDetailPage() {
                   report={activeReport}
                   unitId={unit.serialNumber}
                   onExportPO={handleExportPO}
+                  isInternal={isInternal}
                 />
               </Suspense>
             ) : (

@@ -16,7 +16,10 @@ interface FCGReportLayoutProps {
   };
   activeReport?: CommodityInspectionReport;
   onExportPO: (recommendations: RecommendedPart[]) => void;
+  isInternal?: boolean;
 }
+
+import { ReportPlanReplacement } from './ReportPlanReplacement';
 
 interface FCGComponent {
   component: string;
@@ -165,7 +168,7 @@ const PLACEHOLDER_PHOTOS = [
   'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop',
 ];
 
-export function FCGReportLayout({ unit, activeReport, onExportPO }: FCGReportLayoutProps) {
+export function FCGReportLayout({ unit, activeReport, onExportPO, isInternal }: FCGReportLayoutProps) {
   const [activePhoto, setActivePhoto] = useState<string | null>(null);
   const [searchPart, setSearchPart] = useState('');
   const [urgencyFilter, setUrgencyFilter] = useState('All');
@@ -376,6 +379,7 @@ export function FCGReportLayout({ unit, activeReport, onExportPO }: FCGReportLay
                 <th className="px-6 py-3 text-center">UoM</th>
                 <th className="px-6 py-3 text-center">Bulan/Tahun</th>
                 <th className="px-6 py-3 text-center">Urgency</th>
+                {isInternal && <th className="px-6 py-3 text-center">PO Number</th>}
                 <th className="px-6 py-3 text-right">Est. Price</th>
               </tr>
             </thead>
@@ -388,8 +392,17 @@ export function FCGReportLayout({ unit, activeReport, onExportPO }: FCGReportLay
                   <td className="px-6 py-4 text-center text-[10px] font-bold text-muted-foreground uppercase">{part.uom}</td>
                   <td className="px-6 py-4 text-center text-xs font-bold text-gray-600">{part.period || 'Feb 2026'}</td>
                   <td className="px-6 py-4 text-center"><StatusBadge status={part.urgency} size="sm" /></td>
+                  {isInternal && (
+                    <td className="px-6 py-4 text-center font-bold text-brand-navy text-xs">
+                      <input type="text" defaultValue={`PO-2026-${Math.floor(Math.random() * 900) + 100}`} className="w-24 text-center border border-border rounded px-2 py-1 text-xs focus:outline-brand-green" />
+                    </td>
+                  )}
                   <td className="px-6 py-4 text-right font-bold text-brand-navy text-xs">
-                    {part.estimatedPrice != null ? formatRupiah(part.estimatedPrice) : '—'}
+                    {isInternal ? (
+                      <input type="number" defaultValue={part.estimatedPrice} className="w-28 text-right border border-border rounded px-2 py-1 text-xs focus:outline-brand-green" />
+                    ) : (
+                      part.estimatedPrice != null ? formatRupiah(part.estimatedPrice) : '—'
+                    )}
                   </td>
                 </tr>
               )) : (
@@ -403,7 +416,7 @@ export function FCGReportLayout({ unit, activeReport, onExportPO }: FCGReportLay
             {filteredParts.length > 0 && (
               <tfoot>
                 <tr className="bg-brand-green/5 border-t border-brand-green/20">
-                  <td colSpan={6} className="px-6 py-4 text-xs font-bold text-brand-green uppercase tracking-widest">Total Estimasi PO (Filtered)</td>
+                  <td colSpan={isInternal ? 7 : 6} className="px-6 py-4 text-xs font-bold text-brand-green uppercase tracking-widest">Total Estimasi PO (Filtered)</td>
                   <td className="px-6 py-4 text-right font-bold text-brand-green text-base">
                     {formatRupiah(totalEstimatedPO)}
                   </td>
@@ -413,16 +426,6 @@ export function FCGReportLayout({ unit, activeReport, onExportPO }: FCGReportLay
           </table>
         </div>
         
-        <div className="px-6 py-4 bg-gray-50 flex justify-end items-center border-t border-gray-100">
-          <button
-            onClick={() => onExportPO(filteredParts)}
-            disabled={filteredParts.length === 0}
-            className="flex items-center gap-2 px-6 py-2.5 bg-brand-green hover:bg-brand-green/90 text-white rounded-lg text-sm font-bold shadow-md shadow-brand-green/20 transition-all active:scale-95 disabled:opacity-50"
-          >
-            <FileText className="w-4 h-4" />
-            Add to PO Draft ({filteredParts.length} items)
-          </button>
-        </div>
       </div>
 
       {/* ── 3. INSPECTION HISTORY TABLE ── */}
@@ -553,6 +556,9 @@ export function FCGReportLayout({ unit, activeReport, onExportPO }: FCGReportLay
 
           {/* ── DETAILS WRAPPER CONTAINER ── */}
           <div className="bg-[#f8fafc] dark:bg-[#090d16] border border-slate-200 dark:border-slate-800 rounded-2xl p-6 space-y-8 shadow-inner">
+            
+            {isInternal && <ReportPlanReplacement />}
+
             {/* ── 4. DETAILED INSPECTION FINDINGS ── */}
             <div className="space-y-6">
               <h3 className="text-sm font-bold text-brand-navy uppercase tracking-wider">Detailed Technical Parameters</h3>
