@@ -378,7 +378,7 @@ export function InspectionReport({ report, unitId, onExportPO, isInternal }: Ins
       </div> {/* ── END OF HEADER / SUMMARY MAIN WRAPPER CONTAINER ── */}
 
       {selectedInspectionId && (
-        <div className="mt-12 pt-12 border-t border-slate-200 dark:border-slate-800 space-y-8 animate-in fade-in slide-in-from-top-4 duration-500 ease-out">
+        <div id="printable-area" className="mt-12 pt-12 border-t border-slate-200 dark:border-slate-800 space-y-8 animate-in fade-in slide-in-from-top-4 duration-500 ease-out">
           
           {/* ── METADATA HEADER (Moved to Item Inspection Details & Dynamic) ── */}
           {(() => {
@@ -434,7 +434,7 @@ export function InspectionReport({ report, unitId, onExportPO, isInternal }: Ins
                   </div>
                   <button 
                     onClick={() => window.print()}
-                    className="flex flex-col items-center justify-center gap-1 px-4 py-2 bg-white dark:bg-slate-800 hover:bg-muted border border-border text-brand-navy dark:text-brand-green rounded-xl transition-all shadow-sm group"
+                    className="print:hidden flex flex-col items-center justify-center gap-1 px-4 py-2 bg-white dark:bg-slate-800 hover:bg-muted border border-border text-brand-navy dark:text-brand-green rounded-xl transition-all shadow-sm group"
                   >
                     <Download className="w-4 h-4 group-hover:scale-110 transition-transform" />
                     <span className="text-[9px] font-bold uppercase tracking-wider">Download PDF</span>
