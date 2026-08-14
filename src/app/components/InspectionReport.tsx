@@ -75,12 +75,6 @@ export function InspectionReport({ report, unitId, onExportPO, isInternal }: Ins
           <h2 className="text-lg font-bold text-primary dark:text-foreground">Detail Inspection Report</h2>
           <p className="text-xs text-muted-foreground font-medium">Laporan lengkap hasil inspeksi komoditas</p>
         </div>
-        <button 
-          onClick={() => window.print()}
-          className="flex items-center gap-2 px-4 py-2 bg-brand-navy dark:bg-brand-blue text-white rounded-lg text-xs font-bold hover:opacity-90 transition-all shadow-sm"
-        >
-          <Download className="w-4 h-4" /> Download / Print Report
-        </button>
       </div>
       
       {/* ── B: EXECUTIVE SUMMARY WIDGETS ── */}

@@ -2,28 +2,27 @@ import React, { useState } from 'react';
 import { Calendar, Download, Search } from 'lucide-react';
 
 const DUMMY_DATA = [
-  { customer: "PT RIUNG MITRA LESTARI", customerId: "C-U017", site: "BRE", model: "D85ESS-2", pn: "99U12501T0", desc: "TL LUBRICATED D85ESS-2 84L", qty: 1, month1: "-", month2: "-" },
-  { customer: "PT RIUNG MITRA LESTARI", customerId: "C-U017", site: "BRE", model: "D85ESS-2", pn: "99U12501H0", desc: "SHOE SINGLE GROUSER D85ESS-2 610 MM", qty: 84, month1: "-", month2: "-" },
-  { customer: "PT RIUNG MITRA LESTARI", customerId: "C-U017", site: "BRE", model: "D85ESS-2", pn: "99U12501B0", desc: "SHOE BOLT KIT D85ESS-2", qty: 12, month1: "-", month2: "-" },
-  { customer: "PT RIUNG MITRA LESTARI", customerId: "C-U017", site: "BRE", model: "D85ESS-2", pn: "99U1250150", desc: "TRACK ROLLER SINGLE FLANGE D85ESS-2", qty: 12, month1: "-", month2: "-" },
-  { customer: "PT RIUNG MITRA LESTARI", customerId: "C-U017", site: "BRE", model: "D85ESS-2", pn: "99U12501D0", desc: "TRACK ROLLER DOUBLE FLANGE D85ESS-2", qty: 4, month1: "-", month2: "-" },
-  { customer: "PT RIUNG MITRA LESTARI", customerId: "C-U017", site: "BRE", model: "D85ESS-2", pn: "99U12501R0", desc: "CARRIER ROLLER D85ESS-2", qty: 4, month1: "-", month2: "-" },
-  { customer: "PT RIUNG MITRA LESTARI", customerId: "C-U017", site: "BRE", model: "D85ESS-2", pn: "99U12501L0", desc: "IDLER ASSY D85ESS-2", qty: 2, month1: "-", month2: "-" },
-  { customer: "PT RIUNG MITRA LESTARI", customerId: "C-U017", site: "BRE", model: "D85ESS-2", pn: "99U12501G0", desc: "SEGMENT D85ESS-2", qty: 18, month1: "-", month2: "-" },
+  { customer: "PT RIUNG MITRA LESTARI", customerId: "C-U017", site: "BRE", model: "D85ESS-2", pn: "99U12501T0", desc: "TL LUBRICATED D85ESS-2 84L", qty: 1, replaceQty: "-" },
+  { customer: "PT RIUNG MITRA LESTARI", customerId: "C-U017", site: "BRE", model: "D85ESS-2", pn: "99U12501H0", desc: "SHOE SINGLE GROUSER D85ESS-2 610 MM", qty: 84, replaceQty: "-" },
+  { customer: "PT RIUNG MITRA LESTARI", customerId: "C-U017", site: "BRE", model: "D85ESS-2", pn: "99U12501B0", desc: "SHOE BOLT KIT D85ESS-2", qty: 12, replaceQty: "-" },
+  { customer: "PT RIUNG MITRA LESTARI", customerId: "C-U017", site: "BRE", model: "D85ESS-2", pn: "99U1250150", desc: "TRACK ROLLER SINGLE FLANGE D85ESS-2", qty: 12, replaceQty: "-" },
+  { customer: "PT RIUNG MITRA LESTARI", customerId: "C-U017", site: "BRE", model: "D85ESS-2", pn: "99U12501D0", desc: "TRACK ROLLER DOUBLE FLANGE D85ESS-2", qty: 4, replaceQty: "-" },
+  { customer: "PT RIUNG MITRA LESTARI", customerId: "C-U017", site: "BRE", model: "D85ESS-2", pn: "99U12501R0", desc: "CARRIER ROLLER D85ESS-2", qty: 4, replaceQty: "-" },
+  { customer: "PT RIUNG MITRA LESTARI", customerId: "C-U017", site: "BRE", model: "D85ESS-2", pn: "99U12501L0", desc: "IDLER ASSY D85ESS-2", qty: 2, replaceQty: "-" },
+  { customer: "PT RIUNG MITRA LESTARI", customerId: "C-U017", site: "BRE", model: "D85ESS-2", pn: "99U12501G0", desc: "SEGMENT D85ESS-2", qty: 18, replaceQty: "-" },
   
-  { customer: "PT RIUNG MITRA LESTARI", customerId: "C-U017", site: "KRASSI", model: "D85ESS-2", pn: "99U12501T0", desc: "TL LUBRICATED D85ESS-2 84L", qty: 1, month1: "-", month2: "1" },
-  { customer: "PT RIUNG MITRA LESTARI", customerId: "C-U017", site: "KRASSI", model: "D85ESS-2", pn: "99U12501H0", desc: "SHOE SINGLE GROUSER D85ESS-2 610 MM", qty: 84, month1: "-", month2: "84" },
-  { customer: "PT RIUNG MITRA LESTARI", customerId: "C-U017", site: "KRASSI", model: "D85ESS-2", pn: "99U12501B0", desc: "SHOE BOLT KIT D85ESS-2", qty: 12, month1: "-", month2: "1" },
-  { customer: "PT RIUNG MITRA LESTARI", customerId: "C-U017", site: "KRASSI", model: "D85ESS-2", pn: "99U1250150", desc: "TRACK ROLLER SINGLE FLANGE D85ESS-2", qty: 12, month1: "24", month2: "48" },
-  { customer: "PT RIUNG MITRA LESTARI", customerId: "C-U017", site: "KRASSI", model: "D85ESS-2", pn: "99U12501D0", desc: "TRACK ROLLER DOUBLE FLANGE D85ESS-2", qty: 4, month1: "8", month2: "16" },
-  { customer: "PT RIUNG MITRA LESTARI", customerId: "C-U017", site: "KRASSI", model: "D85ESS-2", pn: "99U12501R0", desc: "CARRIER ROLLER D85ESS-2", qty: 4, month1: "-", month2: "-" },
-  { customer: "PT RIUNG MITRA LESTARI", customerId: "C-U017", site: "KRASSI", model: "D85ESS-2", pn: "99U12501L0", desc: "IDLER ASSY D85ESS-2", qty: 2, month1: "2", month2: "-" },
-  { customer: "PT RIUNG MITRA LESTARI", customerId: "C-U017", site: "KRASSI", model: "D85ESS-2", pn: "99U12501G0", desc: "SEGMENT D85ESS-2", qty: 18, month1: "-", month2: "-" },
+  { customer: "PT RIUNG MITRA LESTARI", customerId: "C-U017", site: "KRASSI", model: "D85ESS-2", pn: "99U12501T0", desc: "TL LUBRICATED D85ESS-2 84L", qty: 1, replaceQty: "1" },
+  { customer: "PT RIUNG MITRA LESTARI", customerId: "C-U017", site: "KRASSI", model: "D85ESS-2", pn: "99U12501H0", desc: "SHOE SINGLE GROUSER D85ESS-2 610 MM", qty: 84, replaceQty: "84" },
+  { customer: "PT RIUNG MITRA LESTARI", customerId: "C-U017", site: "KRASSI", model: "D85ESS-2", pn: "99U12501B0", desc: "SHOE BOLT KIT D85ESS-2", qty: 12, replaceQty: "1" },
+  { customer: "PT RIUNG MITRA LESTARI", customerId: "C-U017", site: "KRASSI", model: "D85ESS-2", pn: "99U1250150", desc: "TRACK ROLLER SINGLE FLANGE D85ESS-2", qty: 12, replaceQty: "48" },
+  { customer: "PT RIUNG MITRA LESTARI", customerId: "C-U017", site: "KRASSI", model: "D85ESS-2", pn: "99U12501D0", desc: "TRACK ROLLER DOUBLE FLANGE D85ESS-2", qty: 4, replaceQty: "16" },
+  { customer: "PT RIUNG MITRA LESTARI", customerId: "C-U017", site: "KRASSI", model: "D85ESS-2", pn: "99U12501R0", desc: "CARRIER ROLLER D85ESS-2", qty: 4, replaceQty: "-" },
+  { customer: "PT RIUNG MITRA LESTARI", customerId: "C-U017", site: "KRASSI", model: "D85ESS-2", pn: "99U12501L0", desc: "IDLER ASSY D85ESS-2", qty: 2, replaceQty: "-" },
+  { customer: "PT RIUNG MITRA LESTARI", customerId: "C-U017", site: "KRASSI", model: "D85ESS-2", pn: "99U12501G0", desc: "SEGMENT D85ESS-2", qty: 18, replaceQty: "-" },
 ];
 
 export function ReportPlanReplacement() {
-  const [periodFrom, setPeriodFrom] = useState('December 2026');
-  const [periodTo, setPeriodTo] = useState('January 2027');
+  const [period, setPeriod] = useState('2026-12');
   const [model, setModel] = useState('D85ESS-2');
   const [customer, setCustomer] = useState('C-U017 - PT RIUNG MITRA LESTARI');
   const [site, setSite] = useState('');
@@ -51,25 +50,11 @@ export function ReportPlanReplacement() {
               <label className="block mb-1 text-[10px]">Select Period :</label>
               <div className="relative">
                 <input 
-                  type="text" 
-                  value={periodFrom}
-                  onChange={(e) => setPeriodFrom(e.target.value)}
-                  className="w-full pl-3 pr-8 py-1.5 border border-border rounded text-foreground font-medium" 
+                  type="month" 
+                  value={period}
+                  onChange={(e) => setPeriod(e.target.value)}
+                  className="w-full pl-3 pr-3 py-1.5 border border-border rounded text-foreground font-medium" 
                 />
-                <Calendar className="w-4 h-4 absolute right-2.5 top-2 text-muted-foreground" />
-              </div>
-            </div>
-            <span className="pt-4">To</span>
-            <div className="flex-1">
-              <label className="block mb-1 text-[10px]">&nbsp;</label>
-              <div className="relative">
-                <input 
-                  type="text" 
-                  value={periodTo}
-                  onChange={(e) => setPeriodTo(e.target.value)}
-                  className="w-full pl-3 pr-8 py-1.5 border border-border rounded text-foreground font-medium" 
-                />
-                <Calendar className="w-4 h-4 absolute right-2.5 top-2 text-muted-foreground" />
               </div>
             </div>
           </div>
@@ -143,8 +128,7 @@ export function ReportPlanReplacement() {
               <th className="px-4 py-3 border-b border-border">PN</th>
               <th className="px-4 py-3 border-b border-border min-w-[200px]">DESC</th>
               <th className="px-4 py-3 border-b border-border text-center whitespace-nowrap">Qty/Unit</th>
-              <th className="px-4 py-3 border-b border-border text-center whitespace-nowrap">Dec-2026</th>
-              <th className="px-4 py-3 border-b border-border text-center whitespace-nowrap">Jan-2027</th>
+              <th className="px-4 py-3 border-b border-border text-center whitespace-nowrap">REPLACE</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
@@ -157,8 +141,7 @@ export function ReportPlanReplacement() {
                 <td className="px-4 py-3 border-b border-border/50 font-bold text-[10px] text-foreground">{row.pn}</td>
                 <td className="px-4 py-3 border-b border-border/50 font-bold text-[10px] text-foreground">{row.desc}</td>
                 <td className="px-4 py-3 border-b border-border/50 font-bold text-[10px] text-foreground text-center">{row.qty}</td>
-                <td className="px-4 py-3 border-b border-border/50 font-bold text-[10px] text-blue-600 text-center">{row.month1}</td>
-                <td className="px-4 py-3 border-b border-border/50 font-bold text-[10px] text-blue-600 text-center">{row.month2}</td>
+                <td className="px-4 py-3 border-b border-border/50 font-bold text-[10px] text-blue-600 text-center">{row.replaceQty}</td>
               </tr>
             ))}
           </tbody>
