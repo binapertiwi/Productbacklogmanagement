@@ -67,7 +67,7 @@ export function InspectionReport({ report, unitId, onExportPO, isInternal }: Ins
     <div className="space-y-8 animate-in fade-in duration-300">
       
       {/* ── HEADER / SUMMARY MAIN WRAPPER CONTAINER ── */}
-      <div className="space-y-8 bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800">
+      <div className={`space-y-8 bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 ${selectedInspectionId ? 'print:hidden' : ''}`}>
       
       {/* ── TOP ACTION BAR ── */}
       <div className="flex justify-between items-center bg-muted/20 p-4 rounded-xl border border-border">

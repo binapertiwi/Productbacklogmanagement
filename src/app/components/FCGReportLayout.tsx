@@ -225,7 +225,7 @@ export function FCGReportLayout({ unit, activeReport, onExportPO, isInternal }: 
     <div className="space-y-8 animate-in fade-in duration-300">
       
       {/* ── HEADER / SUMMARY MAIN WRAPPER CONTAINER ── */}
-      <div className="space-y-8 bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800">
+      <div className={`space-y-8 bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 ${selectedInspectionId ? 'print:hidden' : ''}`}>
       
       {/* ── 1. EXECUTIVE SUMMARY WIDGETS ── */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
