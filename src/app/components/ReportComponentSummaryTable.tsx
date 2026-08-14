@@ -19,32 +19,43 @@ const DUMMY_SUMMARY_DATA = [
   { name: '', nom: null, reb: null, measL: 154.3, measR: 154.3, wornL: 14, wornR: 14, repPlanL: '2025-11-06', repPlanR: '2025-11-06', hmInstL: 13476, hmInstR: 13476, instDateL: '2025-03-15', instDateR: '2025-03-15', lifeL: 1044.5, lifeR: 1044.5, brandL: 'UTP', brandR: 'UTP', remL: 'GOOD', remR: 'GOOD' },
 ];
 
+import { Database } from 'lucide-react';
+
 export function ReportComponentSummaryTable() {
   return (
     <div className="bg-white dark:bg-slate-900 rounded-2xl border border-border shadow-sm overflow-hidden mt-6 mb-8">
-      <div className="overflow-x-auto">
+      <div className="px-6 py-4 border-b border-border bg-slate-50/50 dark:bg-slate-800/20 flex items-center gap-3">
+        <div className="w-8 h-8 rounded-lg bg-brand-green/10 flex items-center justify-center">
+          <Database className="w-4 h-4 text-brand-green" />
+        </div>
+        <div>
+          <h4 className="text-[13px] font-bold text-primary dark:text-foreground uppercase tracking-widest">Component Summary Data</h4>
+          <p className="text-[10px] text-muted-foreground mt-0.5 font-medium">Ringkasan hasil inspeksi, rencana penggantian, dan data pemasangan seluruh komponen.</p>
+        </div>
+      </div>
+      <div className="overflow-x-auto p-4">
         <table className="w-full text-left border-collapse text-[9px] sm:text-[10px]">
           <thead>
-            <tr className="bg-muted/30 border-b border-border text-muted-foreground uppercase font-bold tracking-wider leading-tight">
-              <th className="p-2 border-r border-border min-w-[100px]"></th>
-              <th className="p-2 border-r border-border w-[60px]">Nominal<br/>Meas</th>
-              <th className="p-2 border-r border-border w-[60px]">Rebuild<br/>Limit</th>
-              <th className="p-2 border-r border-border w-[60px]">Meas<br/>Left<br/>(mm)</th>
-              <th className="p-2 border-r border-border w-[60px]">Meas<br/>Right<br/>(mm)</th>
-              <th className="p-2 border-r border-border w-[50px]">Worn<br/>Left<br/>(%)</th>
-              <th className="p-2 border-r border-border w-[50px]">Worn<br/>Right<br/>(%)</th>
-              <th className="p-2 border-r border-border w-[80px]">LH Replacement<br/>Plan On</th>
-              <th className="p-2 border-r border-border w-[80px]">RH Replacement<br/>Plan On</th>
-              <th className="p-2 border-r border-border w-[70px]">HM Install<br/>Left<br/>(Hour)</th>
-              <th className="p-2 border-r border-border w-[70px]">HM Install<br/>Right<br/>(Hour)</th>
-              <th className="p-2 border-r border-border w-[80px]">Left Install<br/>Date</th>
-              <th className="p-2 border-r border-border w-[80px]">Right Install<br/>Date</th>
-              <th className="p-2 border-r border-border w-[60px]">Lifetime<br/>LH</th>
-              <th className="p-2 border-r border-border w-[60px]">Lifetime<br/>RH</th>
-              <th className="p-2 border-r border-border w-[70px]">Brand Part<br/>Left</th>
-              <th className="p-2 border-r border-border w-[70px]">Brand Part<br/>Right</th>
-              <th className="p-2 border-r border-border w-[60px]">Remark<br/>LH</th>
-              <th className="p-2 w-[60px]">Remark<br/>RH</th>
+            <tr className="bg-slate-100 dark:bg-slate-800/40 text-muted-foreground uppercase font-bold tracking-wider leading-tight">
+              <th className="p-3 border-b border-r border-border min-w-[120px]">Component</th>
+              <th className="p-3 border-b border-r border-border text-center w-[70px]">Nominal<br/>Meas</th>
+              <th className="p-3 border-b border-r border-border text-center w-[70px]">Rebuild<br/>Limit</th>
+              <th className="p-3 border-b border-r border-border text-center w-[70px]">Meas<br/>Left (mm)</th>
+              <th className="p-3 border-b border-r border-border text-center w-[70px]">Meas<br/>Right (mm)</th>
+              <th className="p-3 border-b border-r border-border text-center w-[60px]">Worn<br/>Left (%)</th>
+              <th className="p-3 border-b border-r border-border text-center w-[60px]">Worn<br/>Right (%)</th>
+              <th className="p-3 border-b border-r border-border text-center w-[90px]">LH Replacement<br/>Plan On</th>
+              <th className="p-3 border-b border-r border-border text-center w-[90px]">RH Replacement<br/>Plan On</th>
+              <th className="p-3 border-b border-r border-border text-center w-[80px]">HM Install<br/>Left (Hr)</th>
+              <th className="p-3 border-b border-r border-border text-center w-[80px]">HM Install<br/>Right (Hr)</th>
+              <th className="p-3 border-b border-r border-border text-center w-[90px]">Left Install<br/>Date</th>
+              <th className="p-3 border-b border-r border-border text-center w-[90px]">Right Install<br/>Date</th>
+              <th className="p-3 border-b border-r border-border text-center w-[70px]">Lifetime<br/>LH</th>
+              <th className="p-3 border-b border-r border-border text-center w-[70px]">Lifetime<br/>RH</th>
+              <th className="p-3 border-b border-r border-border text-center w-[80px]">Brand Part<br/>Left</th>
+              <th className="p-3 border-b border-r border-border text-center w-[80px]">Brand Part<br/>Right</th>
+              <th className="p-3 border-b border-r border-border text-center w-[70px]">Remark<br/>LH</th>
+              <th className="p-3 border-b text-center w-[70px]">Remark<br/>RH</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
@@ -52,37 +63,37 @@ export function ReportComponentSummaryTable() {
               const bgClass = row.name ? 'bg-white dark:bg-transparent' : 'bg-muted/10 dark:bg-muted/5';
               return (
                 <tr key={idx} className={`${bgClass} hover:bg-muted/20 transition-colors`}>
-                  <td className="p-2 border-r border-border font-bold text-foreground">{row.name}</td>
-                  <td className="p-2 border-r border-border text-foreground font-semibold bg-yellow-300 dark:bg-yellow-500/20">{row.nom ?? '-'}</td>
-                  <td className="p-2 border-r border-border text-foreground font-semibold bg-yellow-300 dark:bg-yellow-500/20">{row.reb ?? '-'}</td>
-                  <td className="p-2 border-r border-border text-foreground bg-blue-50/50 dark:bg-blue-900/10 font-medium">{row.measL ?? '-'}</td>
-                  <td className="p-2 border-r border-border text-foreground bg-blue-50/50 dark:bg-blue-900/10 font-medium">{row.measR ?? '-'}</td>
-                  <td className="p-2 border-r border-border text-foreground text-center font-medium">{row.wornL ?? '-'}</td>
-                  <td className="p-2 border-r border-border text-foreground text-center font-medium">{row.wornR ?? '-'}</td>
-                  <td className="p-2 border-r border-border text-foreground font-mono">{row.repPlanL}</td>
-                  <td className="p-2 border-r border-border text-foreground font-mono">{row.repPlanR}</td>
-                  <td className="p-2 border-r border-border text-foreground bg-teal-50/50 dark:bg-teal-900/10 font-medium text-center">{row.hmInstL ?? '-'}</td>
-                  <td className="p-2 border-r border-border text-foreground bg-teal-50/50 dark:bg-teal-900/10 font-medium text-center">{row.hmInstR ?? '-'}</td>
-                  <td className="p-2 border-r border-border text-foreground font-mono">{row.instDateL}</td>
-                  <td className="p-2 border-r border-border text-foreground font-mono">{row.instDateR}</td>
-                  <td className="p-2 border-r border-border text-foreground font-medium text-center">{row.lifeL ?? '-'}</td>
-                  <td className="p-2 border-r border-border text-foreground font-medium text-center">{row.lifeR ?? '-'}</td>
-                  <td className="p-2 border-r border-border text-foreground bg-emerald-50/50 dark:bg-emerald-900/10 font-bold">{row.brandL}</td>
-                  <td className="p-2 border-r border-border text-foreground bg-emerald-50/50 dark:bg-emerald-900/10 font-bold">{row.brandR}</td>
-                  <td className="p-2 border-r border-border">
+                  <td className="p-3 border-b border-r border-border font-bold text-primary dark:text-foreground">{row.name}</td>
+                  <td className="p-3 border-b border-r border-border text-primary dark:text-foreground font-bold text-center bg-yellow-300 dark:bg-yellow-500/20">{row.nom ?? '-'}</td>
+                  <td className="p-3 border-b border-r border-border text-primary dark:text-foreground font-bold text-center bg-yellow-300 dark:bg-yellow-500/20">{row.reb ?? '-'}</td>
+                  <td className="p-3 border-b border-r border-border text-primary dark:text-foreground bg-blue-50/50 dark:bg-blue-900/10 font-bold text-center">{row.measL ?? '-'}</td>
+                  <td className="p-3 border-b border-r border-border text-primary dark:text-foreground bg-blue-50/50 dark:bg-blue-900/10 font-bold text-center">{row.measR ?? '-'}</td>
+                  <td className="p-3 border-b border-r border-border text-primary dark:text-foreground text-center font-bold">{row.wornL ?? '-'}</td>
+                  <td className="p-3 border-b border-r border-border text-primary dark:text-foreground text-center font-bold">{row.wornR ?? '-'}</td>
+                  <td className="p-3 border-b border-r border-border text-primary dark:text-foreground font-mono text-center">{row.repPlanL}</td>
+                  <td className="p-3 border-b border-r border-border text-primary dark:text-foreground font-mono text-center">{row.repPlanR}</td>
+                  <td className="p-3 border-b border-r border-border text-primary dark:text-foreground bg-teal-50/50 dark:bg-teal-900/10 font-bold text-center">{row.hmInstL ?? '-'}</td>
+                  <td className="p-3 border-b border-r border-border text-primary dark:text-foreground bg-teal-50/50 dark:bg-teal-900/10 font-bold text-center">{row.hmInstR ?? '-'}</td>
+                  <td className="p-3 border-b border-r border-border text-primary dark:text-foreground font-mono text-center">{row.instDateL}</td>
+                  <td className="p-3 border-b border-r border-border text-primary dark:text-foreground font-mono text-center">{row.instDateR}</td>
+                  <td className="p-3 border-b border-r border-border text-primary dark:text-foreground font-bold text-center">{row.lifeL ?? '-'}</td>
+                  <td className="p-3 border-b border-r border-border text-primary dark:text-foreground font-bold text-center">{row.lifeR ?? '-'}</td>
+                  <td className="p-3 border-b border-r border-border text-primary dark:text-foreground bg-emerald-50/50 dark:bg-emerald-900/10 font-bold text-center">{row.brandL}</td>
+                  <td className="p-3 border-b border-r border-border text-primary dark:text-foreground bg-emerald-50/50 dark:bg-emerald-900/10 font-bold text-center">{row.brandR}</td>
+                  <td className="p-3 border-b border-r border-border text-center">
                     {row.remL !== '-' && (
-                      <span className={`inline-block px-1.5 py-0.5 rounded text-[8px] font-bold text-white ${
-                        row.remL === 'GOOD' ? 'bg-green-500' : 'bg-teal-500'
+                      <span className={`inline-block px-2 py-1 rounded-md text-[9px] font-bold text-white shadow-sm ${
+                        row.remL === 'GOOD' || row.remL === 'NORMAL' ? 'bg-[#10B981]' : 'bg-[#0F766E]'
                       }`}>
                         {row.remL}
                       </span>
                     )}
                     {row.remL === '-' && '-'}
                   </td>
-                  <td className="p-2">
+                  <td className="p-3 border-b border-border text-center">
                     {row.remR !== '-' && (
-                      <span className={`inline-block px-1.5 py-0.5 rounded text-[8px] font-bold text-white ${
-                        row.remR === 'GOOD' ? 'bg-green-500' : 'bg-teal-500'
+                      <span className={`inline-block px-2 py-1 rounded-md text-[9px] font-bold text-white shadow-sm ${
+                        row.remR === 'GOOD' || row.remR === 'NORMAL' ? 'bg-[#10B981]' : 'bg-[#0F766E]'
                       }`}>
                         {row.remR}
                       </span>
