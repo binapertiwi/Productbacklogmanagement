@@ -135,30 +135,30 @@ export function ReportPlanReplacement() {
       <div className="overflow-x-auto">
         <table className="w-full text-left text-xs border-collapse">
           <thead>
-            <tr className="border-b border-border text-muted-foreground font-bold text-[10px] uppercase bg-white dark:bg-muted/10">
-              <th className="p-3 border-r border-border">CUSTOMER</th>
-              <th className="p-3 border-r border-border">CUSTOMER ID</th>
-              <th className="p-3 border-r border-border">SITE</th>
-              <th className="p-3 border-r border-border">MODEL</th>
-              <th className="p-3 border-r border-border">PN</th>
-              <th className="p-3 border-r border-border min-w-[200px]">DESC</th>
-              <th className="p-3 border-r border-border whitespace-nowrap">Qty/Unit</th>
-              <th className="p-3 border-r border-border whitespace-nowrap">Dec-2026</th>
-              <th className="p-3 whitespace-nowrap">Jan-2027</th>
+            <tr className="border-b border-border text-muted-foreground font-bold text-[10px] uppercase bg-slate-50/50 dark:bg-slate-800/20 tracking-wider">
+              <th className="px-4 py-3 border-b border-border">CUSTOMER</th>
+              <th className="px-4 py-3 border-b border-border">CUSTOMER ID</th>
+              <th className="px-4 py-3 border-b border-border">SITE</th>
+              <th className="px-4 py-3 border-b border-border">MODEL</th>
+              <th className="px-4 py-3 border-b border-border">PN</th>
+              <th className="px-4 py-3 border-b border-border min-w-[200px]">DESC</th>
+              <th className="px-4 py-3 border-b border-border text-center whitespace-nowrap">Qty/Unit</th>
+              <th className="px-4 py-3 border-b border-border text-center whitespace-nowrap">Dec-2026</th>
+              <th className="px-4 py-3 border-b border-border text-center whitespace-nowrap">Jan-2027</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
             {DUMMY_DATA.map((row, idx) => (
               <tr key={idx} className="hover:bg-muted/30 transition-colors bg-white dark:bg-transparent">
-                <td className="p-3 border-r border-border font-bold text-[10px] text-foreground">{row.customer}</td>
-                <td className="p-3 border-r border-border font-bold text-[10px] text-foreground">{row.customerId}</td>
-                <td className="p-3 border-r border-border font-bold text-[10px] text-foreground">{row.site}</td>
-                <td className="p-3 border-r border-border font-bold text-[10px] text-foreground">{row.model}</td>
-                <td className="p-3 border-r border-border font-bold text-[10px] text-foreground">{row.pn}</td>
-                <td className="p-3 border-r border-border font-bold text-[10px] text-foreground">{row.desc}</td>
-                <td className="p-3 border-r border-border font-bold text-[10px] text-foreground">{row.qty}</td>
-                <td className="p-3 border-r border-border font-bold text-[10px] text-blue-600">{row.month1}</td>
-                <td className="p-3 font-bold text-[10px] text-blue-600">{row.month2}</td>
+                <td className="px-4 py-3 border-b border-border/50 font-bold text-[10px] text-foreground">{row.customer}</td>
+                <td className="px-4 py-3 border-b border-border/50 font-bold text-[10px] text-foreground">{row.customerId}</td>
+                <td className="px-4 py-3 border-b border-border/50 font-bold text-[10px] text-foreground">{row.site}</td>
+                <td className="px-4 py-3 border-b border-border/50 font-bold text-[10px] text-foreground">{row.model}</td>
+                <td className="px-4 py-3 border-b border-border/50 font-bold text-[10px] text-foreground">{row.pn}</td>
+                <td className="px-4 py-3 border-b border-border/50 font-bold text-[10px] text-foreground">{row.desc}</td>
+                <td className="px-4 py-3 border-b border-border/50 font-bold text-[10px] text-foreground text-center">{row.qty}</td>
+                <td className="px-4 py-3 border-b border-border/50 font-bold text-[10px] text-blue-600 text-center">{row.month1}</td>
+                <td className="px-4 py-3 border-b border-border/50 font-bold text-[10px] text-blue-600 text-center">{row.month2}</td>
               </tr>
             ))}
           </tbody>

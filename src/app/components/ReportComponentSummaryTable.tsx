@@ -36,26 +36,26 @@ export function ReportComponentSummaryTable() {
       <div className="overflow-x-auto p-4">
         <table className="w-full text-left border-collapse text-[9px] sm:text-[10px]">
           <thead>
-            <tr className="bg-slate-100 dark:bg-slate-800/40 text-muted-foreground uppercase font-bold tracking-wider leading-tight">
-              <th className="p-3 border-b border-r border-border min-w-[120px]">Component</th>
-              <th className="p-3 border-b border-r border-border text-center w-[70px]">Nominal<br/>Meas</th>
-              <th className="p-3 border-b border-r border-border text-center w-[70px]">Rebuild<br/>Limit</th>
-              <th className="p-3 border-b border-r border-border text-center w-[70px]">Meas<br/>Left (mm)</th>
-              <th className="p-3 border-b border-r border-border text-center w-[70px]">Meas<br/>Right (mm)</th>
-              <th className="p-3 border-b border-r border-border text-center w-[60px]">Worn<br/>Left (%)</th>
-              <th className="p-3 border-b border-r border-border text-center w-[60px]">Worn<br/>Right (%)</th>
-              <th className="p-3 border-b border-r border-border text-center w-[90px]">LH Replacement<br/>Plan On</th>
-              <th className="p-3 border-b border-r border-border text-center w-[90px]">RH Replacement<br/>Plan On</th>
-              <th className="p-3 border-b border-r border-border text-center w-[80px]">HM Install<br/>Left (Hr)</th>
-              <th className="p-3 border-b border-r border-border text-center w-[80px]">HM Install<br/>Right (Hr)</th>
-              <th className="p-3 border-b border-r border-border text-center w-[90px]">Left Install<br/>Date</th>
-              <th className="p-3 border-b border-r border-border text-center w-[90px]">Right Install<br/>Date</th>
-              <th className="p-3 border-b border-r border-border text-center w-[70px]">Lifetime<br/>LH</th>
-              <th className="p-3 border-b border-r border-border text-center w-[70px]">Lifetime<br/>RH</th>
-              <th className="p-3 border-b border-r border-border text-center w-[80px]">Brand Part<br/>Left</th>
-              <th className="p-3 border-b border-r border-border text-center w-[80px]">Brand Part<br/>Right</th>
-              <th className="p-3 border-b border-r border-border text-center w-[70px]">Remark<br/>LH</th>
-              <th className="p-3 border-b text-center w-[70px]">Remark<br/>RH</th>
+            <tr className="bg-slate-50/50 dark:bg-slate-800/20 text-muted-foreground uppercase text-[9px] font-bold tracking-wider leading-tight">
+              <th className="px-4 py-3 border-b border-border min-w-[120px]">Component</th>
+              <th className="px-4 py-3 border-b border-border text-center w-[70px]">Nominal<br/>Meas</th>
+              <th className="px-4 py-3 border-b border-border text-center w-[70px]">Rebuild<br/>Limit</th>
+              <th className="px-4 py-3 border-b border-border text-center w-[70px]">Meas<br/>Left (mm)</th>
+              <th className="px-4 py-3 border-b border-border text-center w-[70px]">Meas<br/>Right (mm)</th>
+              <th className="px-4 py-3 border-b border-border text-center w-[60px]">Worn<br/>Left (%)</th>
+              <th className="px-4 py-3 border-b border-border text-center w-[60px]">Worn<br/>Right (%)</th>
+              <th className="px-4 py-3 border-b border-border text-center w-[90px]">LH Replacement<br/>Plan On</th>
+              <th className="px-4 py-3 border-b border-border text-center w-[90px]">RH Replacement<br/>Plan On</th>
+              <th className="px-4 py-3 border-b border-border text-center w-[80px]">HM Install<br/>Left (Hr)</th>
+              <th className="px-4 py-3 border-b border-border text-center w-[80px]">HM Install<br/>Right (Hr)</th>
+              <th className="px-4 py-3 border-b border-border text-center w-[90px]">Left Install<br/>Date</th>
+              <th className="px-4 py-3 border-b border-border text-center w-[90px]">Right Install<br/>Date</th>
+              <th className="px-4 py-3 border-b border-border text-center w-[70px]">Lifetime<br/>LH</th>
+              <th className="px-4 py-3 border-b border-border text-center w-[70px]">Lifetime<br/>RH</th>
+              <th className="px-4 py-3 border-b border-border text-center w-[80px]">Brand Part<br/>Left</th>
+              <th className="px-4 py-3 border-b border-border text-center w-[80px]">Brand Part<br/>Right</th>
+              <th className="px-4 py-3 border-b border-border text-center w-[70px]">Remark<br/>LH</th>
+              <th className="px-4 py-3 border-b border-border text-center w-[70px]">Remark<br/>RH</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
@@ -63,42 +63,46 @@ export function ReportComponentSummaryTable() {
               const bgClass = row.name ? 'bg-white dark:bg-transparent' : 'bg-muted/10 dark:bg-muted/5';
               return (
                 <tr key={idx} className={`${bgClass} hover:bg-muted/20 transition-colors`}>
-                  <td className="p-3 border-b border-r border-border font-bold text-primary dark:text-foreground">{row.name}</td>
-                  <td className="p-3 border-b border-r border-border text-primary dark:text-foreground font-bold text-center bg-yellow-300 dark:bg-yellow-500/20">{row.nom ?? '-'}</td>
-                  <td className="p-3 border-b border-r border-border text-primary dark:text-foreground font-bold text-center bg-yellow-300 dark:bg-yellow-500/20">{row.reb ?? '-'}</td>
-                  <td className="p-3 border-b border-r border-border text-primary dark:text-foreground bg-blue-50/50 dark:bg-blue-900/10 font-bold text-center">{row.measL ?? '-'}</td>
-                  <td className="p-3 border-b border-r border-border text-primary dark:text-foreground bg-blue-50/50 dark:bg-blue-900/10 font-bold text-center">{row.measR ?? '-'}</td>
-                  <td className="p-3 border-b border-r border-border text-primary dark:text-foreground text-center font-bold">{row.wornL ?? '-'}</td>
-                  <td className="p-3 border-b border-r border-border text-primary dark:text-foreground text-center font-bold">{row.wornR ?? '-'}</td>
-                  <td className="p-3 border-b border-r border-border text-primary dark:text-foreground font-mono text-center">{row.repPlanL}</td>
-                  <td className="p-3 border-b border-r border-border text-primary dark:text-foreground font-mono text-center">{row.repPlanR}</td>
-                  <td className="p-3 border-b border-r border-border text-primary dark:text-foreground bg-teal-50/50 dark:bg-teal-900/10 font-bold text-center">{row.hmInstL ?? '-'}</td>
-                  <td className="p-3 border-b border-r border-border text-primary dark:text-foreground bg-teal-50/50 dark:bg-teal-900/10 font-bold text-center">{row.hmInstR ?? '-'}</td>
-                  <td className="p-3 border-b border-r border-border text-primary dark:text-foreground font-mono text-center">{row.instDateL}</td>
-                  <td className="p-3 border-b border-r border-border text-primary dark:text-foreground font-mono text-center">{row.instDateR}</td>
-                  <td className="p-3 border-b border-r border-border text-primary dark:text-foreground font-bold text-center">{row.lifeL ?? '-'}</td>
-                  <td className="p-3 border-b border-r border-border text-primary dark:text-foreground font-bold text-center">{row.lifeR ?? '-'}</td>
-                  <td className="p-3 border-b border-r border-border text-primary dark:text-foreground bg-emerald-50/50 dark:bg-emerald-900/10 font-bold text-center">{row.brandL}</td>
-                  <td className="p-3 border-b border-r border-border text-primary dark:text-foreground bg-emerald-50/50 dark:bg-emerald-900/10 font-bold text-center">{row.brandR}</td>
-                  <td className="p-3 border-b border-r border-border text-center">
+                  <td className="px-4 py-3 border-b border-border/50 font-bold text-primary dark:text-foreground">{row.name}</td>
+                  <td className="px-4 py-3 border-b border-border/50 text-center">
+                    <span className="text-yellow-600 dark:text-yellow-500 font-bold">{row.nom ?? '-'}</span>
+                  </td>
+                  <td className="px-4 py-3 border-b border-border/50 text-center">
+                    <span className="text-yellow-600 dark:text-yellow-500 font-bold">{row.reb ?? '-'}</span>
+                  </td>
+                  <td className="px-4 py-3 border-b border-border/50 text-center font-bold text-primary dark:text-foreground">{row.measL ?? '-'}</td>
+                  <td className="px-4 py-3 border-b border-border/50 text-center font-bold text-primary dark:text-foreground">{row.measR ?? '-'}</td>
+                  <td className="px-4 py-3 border-b border-border/50 text-center font-bold text-muted-foreground">{row.wornL ?? '-'}</td>
+                  <td className="px-4 py-3 border-b border-border/50 text-center font-bold text-muted-foreground">{row.wornR ?? '-'}</td>
+                  <td className="px-4 py-3 border-b border-border/50 font-mono text-center text-muted-foreground">{row.repPlanL}</td>
+                  <td className="px-4 py-3 border-b border-border/50 font-mono text-center text-muted-foreground">{row.repPlanR}</td>
+                  <td className="px-4 py-3 border-b border-border/50 font-bold text-center text-primary dark:text-foreground">{row.hmInstL ?? '-'}</td>
+                  <td className="px-4 py-3 border-b border-border/50 font-bold text-center text-primary dark:text-foreground">{row.hmInstR ?? '-'}</td>
+                  <td className="px-4 py-3 border-b border-border/50 font-mono text-center text-muted-foreground">{row.instDateL}</td>
+                  <td className="px-4 py-3 border-b border-border/50 font-mono text-center text-muted-foreground">{row.instDateR}</td>
+                  <td className="px-4 py-3 border-b border-border/50 font-bold text-center text-primary dark:text-foreground">{row.lifeL ?? '-'}</td>
+                  <td className="px-4 py-3 border-b border-border/50 font-bold text-center text-primary dark:text-foreground">{row.lifeR ?? '-'}</td>
+                  <td className="px-4 py-3 border-b border-border/50 font-bold text-center text-brand-green dark:text-brand-green">{row.brandL}</td>
+                  <td className="px-4 py-3 border-b border-border/50 font-bold text-center text-brand-green dark:text-brand-green">{row.brandR}</td>
+                  <td className="px-4 py-3 border-b border-border/50 text-center">
                     {row.remL !== '-' && (
-                      <span className={`inline-block px-2 py-1 rounded-md text-[9px] font-bold text-white shadow-sm ${
-                        row.remL === 'GOOD' || row.remL === 'NORMAL' ? 'bg-[#10B981]' : 'bg-[#0F766E]'
+                      <span className={`inline-block px-2 py-1 rounded text-[9px] font-bold ${
+                        row.remL === 'GOOD' || row.remL === 'NORMAL' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400' : 'bg-teal-100 text-teal-700 dark:bg-teal-900/40 dark:text-teal-400'
                       }`}>
                         {row.remL}
                       </span>
                     )}
-                    {row.remL === '-' && '-'}
+                    {row.remL === '-' && <span className="text-muted-foreground">-</span>}
                   </td>
-                  <td className="p-3 border-b border-border text-center">
+                  <td className="px-4 py-3 border-b border-border/50 text-center">
                     {row.remR !== '-' && (
-                      <span className={`inline-block px-2 py-1 rounded-md text-[9px] font-bold text-white shadow-sm ${
-                        row.remR === 'GOOD' || row.remR === 'NORMAL' ? 'bg-[#10B981]' : 'bg-[#0F766E]'
+                      <span className={`inline-block px-2 py-1 rounded text-[9px] font-bold ${
+                        row.remR === 'GOOD' || row.remR === 'NORMAL' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400' : 'bg-teal-100 text-teal-700 dark:bg-teal-900/40 dark:text-teal-400'
                       }`}>
                         {row.remR}
                       </span>
                     )}
-                    {row.remR === '-' && '-'}
+                    {row.remR === '-' && <span className="text-muted-foreground">-</span>}
                   </td>
                 </tr>
               );
