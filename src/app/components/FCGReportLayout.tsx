@@ -428,6 +428,9 @@ export function FCGReportLayout({ unit, activeReport, onExportPO, isInternal }: 
         
       </div>
 
+      {/* ── PLAN REPLACEMENT REPORT (INTERNAL ONLY) ── */}
+      {isInternal && <ReportPlanReplacement />}
+
       {/* ── 3. INSPECTION HISTORY TABLE ── */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-8">
         <div className="px-6 py-4 border-b border-gray-100 bg-gray-50/50 flex items-center gap-2">
@@ -557,7 +560,7 @@ export function FCGReportLayout({ unit, activeReport, onExportPO, isInternal }: 
           {/* ── DETAILS WRAPPER CONTAINER ── */}
           <div className="bg-[#f8fafc] dark:bg-[#090d16] border border-slate-200 dark:border-slate-800 rounded-2xl p-6 space-y-8 shadow-inner">
             
-            {isInternal && <ReportPlanReplacement />}
+            {/* Moved ReportPlanReplacement to the section above Inspection History */}
 
             {/* ── 4. DETAILED INSPECTION FINDINGS ── */}
             <div className="space-y-6">

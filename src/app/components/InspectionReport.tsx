@@ -320,6 +320,9 @@ export function InspectionReport({ report, unitId, onExportPO, isInternal }: Ins
         );
       })()}
 
+      {/* ── PLAN REPLACEMENT REPORT (INTERNAL ONLY) ── */}
+      {isInternal && <ReportPlanReplacement />}
+
       {/* ── B2. INSPECTION HISTORY TABLE ── */}
       <div className="bg-card rounded-2xl border border-border overflow-hidden shadow-sm">
         <div className="px-5 py-4 border-b border-border bg-muted/20 flex items-center gap-2">
@@ -449,7 +452,7 @@ export function InspectionReport({ report, unitId, onExportPO, isInternal }: Ins
           {/* ── DETAILS WRAPPER CONTAINER ── */}
           <div className="bg-[#f8fafc] dark:bg-[#090d16] border border-slate-200 dark:border-slate-800 rounded-2xl p-6 space-y-8 shadow-inner">
             
-            {isInternal && <ReportPlanReplacement />}
+            {/* Moved ReportPlanReplacement to the section above Inspection History */}
 
             {/* ── D: DETAILED INSPECTION FINDINGS ── */}
 
