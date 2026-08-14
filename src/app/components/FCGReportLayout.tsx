@@ -485,7 +485,7 @@ export function FCGReportLayout({ unit, activeReport, onExportPO, isInternal }: 
       </div> {/* ── END OF HEADER / SUMMARY MAIN WRAPPER CONTAINER ── */}
 
       {selectedInspectionId && (
-        <div id="printable-area" className="mt-12 pt-12 border-t border-slate-200 dark:border-slate-800 space-y-8 animate-in fade-in slide-in-from-top-4 duration-500 ease-out">
+        <div id="printable-area" className="print:m-0 print:p-0 print:border-none mt-12 pt-12 border-t border-slate-200 dark:border-slate-800 space-y-8 animate-in fade-in slide-in-from-top-4 duration-500 ease-out">
           
           {/* ── METADATA HEADER (Moved to Item Inspection Details & Dynamic) ── */}
           {(() => {

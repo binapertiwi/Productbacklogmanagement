@@ -88,7 +88,7 @@ export function UnitDetailPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <div className="sticky top-0 z-30 bg-card/95 backdrop-blur-lg border-b border-border shadow-md">
+      <div className="print:hidden sticky top-0 z-30 bg-card/95 backdrop-blur-lg border-b border-border shadow-md">
         <div className="px-4 sm:px-6 py-3">
           {/* Breadcrumb */}
           <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground font-bold uppercase tracking-widest mb-2">
@@ -192,12 +192,12 @@ export function UnitDetailPage() {
       </div>
 
       {/* ── MAIN CONTENT ─────────────────────────────────────────────────────── */}
-      <div className="px-4 sm:px-6 py-6 space-y-6">
+      <div className="print:p-0 px-4 sm:px-6 py-6 space-y-6 print:space-y-0">
 
 
         {/* ── TAB CONTENT AREA ─────────────────────────────────────────────────── */}
-        <div className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden">
-          <div className="p-4 sm:p-6">
+        <div className="print:border-none print:shadow-none bg-card rounded-2xl border border-border shadow-sm overflow-hidden">
+          <div className="print:p-0 p-4 sm:p-6">
             {activeTab === 'FCG' ? (
               <Suspense fallback={<div className="flex justify-center py-24"><div className="w-8 h-8 border-4 border-primary/20 border-t-brand-green rounded-full animate-spin" /></div>}>
                 <FCGReportLayout
