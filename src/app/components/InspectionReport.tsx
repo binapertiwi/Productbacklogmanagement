@@ -180,9 +180,11 @@ export function InspectionReport({ report, unitId, onExportPO, isInternal }: Ins
 
       {/* ── B2. INSPECTION HISTORY TABLE ── */}
       <div className="bg-card rounded-2xl border border-border overflow-hidden shadow-sm">
-        <div className="px-5 py-4 border-b border-border bg-muted/20 flex items-center gap-2">
-          <ClipboardList className="w-4 h-4 text-brand-navy dark:text-brand-green" />
-          <h3 className="text-sm font-bold text-primary dark:text-foreground uppercase tracking-tight">Inspection History</h3>
+        <div className="px-4 sm:px-5 py-4 border-b border-border flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-muted/30">
+          <div>
+            <h3 className="text-primary dark:text-foreground font-bold font-display text-base sm:text-lg tracking-tight">Inspection History</h3>
+            <p className="text-xs text-muted-foreground mt-0.5 font-medium">Riwayat inspeksi berkala dan laporan teknis unit</p>
+          </div>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left border-separate border-spacing-0">
@@ -320,12 +322,12 @@ export function InspectionReport({ report, unitId, onExportPO, isInternal }: Ins
 
             {/* VISUAL COMPONENT MAP */}
             <div className="bg-card rounded-2xl border border-border overflow-hidden shadow-sm">
-              <div className="px-6 py-4 border-b border-border flex items-center justify-between bg-muted/20">
-                <div className="flex items-center gap-2">
-                  <MapPin className="w-4 h-4 text-brand-green" />
-                  <h4 className="font-bold text-primary dark:text-foreground text-sm uppercase tracking-tight">Visual Component Map</h4>
+              <div className="px-4 sm:px-5 py-4 border-b border-border flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-muted/30">
+                <div>
+                  <h4 className="font-bold text-primary dark:text-foreground font-display text-base sm:text-lg tracking-tight">Visual Component Map</h4>
+                  <p className="text-xs text-muted-foreground mt-0.5 font-medium">Pemetaan visual lokasi dan kondisi keausan komponen</p>
                 </div>
-                <span className="text-[10px] text-muted-foreground font-bold font-mono">ID: {metadata.inspectionId}-VIS</span>
+                <span className="text-xs text-muted-foreground font-bold font-mono">ID: {metadata.inspectionId}-VIS</span>
               </div>
               <div className="p-6">
                 <VisualMapping commodityType={metadata.commodity} measurements={measurements} />
@@ -335,9 +337,9 @@ export function InspectionReport({ report, unitId, onExportPO, isInternal }: Ins
             {/* TECHNICAL MEASUREMENT BLOCKS (DETAILED) */}
             <div className="space-y-8">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 px-2">
-                <div className="flex items-center gap-3">
-                  <BarChart3 className="w-5 h-5 text-primary" />
-                  <h3 className="text-lg font-bold text-primary dark:text-foreground uppercase tracking-tight">Technical Inspection Findings</h3>
+                <div>
+                  <h3 className="text-primary dark:text-foreground font-bold font-display text-base sm:text-lg tracking-tight">Technical Inspection Findings</h3>
+                  <p className="text-xs text-muted-foreground mt-0.5 font-medium">Hasil pengukuran keausan dan kondisi fisik komponen</p>
                 </div>
                 <div className="flex items-center gap-4 bg-muted/30 px-4 py-2 rounded-xl border border-border/50">
                    <div className="flex items-center gap-2">

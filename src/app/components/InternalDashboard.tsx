@@ -688,9 +688,12 @@ export function InternalDashboard() {
 
             {/* ── ROW 5: MATRIX TABLE ───────────────────────────── */}
             <div className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden transition-all hover:shadow-lg">
-              <div className="px-6 py-5 border-b border-border flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-muted/20">
+              <div className="px-4 sm:px-5 py-4 border-b border-border flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-muted/30">
                 <div className="flex items-center gap-2">
-                  <div><h3 className="text-primary dark:text-foreground font-bold text-lg tracking-tight">Cross-Commodity Backlog Matrix</h3><p className="text-[11px] text-muted-foreground font-bold mt-1 uppercase tracking-wider">Visualisasi kesehatan relasi multi-komoditas per unit armada</p></div>
+                  <div>
+                    <h3 className="text-primary dark:text-foreground font-bold font-display text-base sm:text-lg tracking-tight">Cross-Commodity Backlog Matrix</h3>
+                    <p className="text-xs text-muted-foreground mt-0.5 font-medium">Visualisasi kesehatan relasi multi-komoditas per unit armada</p>
+                  </div>
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <button className="text-muted-foreground hover:text-brand-green transition-colors">

@@ -215,22 +215,17 @@ export function ReportRecommendedPartsTable({
       />
 
       {/* Header Toolbar */}
-      <div className="px-5 py-4 border-b border-border flex flex-col sm:flex-row sm:items-center gap-4 bg-muted/20">
-        <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-brand-green/15 flex items-center justify-center text-brand-green">
-            <Package className="w-4 h-4" />
-          </div>
-          <div>
-            <h4 className="font-bold text-primary dark:text-foreground text-sm uppercase tracking-tight">
-              Recommended Parts for PO
-            </h4>
-            <p className="text-[11px] text-muted-foreground font-medium">
-              Rekomendasi suku cadang hasil inspeksi untuk pembuatan Purchase Order
-            </p>
-          </div>
+      <div className="px-4 sm:px-5 py-4 border-b border-border flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-muted/30">
+        <div>
+          <h3 className="text-primary dark:text-foreground font-bold font-display text-base sm:text-lg tracking-tight">
+            Recommended Parts for PO
+          </h3>
+          <p className="text-xs text-muted-foreground mt-0.5 font-medium">
+            Rekomendasi suku cadang hasil inspeksi untuk pembuatan Purchase Order
+          </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2 sm:ml-auto">
+        <div className="flex flex-wrap items-center gap-2">
           {/* Search Input */}
           <div className="relative">
             <Search className="w-3.5 h-3.5 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2" />

@@ -310,8 +310,8 @@ export const InspectorProductivity = () => {
             <div className="bg-card rounded-xl shadow-sm border border-border p-6 flex flex-col">
               <div className="flex items-start justify-between mb-6">
                 <div>
-                  <h3 className="text-sm font-bold text-primary dark:text-foreground tracking-wide uppercase">Manpower vs Workload Map</h3>
-                  <p className="text-[10px] text-muted-foreground font-bold mt-1 uppercase tracking-wider">Kapasitas inspeksi vs populasi unit per wilayah</p>
+                  <h3 className="text-primary dark:text-foreground font-bold font-display text-base sm:text-lg tracking-tight">Manpower vs Workload Map</h3>
+                  <p className="text-xs text-muted-foreground mt-0.5 font-medium">Kapasitas inspeksi vs populasi unit per wilayah</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <TooltipProvider>
@@ -358,12 +358,12 @@ export const InspectorProductivity = () => {
                       barSize={30}
                     />
                     <Line 
-                      name="Capacity" 
+                      name="Manpower Capacity" 
                       type="monotone" 
                       dataKey="capacity" 
-                      stroke="#10B981" 
+                      stroke={BRAND_GREEN} 
                       strokeWidth={3} 
-                      dot={{ r: 4, fill: "#10B981", strokeWidth: 2, stroke: "#fff" }}
+                      dot={{ r: 4, fill: BRAND_GREEN }} 
                     />
                   </ComposedChart>
                 </ResponsiveContainer>
@@ -374,8 +374,8 @@ export const InspectorProductivity = () => {
             <div className="bg-card rounded-xl shadow-sm border border-border p-6 flex flex-col">
               <div className="flex items-start justify-between mb-6">
                 <div>
-                  <h3 className="text-sm font-bold text-primary dark:text-foreground tracking-wide uppercase">Coverage by Customer Site</h3>
-                  <p className="text-[10px] text-muted-foreground font-bold mt-1 uppercase tracking-wider">% Unit terinspeksi vs total populasi site</p>
+                  <h3 className="text-primary dark:text-foreground font-bold font-display text-base sm:text-lg tracking-tight">Coverage by Customer Site</h3>
+                  <p className="text-xs text-muted-foreground mt-0.5 font-medium">% Unit terinspeksi vs total populasi site</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <TooltipProvider>
@@ -504,8 +504,8 @@ export const InspectorProductivity = () => {
             <div className="bg-card rounded-xl shadow-sm border border-border p-6 flex flex-col">
               <div className="flex items-start justify-between mb-6">
                 <div>
-                  <h3 className="text-sm font-bold text-primary dark:text-foreground tracking-wide uppercase">Quality to PO Conversion</h3>
-                  <p className="text-[10px] text-muted-foreground font-bold mt-1 uppercase tracking-wider">Avg Duration vs PO Rate %</p>
+                  <h3 className="text-primary dark:text-foreground font-bold font-display text-base sm:text-lg tracking-tight">Quality to PO Conversion</h3>
+                  <p className="text-xs text-muted-foreground mt-0.5 font-medium">Korelasi durasi inspeksi terhadap konversi PO</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <TooltipProvider>
@@ -571,8 +571,8 @@ export const InspectorProductivity = () => {
             <div className="bg-card rounded-xl shadow-sm border border-border p-6 flex flex-col">
               <div className="flex items-start justify-between mb-6">
                 <div>
-                  <h3 className="text-sm font-bold text-primary dark:text-foreground tracking-wide uppercase">Inspection Hit Rate (Yield)</h3>
-                  <p className="text-[10px] text-muted-foreground font-bold mt-1 uppercase tracking-wider">Rasio temuan backlog kritis vs total inspeksi per wilayah</p>
+                  <h3 className="text-primary dark:text-foreground font-bold font-display text-base sm:text-lg tracking-tight">Inspection Hit Rate (Yield)</h3>
+                  <p className="text-xs text-muted-foreground mt-0.5 font-medium">Rasio temuan backlog kritis vs total inspeksi per wilayah</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <TooltipProvider>
@@ -583,17 +583,17 @@ export const InspectorProductivity = () => {
                         </button>
                       </TooltipTrigger>
                       <TooltipContent side="top" className="max-w-[240px]">
-                        <p className="font-bold mb-1">Inspection Hit Rate (Yield)</p>
-                        Menampilkan distribusi temuan backlog kritis (merah) dibandingkan temuan normal (hijau) per wilayah untuk mengukur efektivitas deteksi kerusakan.
+                        <p className="font-bold mb-1">Inspection Hit Rate</p>
+                        Rasio efektivitas inspeksi yang menghasilkan temuan kritis (merah) vs temuan normal (hijau), dengan garis yield rate (kuning).
                       </TooltipContent>
                     </ShadcnTooltip>
                   </TooltipProvider>
-                  <ShieldAlert className="h-5 w-5 text-muted-foreground" />
+                  <BarChart3 className="h-5 w-5 text-muted-foreground" />
                 </div>
               </div>
               <div className="h-[300px] w-full">
                 <ResponsiveContainer width="100%" height="100%">
-                  <ComposedChart data={hitRateData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                  <ComposedChart data={hitRateData} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" opacity={0.5} />
                     <XAxis 
                       dataKey="region" 
@@ -630,10 +630,10 @@ export const InspectorProductivity = () => {
 
           {/* LEADERBOARD TABLE */}
           <div className="bg-card rounded-xl shadow-sm border border-border overflow-hidden transition-all hover:shadow-lg">
-            <div className="px-6 py-5 border-b border-border flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-muted/30">
+            <div className="px-4 sm:px-5 py-4 border-b border-border flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-muted/30">
               <div>
-                <h3 className="text-sm font-bold text-primary dark:text-foreground tracking-wide uppercase">Inspector Leaderboard</h3>
-                <p className="text-[11px] text-muted-foreground font-bold mt-1 uppercase tracking-wider">Performa inspektur berdasarkan output dan kualitas data</p>
+                <h3 className="text-primary dark:text-foreground font-bold font-display text-base sm:text-lg tracking-tight">Inspector Leaderboard</h3>
+                <p className="text-xs text-muted-foreground mt-0.5 font-medium">Performa inspektur berdasarkan output dan kualitas data</p>
               </div>
               <div className="flex items-center gap-2">
                 <div className="relative">

@@ -134,19 +134,14 @@ export function ReportPlanReplacement({ selectedCustomer }: ReportPlanReplacemen
   return (
     <div className="bg-card rounded-xl border border-border shadow-sm overflow-hidden transition-colors">
       {/* Title Header */}
-      <div className="p-4 sm:p-5 border-b border-border flex items-center justify-between bg-muted/20">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-brand-green/20 flex items-center justify-center shadow-sm">
-            <Calendar className="w-4 h-4 text-brand-green" />
-          </div>
-          <div>
-            <h3 className="text-sm font-bold text-primary dark:text-foreground tracking-tight uppercase">Plan Replacement</h3>
-            <p className="text-xs text-muted-foreground font-medium">Jadwal estimasi penggantian komponen armada</p>
-          </div>
+      <div className="px-4 sm:px-5 py-4 border-b border-border flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-muted/30">
+        <div>
+          <h3 className="text-primary dark:text-foreground font-bold font-display text-base sm:text-lg tracking-tight">Plan Replacement</h3>
+          <p className="text-xs text-muted-foreground mt-0.5 font-medium">Jadwal estimasi penggantian komponen armada</p>
         </div>
-        <span className="text-xs text-muted-foreground font-bold">
+        <div className="text-xs text-muted-foreground font-bold">
           Total: <span className="text-primary dark:text-foreground font-extrabold">{filteredData.length} Item</span>
-        </span>
+        </div>
       </div>
 
       {/* Filters Section (Customer filter removed) */}

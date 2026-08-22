@@ -19,18 +19,13 @@ const DUMMY_SUMMARY_DATA = [
   { name: '', nom: null, reb: null, measL: 154.3, measR: 154.3, wornL: 14, wornR: 14, repPlanL: '2025-11-06', repPlanR: '2025-11-06', hmInstL: 13476, hmInstR: 13476, instDateL: '2025-03-15', instDateR: '2025-03-15', lifeL: 1044.5, lifeR: 1044.5, brandL: 'UTP', brandR: 'UTP', remL: 'GOOD', remR: 'GOOD' },
 ];
 
-import { Database } from 'lucide-react';
-
 export function ReportComponentSummaryTable() {
   return (
     <div className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden mt-6 mb-8">
-      <div className="px-6 py-4 border-b border-border bg-muted/30 flex items-center gap-3">
-        <div className="w-8 h-8 rounded-lg bg-brand-green/10 flex items-center justify-center">
-          <Database className="w-4 h-4 text-brand-green" />
-        </div>
+      <div className="px-4 sm:px-5 py-4 border-b border-border flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-muted/30">
         <div>
-          <h4 className="text-[13px] font-bold text-primary dark:text-foreground uppercase tracking-widest">Component Summary Data</h4>
-          <p className="text-[10px] text-muted-foreground mt-0.5 font-medium">Ringkasan hasil inspeksi, rencana penggantian, dan data pemasangan seluruh komponen.</p>
+          <h3 className="text-primary dark:text-foreground font-bold font-display text-base sm:text-lg tracking-tight">Component Summary Data</h3>
+          <p className="text-xs text-muted-foreground mt-0.5 font-medium">Ringkasan hasil inspeksi, rencana penggantian, dan data pemasangan seluruh komponen.</p>
         </div>
       </div>
       <div className="overflow-x-auto p-4">

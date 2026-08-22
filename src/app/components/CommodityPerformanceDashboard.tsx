@@ -585,17 +585,20 @@ export function CommodityPerformanceDashboard({ commodity }: Props) {
         {/* Plan Replacement Forecast (Full Width) */}
         <div className="bg-card rounded-xl shadow-sm border border-border p-6">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
-            <h3 className="text-sm font-bold text-primary uppercase tracking-widest flex items-center gap-1">
-              PLAN REPLACEMENT FORECAST
-              <TooltipUI>
-                <TooltipTrigger>
-                  <Info className="w-3.5 h-3.5 text-muted-foreground cursor-pointer" />
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p className="text-xs text-slate-100">Estimasi jadwal rencana penggantian komponen berdasarkan bulan di tahun berjalan.</p>
-                </TooltipContent>
-              </TooltipUI>
-            </h3>
+            <div>
+              <h3 className="text-primary dark:text-foreground font-bold font-display text-base sm:text-lg tracking-tight flex items-center gap-1">
+                Plan Replacement Forecast
+                <TooltipUI>
+                  <TooltipTrigger>
+                    <Info className="w-3.5 h-3.5 text-muted-foreground cursor-pointer" />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p className="text-xs text-foreground">Estimasi jadwal rencana penggantian komponen berdasarkan bulan di tahun berjalan.</p>
+                  </TooltipContent>
+                </TooltipUI>
+              </h3>
+              <p className="text-xs text-muted-foreground mt-0.5 font-medium">Estimasi jadwal rencana penggantian komponen armada per bulan</p>
+            </div>
             <div className="flex flex-wrap items-center gap-2">
               {/* Search */}
               <div className="relative">
@@ -608,25 +611,23 @@ export function CommodityPerformanceDashboard({ commodity }: Props) {
               </div>
               {/* Status Filter */}
               <select className="text-xs border border-border rounded-lg py-1.5 px-2 focus:outline-none focus:ring-1 focus:ring-primary bg-card dark:bg-input text-foreground dark:text-foreground">
-                <option value="">All Status</option>
-                <option value="critical">Critical</option>
-                <option value="caution">Caution</option>
-                <option value="normal">Normal</option>
+                <option>All Status</option>
+                <option>High Urgency</option>
+                <option>Normal</option>
               </select>
               {/* Export Button */}
-              <button className="flex items-center gap-1.5 bg-primary text-white text-xs px-3 py-1.5 rounded-lg hover:bg-primary/90 transition-colors">
-                <Download className="h-3.5 w-3.5" />
-                <span>Export</span>
+              <button className="flex items-center gap-1.5 px-3 py-1.5 bg-primary text-white rounded-lg text-xs font-bold shadow-sm hover:bg-primary/90 transition-colors">
+                <Download className="w-3.5 h-3.5" /> EXCEL
               </button>
             </div>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full text-[10px] text-center border-separate border-spacing-0">
-              <thead className="bg-muted/50 text-muted-foreground uppercase font-bold tracking-tighter">
-                <tr>
-                  <th className="px-3 py-3 border-b border-border sticky left-0 z-10 bg-muted/50">Client</th>
-                  <th className="px-3 py-3 border-b border-border">P/N</th>
-                  {['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'].map(m => (
+            <table className="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr className="bg-muted/50 text-muted-foreground uppercase text-[10px] tracking-wider font-bold">
+                  <th className="px-3 py-3 border-b border-border">Customer</th>
+                  <th className="px-3 py-3 border-b border-border">Part Number</th>
+                  {['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'].map((m) => (
                     <th key={m} className="px-2 py-3 border-b border-border">{m}</th>
                   ))}
                   <th className="px-3 py-3 border-b border-border font-bold text-green-600">Total</th>
@@ -635,7 +636,7 @@ export function CommodityPerformanceDashboard({ commodity }: Props) {
               <tbody className="divide-y divide-border text-foreground">
                 {transformedData.planTable.map((r) => (
                   <tr key={`${r.customer}-${r.pn}`} className="hover:bg-muted/50 transition-colors group text-[9px] font-bold">
-                    <td className="px-3 py-3 border-r border-border font-bold text-primary sticky left-0 z-10 bg-card group-hover:bg-muted/50">{r.customer}</td>
+                    <td className="px-3 py-3 border-r border-border font-bold text-primary">{r.customer}</td>
                     <td className="px-3 py-3 font-bold opacity-70">{r.pn}</td>
                     <td className="px-2 py-3 bg-muted/50 tabular-nums">{r.jan}</td>
                     <td className="px-2 py-3 tabular-nums">{r.feb}</td>
@@ -649,7 +650,7 @@ export function CommodityPerformanceDashboard({ commodity }: Props) {
                     <td className="px-2 py-3 tabular-nums">{r.oct}</td>
                     <td className="px-2 py-3 bg-muted/50 tabular-nums">{r.nov}</td>
                     <td className="px-2 py-3 tabular-nums">{r.dec}</td>
-                    <td className="px-3 py-3 font-bold text-green-600 bg-green-50 tabular-nums">{r.total}</td>
+                    <td className="px-3 py-3 font-bold text-green-600 bg-green-500/10 tabular-nums">{r.total}</td>
                   </tr>
                 ))}
               </tbody>
@@ -660,17 +661,20 @@ export function CommodityPerformanceDashboard({ commodity }: Props) {
         {/* Cross-Component Backlog Matrix (Full Width) */}
         <div className="bg-card rounded-xl shadow-sm border border-border p-6">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
-            <h3 className="text-sm font-bold text-primary uppercase tracking-widest flex items-center gap-1">
-              CROSS-COMPONENT BACKLOG MATRIX
-              <TooltipUI>
-                <TooltipTrigger>
-                  <Info className="w-3.5 h-3.5 text-muted-foreground cursor-pointer" />
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p className="text-xs text-slate-100">Peta visual temuan backlog aktif yang terbagi per komponen alat berat untuk unit armada.</p>
-                </TooltipContent>
-              </TooltipUI>
-            </h3>
+            <div>
+              <h3 className="text-primary dark:text-foreground font-bold font-display text-base sm:text-lg tracking-tight flex items-center gap-1">
+                Cross-Component Backlog Matrix
+                <TooltipUI>
+                  <TooltipTrigger>
+                    <Info className="w-3.5 h-3.5 text-muted-foreground cursor-pointer" />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p className="text-xs text-foreground">Peta visual temuan backlog aktif yang terbagi per komponen alat berat untuk unit armada.</p>
+                  </TooltipContent>
+                </TooltipUI>
+              </h3>
+              <p className="text-xs text-muted-foreground mt-0.5 font-medium">Peta visual temuan backlog aktif per komponen alat berat</p>
+            </div>
             <div className="flex flex-wrap items-center gap-2">
               {/* Search */}
               <div className="relative">

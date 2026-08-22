@@ -540,7 +540,7 @@ export function CustomerInternalPortal() {
               <div className="bg-card rounded-xl border border-border shadow-sm overflow-hidden transition-colors">
                 <div className="px-4 sm:px-5 py-4 border-b border-border flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-muted/30">
                   <div>
-                    <h3 className="text-primary dark:text-foreground font-bold font-display">Technical Details per Unit</h3>
+                    <h3 className="text-primary dark:text-foreground font-bold font-display text-base sm:text-lg tracking-tight">Technical Details per Unit</h3>
                     <p className="text-xs text-muted-foreground mt-0.5 font-medium">
                       Identifikasi kesehatan unit secara holistik (Filter aktif: <span className="font-bold text-brand-green">{commodityFilter}</span>)
                     </p>

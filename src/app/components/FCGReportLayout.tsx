@@ -304,9 +304,11 @@ export function FCGReportLayout({ unit, activeReport, onExportPO, isInternal }: 
 
       {/* ── 3. INSPECTION HISTORY TABLE ── */}
       <div className="bg-card rounded-xl shadow-sm border border-border overflow-hidden mb-8">
-        <div className="px-6 py-4 border-b border-border bg-muted/50 flex items-center gap-2">
-          <ClipboardList className="w-4 h-4 text-brand-navy" />
-          <h3 className="text-sm font-bold text-primary dark:text-foreground uppercase tracking-tight">Inspection History</h3>
+        <div className="px-4 sm:px-5 py-4 border-b border-border flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-muted/30">
+          <div>
+            <h3 className="text-primary dark:text-foreground font-bold font-display text-base sm:text-lg tracking-tight">Inspection History</h3>
+            <p className="text-xs text-muted-foreground mt-0.5 font-medium">Riwayat inspeksi berkala dan laporan teknis unit</p>
+          </div>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left">
@@ -442,7 +444,7 @@ export function FCGReportLayout({ unit, activeReport, onExportPO, isInternal }: 
 
             {/* ── 4. DETAILED INSPECTION FINDINGS ── */}
             <div className="space-y-6">
-              <h3 className="text-sm font-bold text-primary dark:text-foreground uppercase tracking-wider">Detailed Technical Parameters</h3>
+              <h3 className="text-primary dark:text-foreground font-bold font-display text-base sm:text-lg tracking-tight">Detailed Technical Parameters</h3>
               
               <div className="space-y-6">
                 {FCG_COMPONENTS_MOCK.map((item, idx) => {
@@ -469,14 +471,9 @@ export function FCGReportLayout({ unit, activeReport, onExportPO, isInternal }: 
                   return (
                     <div key={idx} className="bg-card rounded-xl border border-border p-6 shadow-sm space-y-4">
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-border gap-2">
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600">
-                            <Bot className="w-5 h-5" />
-                          </div>
-                          <div>
-                            <h4 className="font-bold text-primary dark:text-foreground text-base">{item.component}</h4>
-                            <p className="text-[10px] text-muted-foreground font-semibold uppercase tracking-wider mt-0.5">Location: {item.hoseLocation}</p>
-                          </div>
+                        <div>
+                          <h4 className="font-bold text-primary dark:text-foreground font-display text-base">{item.component}</h4>
+                          <p className="text-xs text-muted-foreground font-medium mt-0.5">Location: {item.hoseLocation}</p>
                         </div>
                         <div className="flex items-center gap-2">
                           <span className="text-[10px] text-muted-foreground font-medium italic">Action Status:</span>
@@ -513,8 +510,8 @@ export function FCGReportLayout({ unit, activeReport, onExportPO, isInternal }: 
               {/* Inspection Field Evidence */}
               <div className="mt-8">
                 <div className="flex items-center gap-2 mb-4">
-                  <Camera className="w-5 h-5 text-brand-navy" />
-                  <h4 className="text-base font-bold text-primary dark:text-foreground uppercase tracking-tight">Inspection Field Evidence</h4>
+                  <Camera className="w-4 h-4 text-brand-green" />
+                  <h4 className="text-base sm:text-lg font-bold font-display text-primary dark:text-foreground tracking-tight">Inspection Field Evidence</h4>
                 </div>
                 <div className="bg-card rounded-xl border border-border p-6 shadow-sm">
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

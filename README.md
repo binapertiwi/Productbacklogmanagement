@@ -200,9 +200,32 @@ Aplikasi ini dapat dijalankan langsung dari direktori utama (root) atau dari dal
 
 *(Dokumen ini terakhir kali diperbarui pada 28 April 2026 - Sprint: Premium UI & Advanced Procurement UX).*
 
----
+## Pembaruan & Riwayat Teknis (Changelog)
 
-## Pembaruan & Riwayat Teknis
+- **[v 2.0.0] [2026-08-22] Full Design System Audit, Section Header Standardization & Upload Feature**:
+  - **Standardisasi Header Seksi Global**:
+    - Menyeragamkan seluruh header tabel dan section card (`Technical Details per Unit`, `Plan Replacement`, `Recommended Parts for PO`, `Component Summary Data`, `Inspection History`, `Cross-Commodity Backlog Matrix`, `Plan Replacement Forecast`, `Cross-Component Backlog Matrix`, `Inspector Leaderboard`) menggunakan format standar: Title Case, `font-display text-base sm:text-lg font-bold tracking-tight text-primary dark:text-foreground`, deskripsi `text-xs text-muted-foreground mt-0.5 font-medium`, dan background bar konsisten `bg-muted/30 border-b border-border px-4 sm:px-5 py-4`.
+    - Menghilangkan kotak ikon dekoratif yang berlebihan pada header (seperti ikon kalender hijau pada Plan Replacement, ikon paket hijau pada Recommended Parts for PO, ikon database hijau pada Component Summary Table, dan ikon robot pada detail FCG) untuk menjaga estetika enterprise yang bersih, elegan, dan profesional.
+  - **Tokenisasi Warna & Dark Mode Penuh (Zero Hardcoded Colors)**:
+    - Mengganti seluruh kelas warna hardcoded (`bg-white`, `bg-slate-*`, `border-slate-*`, `border-gray-*`, `text-gray-*`, `text-blue-900`) dengan design token Tailwind resmi (`bg-card`, `bg-muted`, `border-border`, `text-foreground`, `text-muted-foreground`, `text-primary`) di seluruh komponen utama.
+    - Menjamin dukungan 100% mulus untuk mode terang (Light) dan gelap (Dark Mode).
+  - **Heading Semantic HTML Clean-up**:
+    - Memindahkan icon Lucide dari dalam tag `<h1>` ke elemen sibling wrapper di semua halaman (`InternalDashboard`, `InspectorProductivity`) agar semantic heading bersih dan ramah screen reader.
+    - Mengganti kelas font undefined `font-heading` menjadi `font-display` (Outfit font).
+  - **Halaman Customer Internal Portal**:
+    - Membuat rute baru `/customer-internal` khusus operasional internal dengan layout komprehensif.
+    - Mengintegrasikan *Empty State* sebelum pemilihan customer pada dropdown header.
+    - Menempatkan tabel *Plan Replacement* tepat di bagian bawah tabel *Technical Details per Unit*.
+    - Menghubungkan data mock multi-customer (PT Adaro Energy, PT Thiess, PT Agincourt Resources, PT Berau Coal, PT Baramulti, PT Riung Mitra Lestari).
+  - **Fitur Upload & Export pada Recommended Parts for PO**:
+    - Menambahkan fitur interaktif upload file (CSV/Excel) untuk impor daftar suku cadang rekomendasi langsung ke dalam tabel PO.
+    - Fitur edit nomor PO dan estimasi harga secara inline dengan kalkulasi total estimasi otomatis.
+  - **Penyelarasan Filter Waktu**:
+    - Memindahkan dropdown filter waktu ke header atas, sejajar dengan filter Customer.
+    - Mengubah nama dan opsi menjadi **"All Bulan/Tahun"** (Januari–Juni 2026).
+  - **Pembaruan Alur Navigasi**:
+    - Menetapkan Login Screen sebagai default route (`index: true`).
+    - Login mengarahkan (redirect) otomatis ke `/customer-internal`.
 
 - **[v 1.3.4] [2026-05-20] Layout Structural Separation & Urgency Matrix Styling Sync**:
   - **AI Summary Removal**: Menghapus seluruh komponen **AI Unit Summary** dari halaman Detail Unit untuk semua komoditas demi menyederhanakan tata letak dan hierarki informasi.
