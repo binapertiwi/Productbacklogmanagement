@@ -249,29 +249,29 @@ export function CommodityPerformanceDashboard({ commodity }: Props) {
       <div className="space-y-6 animate-in fade-in duration-500">
         
         {/* Filters Section (Sticky at Top) */}
-        <div className="bg-white/85 backdrop-blur-md rounded-xl shadow-sm border border-gray-100 p-6 flex flex-wrap gap-4 items-end sticky top-0 z-20 transition-all">
+        <div className="bg-card/85 backdrop-blur-md rounded-xl shadow-sm border border-border p-6 flex flex-wrap gap-4 items-end sticky top-0 z-20 transition-all">
           <div className="flex items-center gap-2 mb-1 mr-4">
-             <Filter className="w-4 h-4 text-blue-900" />
-             <span className="text-sm font-bold text-blue-900 uppercase tracking-tight">Active Filters</span>
+             <Filter className="w-4 h-4 text-primary" />
+             <span className="text-sm font-bold text-primary uppercase tracking-tight">Active Filters</span>
           </div>
           
           {Object.entries(filterOptions).map(([label, options]) => (
             <div key={label} className="flex flex-col gap-1.5 flex-1 min-w-[120px]">
-              <label className="text-[10px] text-gray-500 font-bold uppercase tracking-widest px-1">{label}</label>
+              <label className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest px-1">{label}</label>
               <div className="relative">
                  <select 
                    value={filters[label]}
                    onChange={(e) => setFilters({...filters, [label]: e.target.value})}
-                   className="w-full border border-gray-200 rounded-lg px-3 py-2 text-xs font-bold bg-white focus:outline-none focus:ring-2 focus:ring-blue-900/30 appearance-none cursor-pointer text-gray-700"
+                   className="w-full border border-border rounded-lg px-3 py-2 text-xs font-bold bg-card dark:bg-input focus:outline-none focus:ring-2 focus:ring-primary/30 appearance-none cursor-pointer text-foreground dark:text-foreground"
                  >
                    {options.map(opt => <option key={opt}>{opt}</option>)}
                  </select>
-                 <ChevronDown className="w-3 h-3 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                 <ChevronDown className="w-3 h-3 text-muted-foreground absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
               </div>
             </div>
           ))}
           
-          <button className="px-6 py-2.5 bg-blue-900 text-white rounded-lg text-xs font-bold shadow-sm hover:bg-blue-800 transition-colors">
+          <button className="px-6 py-2.5 bg-primary text-white rounded-lg text-xs font-bold shadow-sm hover:bg-primary/90 transition-colors">
             APPLY
           </button>
         </div>
@@ -279,25 +279,25 @@ export function CommodityPerformanceDashboard({ commodity }: Props) {
         {/* KPI Score Card Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Card 1: TOTAL INSPECTIONS */}
-          <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5 flex flex-col justify-between hover:shadow-md transition-all group overflow-hidden relative">
+          <div className="bg-card rounded-xl border border-border shadow-sm p-5 flex flex-col justify-between hover:shadow-md transition-all group overflow-hidden relative">
             <div className="absolute -right-4 -bottom-4 w-20 h-20 bg-blue-500/5 rounded-full group-hover:scale-110 transition-transform" />
             <div className="flex justify-between items-start relative z-10">
               <div>
-                <p className="text-xs font-bold uppercase text-gray-500 flex items-center gap-1">
+                <p className="text-xs font-bold uppercase text-muted-foreground flex items-center gap-1">
                   Total {config.name} Inspections
                   <TooltipUI>
                     <TooltipTrigger>
-                      <Info className="w-3.5 h-3.5 text-gray-400 cursor-pointer" />
+                      <Info className="w-3.5 h-3.5 text-muted-foreground cursor-pointer" />
                     </TooltipTrigger>
                     <TooltipContent>
                       <p className="text-xs text-slate-100">Jumlah total inspeksi komponen {config.name} yang telah dilakukan.</p>
                     </TooltipContent>
                   </TooltipUI>
                 </p>
-                <h3 className="text-2xl font-bold text-blue-900 mt-1 tabular-nums">{config.inspectionsCount}</h3>
+                <h3 className="text-2xl font-bold text-primary mt-1 tabular-nums">{config.inspectionsCount}</h3>
               </div>
               <div className="p-2 bg-blue-50 rounded-lg">
-                <ClipboardList className="w-5 h-5 text-blue-900" />
+                <ClipboardList className="w-5 h-5 text-primary" />
               </div>
             </div>
             <div className="mt-4 flex items-center text-xs font-medium text-green-600 relative z-10">
@@ -307,42 +307,42 @@ export function CommodityPerformanceDashboard({ commodity }: Props) {
           </div>
 
           {/* Card 2: HEALTH INDEX */}
-          <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5 flex flex-col justify-between hover:shadow-md transition-all group overflow-hidden relative">
+          <div className="bg-card rounded-xl border border-border shadow-sm p-5 flex flex-col justify-between hover:shadow-md transition-all group overflow-hidden relative">
             <div className="absolute -right-4 -bottom-4 w-20 h-20 bg-emerald-500/5 rounded-full group-hover:scale-110 transition-transform" />
             <div className="flex justify-between items-start relative z-10">
               <div>
-                <p className="text-xs font-bold uppercase text-gray-500 flex items-center gap-1">
+                <p className="text-xs font-bold uppercase text-muted-foreground flex items-center gap-1">
                   {config.name} Health Index
                   <TooltipUI>
                     <TooltipTrigger>
-                      <Info className="w-3.5 h-3.5 text-gray-400 cursor-pointer" />
+                      <Info className="w-3.5 h-3.5 text-muted-foreground cursor-pointer" />
                     </TooltipTrigger>
                     <TooltipContent>
                       <p className="text-xs text-slate-100">Indeks kesehatan komponen berdasarkan data pengukuran riil.</p>
                     </TooltipContent>
                   </TooltipUI>
                 </p>
-                <h3 className="text-2xl font-bold text-blue-900 mt-1 tabular-nums">{config.healthIndex}%</h3>
+                <h3 className="text-2xl font-bold text-primary mt-1 tabular-nums">{config.healthIndex}%</h3>
               </div>
               <div className="p-2 bg-blue-50 rounded-lg">
-                <Activity className="w-5 h-5 text-blue-900" />
+                <Activity className="w-5 h-5 text-primary" />
               </div>
             </div>
-            <div className="mt-4 text-xs text-gray-500 relative z-10">
+            <div className="mt-4 text-xs text-muted-foreground relative z-10">
               {config.healthIndexSubtext}
             </div>
           </div>
 
           {/* Card 3: CRITICAL UNITS */}
-          <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5 flex flex-col justify-between hover:shadow-md transition-all group overflow-hidden relative">
+          <div className="bg-card rounded-xl border border-border shadow-sm p-5 flex flex-col justify-between hover:shadow-md transition-all group overflow-hidden relative">
             <div className="absolute -right-4 -bottom-4 w-20 h-20 bg-red-500/5 rounded-full group-hover:scale-110 transition-transform" />
             <div className="flex justify-between items-start relative z-10">
               <div>
-                <p className="text-xs font-bold uppercase text-gray-500 flex items-center gap-1">
+                <p className="text-xs font-bold uppercase text-muted-foreground flex items-center gap-1">
                   Critical {config.name} Units
                   <TooltipUI>
                     <TooltipTrigger>
-                      <Info className="w-3.5 h-3.5 text-gray-400 cursor-pointer" />
+                      <Info className="w-3.5 h-3.5 text-muted-foreground cursor-pointer" />
                     </TooltipTrigger>
                     <TooltipContent>
                       <p className="text-xs text-slate-100">Jumlah unit dengan komponen dalam kondisi kritis dan memerlukan penggantian segera.</p>
@@ -361,22 +361,22 @@ export function CommodityPerformanceDashboard({ commodity }: Props) {
           </div>
 
           {/* Card 4: REVENUE POTENTIAL */}
-          <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5 flex flex-col justify-between hover:shadow-md transition-all group overflow-hidden relative">
+          <div className="bg-card rounded-xl border border-border shadow-sm p-5 flex flex-col justify-between hover:shadow-md transition-all group overflow-hidden relative">
             <div className="absolute -right-4 -bottom-4 w-20 h-20 bg-green-500/5 rounded-full group-hover:scale-110 transition-transform" />
             <div className="flex justify-between items-start relative z-10">
               <div>
-                <p className="text-xs font-bold uppercase text-gray-500 flex items-center gap-1">
+                <p className="text-xs font-bold uppercase text-muted-foreground flex items-center gap-1">
                   {config.name} Revenue Potential
                   <TooltipUI>
                     <TooltipTrigger>
-                      <Info className="w-3.5 h-3.5 text-gray-400 cursor-pointer" />
+                      <Info className="w-3.5 h-3.5 text-muted-foreground cursor-pointer" />
                     </TooltipTrigger>
                     <TooltipContent>
                       <p className="text-xs text-slate-100">Estimasi potensi pendapatan dari transaksi PO komoditas ini.</p>
                     </TooltipContent>
                   </TooltipUI>
                 </p>
-                <h3 className="text-2xl font-bold text-blue-900 mt-1 tabular-nums">{config.revenuePotential}</h3>
+                <h3 className="text-2xl font-bold text-primary mt-1 tabular-nums">{config.revenuePotential}</h3>
               </div>
               <div className="p-2 bg-green-50 rounded-lg">
                 <DollarSign className="w-5 h-5 text-green-600" />
@@ -392,12 +392,12 @@ export function CommodityPerformanceDashboard({ commodity }: Props) {
         {/* Tier 1 - Population & Coverage Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Population Details */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-            <h3 className="text-sm font-bold text-blue-900 uppercase tracking-widest mb-6 flex items-center gap-1">
+          <div className="bg-card rounded-xl shadow-sm border border-border p-6">
+            <h3 className="text-sm font-bold text-primary uppercase tracking-widest mb-6 flex items-center gap-1">
               POPULATION DETAILS: {commodity}
               <TooltipUI>
                 <TooltipTrigger>
-                  <Info className="w-3.5 h-3.5 text-gray-400 cursor-pointer" />
+                  <Info className="w-3.5 h-3.5 text-muted-foreground cursor-pointer" />
                 </TooltipTrigger>
                 <TooltipContent>
                   <p className="text-xs text-slate-100">Distribusi populasi unit berdasarkan status kontrak dan cabang operasional.</p>
@@ -427,12 +427,12 @@ export function CommodityPerformanceDashboard({ commodity }: Props) {
           </div>
 
           {/* Backlog Coverage Analytic */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-            <h3 className="text-sm font-bold text-blue-900 uppercase tracking-widest mb-6 flex items-center gap-1">
+          <div className="bg-card rounded-xl shadow-sm border border-border p-6">
+            <h3 className="text-sm font-bold text-primary uppercase tracking-widest mb-6 flex items-center gap-1">
               BACKLOG COVERAGE ANALYTIC
               <TooltipUI>
                 <TooltipTrigger>
-                  <Info className="w-3.5 h-3.5 text-gray-400 cursor-pointer" />
+                  <Info className="w-3.5 h-3.5 text-muted-foreground cursor-pointer" />
                 </TooltipTrigger>
                 <TooltipContent>
                   <p className="text-xs text-slate-100">Rasio pemenuhan backlog dan performa pencapaian target per wilayah cabang.</p>
@@ -467,12 +467,12 @@ export function CommodityPerformanceDashboard({ commodity }: Props) {
         {/* Tier 2 - Lifetime & Health Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Lifetime Distribution */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-            <h3 className="text-sm font-bold text-blue-900 uppercase tracking-widest mb-6 flex items-center gap-1">
+          <div className="bg-card rounded-xl shadow-sm border border-border p-6">
+            <h3 className="text-sm font-bold text-primary uppercase tracking-widest mb-6 flex items-center gap-1">
               LIFETIME DISTRIBUTION
               <TooltipUI>
                 <TooltipTrigger>
-                  <Info className="w-3.5 h-3.5 text-gray-400 cursor-pointer" />
+                  <Info className="w-3.5 h-3.5 text-muted-foreground cursor-pointer" />
                 </TooltipTrigger>
                 <TooltipContent>
                   <p className="text-xs text-slate-100">Distribusi umur pakai komponen (Min, Avg, Max Life) dalam satuan jam operasional.</p>
@@ -502,12 +502,12 @@ export function CommodityPerformanceDashboard({ commodity }: Props) {
           </div>
 
           {/* Component Wear Breakdown */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-            <h3 className="text-sm font-bold text-blue-900 uppercase tracking-widest mb-6 flex items-center gap-1">
+          <div className="bg-card rounded-xl shadow-sm border border-border p-6">
+            <h3 className="text-sm font-bold text-primary uppercase tracking-widest mb-6 flex items-center gap-1">
               COMPONENT WEAR BREAKDOWN
               <TooltipUI>
                 <TooltipTrigger>
-                  <Info className="w-3.5 h-3.5 text-gray-400 cursor-pointer" />
+                  <Info className="w-3.5 h-3.5 text-muted-foreground cursor-pointer" />
                 </TooltipTrigger>
                 <TooltipContent>
                   <p className="text-xs text-slate-100">Peta distribusi status kesehatan komponen utama berdasarkan data inspeksi.</p>
@@ -538,12 +538,12 @@ export function CommodityPerformanceDashboard({ commodity }: Props) {
         </div>
 
         {/* Tier 3 - Trends (Cost/Wear Trend 100% Width) */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-          <h3 className="text-sm font-bold text-blue-900 uppercase tracking-widest mb-6 flex items-center gap-1">
+        <div className="bg-card rounded-xl shadow-sm border border-border p-6">
+          <h3 className="text-sm font-bold text-primary uppercase tracking-widest mb-6 flex items-center gap-1">
             {commodity === 'GET' ? 'WEARNESS TREND' : 'COST PER HOUR TREND'}
             <TooltipUI>
               <TooltipTrigger>
-                <Info className="w-3.5 h-3.5 text-gray-400 cursor-pointer" />
+                <Info className="w-3.5 h-3.5 text-muted-foreground cursor-pointer" />
               </TooltipTrigger>
               <TooltipContent>
                 <p className="text-xs text-slate-100">
@@ -583,13 +583,13 @@ export function CommodityPerformanceDashboard({ commodity }: Props) {
         </div>
 
         {/* Plan Replacement Forecast (Full Width) */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+        <div className="bg-card rounded-xl shadow-sm border border-border p-6">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
-            <h3 className="text-sm font-bold text-blue-900 uppercase tracking-widest flex items-center gap-1">
+            <h3 className="text-sm font-bold text-primary uppercase tracking-widest flex items-center gap-1">
               PLAN REPLACEMENT FORECAST
               <TooltipUI>
                 <TooltipTrigger>
-                  <Info className="w-3.5 h-3.5 text-gray-400 cursor-pointer" />
+                  <Info className="w-3.5 h-3.5 text-muted-foreground cursor-pointer" />
                 </TooltipTrigger>
                 <TooltipContent>
                   <p className="text-xs text-slate-100">Estimasi jadwal rencana penggantian komponen berdasarkan bulan di tahun berjalan.</p>
@@ -599,22 +599,22 @@ export function CommodityPerformanceDashboard({ commodity }: Props) {
             <div className="flex flex-wrap items-center gap-2">
               {/* Search */}
               <div className="relative">
-                <Search className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-gray-400" />
+                <Search className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-muted-foreground" />
                 <input
                   type="text"
                   placeholder="Search Client or P/N..."
-                  className="pl-8 pr-3 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 w-40"
+                  className="pl-8 pr-3 py-1.5 text-xs border border-border rounded-lg focus:outline-none focus:ring-1 focus:ring-primary w-40"
                 />
               </div>
               {/* Status Filter */}
-              <select className="text-xs border border-gray-200 rounded-lg py-1.5 px-2 focus:outline-none focus:ring-1 focus:ring-blue-500 bg-white text-gray-700">
+              <select className="text-xs border border-border rounded-lg py-1.5 px-2 focus:outline-none focus:ring-1 focus:ring-primary bg-card dark:bg-input text-foreground dark:text-foreground">
                 <option value="">All Status</option>
                 <option value="critical">Critical</option>
                 <option value="caution">Caution</option>
                 <option value="normal">Normal</option>
               </select>
               {/* Export Button */}
-              <button className="flex items-center gap-1.5 bg-blue-900 text-white text-xs px-3 py-1.5 rounded-lg hover:bg-blue-800 transition-colors">
+              <button className="flex items-center gap-1.5 bg-primary text-white text-xs px-3 py-1.5 rounded-lg hover:bg-primary/90 transition-colors">
                 <Download className="h-3.5 w-3.5" />
                 <span>Export</span>
               </button>
@@ -622,32 +622,32 @@ export function CommodityPerformanceDashboard({ commodity }: Props) {
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-[10px] text-center border-separate border-spacing-0">
-              <thead className="bg-gray-50 text-gray-500 uppercase font-bold tracking-tighter">
+              <thead className="bg-muted/50 text-muted-foreground uppercase font-bold tracking-tighter">
                 <tr>
-                  <th className="px-3 py-3 border-b border-gray-200 sticky left-0 z-10 bg-gray-50">Client</th>
-                  <th className="px-3 py-3 border-b border-gray-200">P/N</th>
+                  <th className="px-3 py-3 border-b border-border sticky left-0 z-10 bg-muted/50">Client</th>
+                  <th className="px-3 py-3 border-b border-border">P/N</th>
                   {['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'].map(m => (
-                    <th key={m} className="px-2 py-3 border-b border-gray-200">{m}</th>
+                    <th key={m} className="px-2 py-3 border-b border-border">{m}</th>
                   ))}
-                  <th className="px-3 py-3 border-b border-gray-200 font-bold text-green-600">Total</th>
+                  <th className="px-3 py-3 border-b border-border font-bold text-green-600">Total</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100 text-gray-700">
+              <tbody className="divide-y divide-border text-foreground">
                 {transformedData.planTable.map((r) => (
-                  <tr key={`${r.customer}-${r.pn}`} className="hover:bg-gray-50 transition-colors group text-[9px] font-bold">
-                    <td className="px-3 py-3 border-r border-gray-200 font-bold text-blue-900 sticky left-0 z-10 bg-white group-hover:bg-gray-50">{r.customer}</td>
+                  <tr key={`${r.customer}-${r.pn}`} className="hover:bg-muted/50 transition-colors group text-[9px] font-bold">
+                    <td className="px-3 py-3 border-r border-border font-bold text-primary sticky left-0 z-10 bg-card group-hover:bg-muted/50">{r.customer}</td>
                     <td className="px-3 py-3 font-bold opacity-70">{r.pn}</td>
-                    <td className="px-2 py-3 bg-gray-50 tabular-nums">{r.jan}</td>
+                    <td className="px-2 py-3 bg-muted/50 tabular-nums">{r.jan}</td>
                     <td className="px-2 py-3 tabular-nums">{r.feb}</td>
-                    <td className="px-2 py-3 bg-gray-50 font-bold text-green-600 tabular-nums">{r.mar}</td>
+                    <td className="px-2 py-3 bg-muted/50 font-bold text-green-600 tabular-nums">{r.mar}</td>
                     <td className="px-2 py-3 tabular-nums">{r.apr}</td>
-                    <td className="px-2 py-3 bg-gray-50 tabular-nums">{r.may}</td>
+                    <td className="px-2 py-3 bg-muted/50 tabular-nums">{r.may}</td>
                     <td className="px-2 py-3 tabular-nums">{r.jun}</td>
-                    <td className="px-2 py-3 bg-gray-50 tabular-nums">{r.jul}</td>
+                    <td className="px-2 py-3 bg-muted/50 tabular-nums">{r.jul}</td>
                     <td className="px-2 py-3 tabular-nums">{r.aug}</td>
-                    <td className="px-2 py-3 bg-gray-50 tabular-nums">{r.sep}</td>
+                    <td className="px-2 py-3 bg-muted/50 tabular-nums">{r.sep}</td>
                     <td className="px-2 py-3 tabular-nums">{r.oct}</td>
-                    <td className="px-2 py-3 bg-gray-50 tabular-nums">{r.nov}</td>
+                    <td className="px-2 py-3 bg-muted/50 tabular-nums">{r.nov}</td>
                     <td className="px-2 py-3 tabular-nums">{r.dec}</td>
                     <td className="px-3 py-3 font-bold text-green-600 bg-green-50 tabular-nums">{r.total}</td>
                   </tr>
@@ -658,13 +658,13 @@ export function CommodityPerformanceDashboard({ commodity }: Props) {
         </div>
 
         {/* Cross-Component Backlog Matrix (Full Width) */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+        <div className="bg-card rounded-xl shadow-sm border border-border p-6">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
-            <h3 className="text-sm font-bold text-blue-900 uppercase tracking-widest flex items-center gap-1">
+            <h3 className="text-sm font-bold text-primary uppercase tracking-widest flex items-center gap-1">
               CROSS-COMPONENT BACKLOG MATRIX
               <TooltipUI>
                 <TooltipTrigger>
-                  <Info className="w-3.5 h-3.5 text-gray-400 cursor-pointer" />
+                  <Info className="w-3.5 h-3.5 text-muted-foreground cursor-pointer" />
                 </TooltipTrigger>
                 <TooltipContent>
                   <p className="text-xs text-slate-100">Peta visual temuan backlog aktif yang terbagi per komponen alat berat untuk unit armada.</p>
@@ -674,15 +674,15 @@ export function CommodityPerformanceDashboard({ commodity }: Props) {
             <div className="flex flex-wrap items-center gap-2">
               {/* Search */}
               <div className="relative">
-                <Search className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-gray-400" />
+                <Search className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-muted-foreground" />
                 <input
                   type="text"
                   placeholder="Search Armada or Model..."
-                  className="pl-8 pr-3 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 w-40"
+                  className="pl-8 pr-3 py-1.5 text-xs border border-border rounded-lg focus:outline-none focus:ring-1 focus:ring-primary w-40"
                 />
               </div>
               {/* Export Button */}
-              <button className="flex items-center gap-1.5 bg-blue-900 text-white text-xs px-3 py-1.5 rounded-lg hover:bg-blue-800 transition-colors">
+              <button className="flex items-center gap-1.5 bg-primary text-white text-xs px-3 py-1.5 rounded-lg hover:bg-primary/90 transition-colors">
                 <Download className="h-3.5 w-3.5" />
                 <span>Export</span>
               </button>
@@ -690,32 +690,32 @@ export function CommodityPerformanceDashboard({ commodity }: Props) {
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-[10px] text-center border-separate border-spacing-0">
-              <thead className="bg-gray-50 text-gray-500 uppercase font-bold tracking-tighter">
+              <thead className="bg-muted/50 text-muted-foreground uppercase font-bold tracking-tighter">
                 <tr>
-                  <th className="px-3 py-3 border-b border-gray-200 sticky left-0 z-10 bg-gray-50 text-left">Armada / Model</th>
-                  <th className="px-3 py-3 border-b border-gray-200 text-left">Customer / Site</th>
+                  <th className="px-3 py-3 border-b border-border sticky left-0 z-10 bg-muted/50 text-left">Armada / Model</th>
+                  <th className="px-3 py-3 border-b border-border text-left">Customer / Site</th>
                   {config.components.map((comp) => (
-                    <th key={comp} className="px-3 py-3 border-b border-gray-200">{comp}</th>
+                    <th key={comp} className="px-3 py-3 border-b border-border">{comp}</th>
                   ))}
-                  <th className="px-3 py-3 border-b border-gray-200 font-bold text-red-600">Active Backlogs</th>
-                  <th className="px-3 py-3 border-b border-gray-200 font-bold text-blue-900">Potensi PO</th>
-                  <th className="px-3 py-3 border-b border-gray-200">Avg Lead Time</th>
+                  <th className="px-3 py-3 border-b border-border font-bold text-red-600">Active Backlogs</th>
+                  <th className="px-3 py-3 border-b border-border font-bold text-primary">Potensi PO</th>
+                  <th className="px-3 py-3 border-b border-border">Avg Lead Time</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100 text-gray-700">
+              <tbody className="divide-y divide-border text-foreground">
                 {transformedData.backlogMatrix && transformedData.backlogMatrix.map((r, idx) => (
                   <tr 
                     key={idx} 
-                    className="hover:bg-gray-50 transition-colors group text-[9px] font-bold cursor-pointer"
+                    className="hover:bg-muted/50 transition-colors group text-[9px] font-bold cursor-pointer"
                     onClick={() => navigate(`/unit/${r.armada}?tab=${commodity}`)}
                   >
-                    <td className="px-3 py-3 border-r border-gray-200 font-bold text-blue-900 sticky left-0 z-10 bg-white group-hover:bg-gray-50 text-left">
+                    <td className="px-3 py-3 border-r border-border font-bold text-primary sticky left-0 z-10 bg-card group-hover:bg-muted/50 text-left">
                       <div>{r.armada}</div>
-                      <div className="text-gray-400 font-normal">{r.model}</div>
+                      <div className="text-muted-foreground font-normal">{r.model}</div>
                     </td>
                     <td className="px-3 py-3 text-left">
                       <div>{r.customer}</div>
-                      <div className="text-gray-400 font-normal">{r.site}</div>
+                      <div className="text-muted-foreground font-normal">{r.site}</div>
                     </td>
                     
                     {config.components.map((comp, compIdx) => {
@@ -738,7 +738,7 @@ export function CommodityPerformanceDashboard({ commodity }: Props) {
                     })}
                     
                     <td className="px-3 py-3 font-bold text-red-600 tabular-nums">{r.activeBacklogs}</td>
-                    <td className="px-3 py-3 font-bold text-blue-900 tabular-nums">{r.potensiPO}</td>
+                    <td className="px-3 py-3 font-bold text-primary tabular-nums">{r.potensiPO}</td>
                     <td className="px-3 py-3">{r.avgLeadTime}</td>
                   </tr>
                 ))}

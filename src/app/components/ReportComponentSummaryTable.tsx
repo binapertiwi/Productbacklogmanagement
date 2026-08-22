@@ -23,8 +23,8 @@ import { Database } from 'lucide-react';
 
 export function ReportComponentSummaryTable() {
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-2xl border border-border shadow-sm overflow-hidden mt-6 mb-8">
-      <div className="px-6 py-4 border-b border-border bg-slate-50/50 dark:bg-slate-800/20 flex items-center gap-3">
+    <div className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden mt-6 mb-8">
+      <div className="px-6 py-4 border-b border-border bg-muted/30 flex items-center gap-3">
         <div className="w-8 h-8 rounded-lg bg-brand-green/10 flex items-center justify-center">
           <Database className="w-4 h-4 text-brand-green" />
         </div>
@@ -36,7 +36,7 @@ export function ReportComponentSummaryTable() {
       <div className="overflow-x-auto p-4">
         <table className="w-full text-left border-collapse text-[9px] sm:text-[10px]">
           <thead>
-            <tr className="bg-slate-50/50 dark:bg-slate-800/20 text-muted-foreground uppercase text-[9px] font-bold tracking-wider leading-tight">
+            <tr className="bg-muted/30 text-muted-foreground uppercase text-[9px] font-bold tracking-wider leading-tight">
               <th className="px-4 py-3 border-b border-border min-w-[120px]">Component</th>
               <th className="px-4 py-3 border-b border-border text-center w-[70px]">Nominal<br/>Meas</th>
               <th className="px-4 py-3 border-b border-border text-center w-[70px]">Rebuild<br/>Limit</th>
@@ -60,7 +60,7 @@ export function ReportComponentSummaryTable() {
           </thead>
           <tbody className="divide-y divide-border">
             {DUMMY_SUMMARY_DATA.map((row, idx) => {
-              const bgClass = row.name ? 'bg-white dark:bg-transparent' : 'bg-muted/10 dark:bg-muted/5';
+              const bgClass = row.name ? 'bg-card dark:bg-transparent' : 'bg-muted/10 dark:bg-muted/5';
               return (
                 <tr key={idx} className={`${bgClass} hover:bg-muted/20 transition-colors`}>
                   <td className="px-4 py-3 border-b border-border/50 font-bold text-primary dark:text-foreground">{row.name}</td>

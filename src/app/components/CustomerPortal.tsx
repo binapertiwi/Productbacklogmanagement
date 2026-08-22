@@ -15,7 +15,8 @@ import {
   Layers,
   Info,
   Sparkles,
-  Building2
+  Building2,
+  Calendar
 } from "lucide-react";
 import {
   Tooltip,
@@ -105,7 +106,7 @@ export function CustomerPortal() {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("All Status");
   const [commodityFilter, setCommodityFilter] = useState("All Commodity");
-  const [bulanFilter, setBulanFilter] = useState("All Bulan");
+  const [bulanFilter, setBulanFilter] = useState("All Bulan/Tahun");
   const [modelFilter, setModelFilter] = useState("All Model");
   const [brandFilter, setBrandFilter] = useState("All Brand");
   const [areaFilter, setAreaFilter] = useState("All Area");
@@ -232,8 +233,27 @@ export function CustomerPortal() {
           <h1 className="text-2xl font-bold text-primary dark:text-foreground">Fleet Health & Procurement Portal</h1>
           <p className="text-sm text-muted-foreground">Monitoring kesehatan unit dan backlog perbaikan secara transparan</p>
         </div>
-        <div className="flex items-center gap-2">
-          <button onClick={handleExportPO} className="flex items-center gap-2 px-4 py-2 bg-brand-green text-white rounded-lg text-sm hover:bg-brand-green/90 transition-colors shadow-md shadow-brand-green/20 font-bold">
+        <div className="flex flex-col sm:flex-row items-center gap-3">
+          {/* Bulan/Tahun Filter Dropdown */}
+          <div className="relative">
+            <Select value={bulanFilter} onValueChange={setBulanFilter}>
+              <SelectTrigger className="w-[160px] h-10 text-xs font-bold bg-background text-brand-navy dark:text-brand-green border-border">
+                <Calendar className="w-4 h-4 mr-1 text-brand-green" />
+                <SelectValue placeholder="All Bulan/Tahun" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="All Bulan/Tahun">All Bulan/Tahun</SelectItem>
+                <SelectItem value="Januari 2026">Januari 2026</SelectItem>
+                <SelectItem value="Februari 2026">Februari 2026</SelectItem>
+                <SelectItem value="Maret 2026">Maret 2026</SelectItem>
+                <SelectItem value="April 2026">April 2026</SelectItem>
+                <SelectItem value="Mei 2026">Mei 2026</SelectItem>
+                <SelectItem value="Juni 2026">Juni 2026</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <button onClick={handleExportPO} className="flex items-center gap-2 px-4 py-2.5 bg-brand-green text-white rounded-lg text-sm hover:bg-brand-green/90 transition-colors shadow-md shadow-brand-green/20 font-bold">
             <Download className="w-4 h-4" />Export PO Recommendation
           </button>
         </div>
@@ -282,20 +302,6 @@ export function CustomerPortal() {
                 <SelectItem value="Critical">Critical</SelectItem>
                 <SelectItem value="Caution">Caution</SelectItem>
                 <SelectItem value="Good">Good</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="relative">
-            <Select value={bulanFilter} onValueChange={setBulanFilter}>
-              <SelectTrigger className="w-[110px] h-9 text-xs font-bold bg-background">
-                <SelectValue placeholder="All Bulan" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="All Bulan">All Bulan</SelectItem>
-                <SelectItem value="Januari">Januari</SelectItem>
-                <SelectItem value="Februari">Februari</SelectItem>
-                <SelectItem value="Maret">Maret</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -497,7 +503,7 @@ export function CustomerPortal() {
           <div className="bg-card rounded-xl border border-border shadow-sm overflow-hidden transition-colors">
             <div className="px-4 sm:px-5 py-4 border-b border-border flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-muted/30">
               <div>
-                <h3 className="text-primary dark:text-foreground font-bold font-heading">Technical Details per Unit</h3>
+                <h3 className="text-primary dark:text-foreground font-bold font-display">Technical Details per Unit</h3>
                 <p className="text-xs text-muted-foreground mt-0.5 font-medium">
                   Identifikasi kesehatan unit secara holistik (Filter aktif: <span className="font-bold text-brand-green">{commodityFilter}</span>)
                 </p>

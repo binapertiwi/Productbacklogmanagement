@@ -3,6 +3,7 @@ import { Camera, Download, Package, FileText, ClipboardList, Bot, AlertTriangle,
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip as RechartsTooltip } from 'recharts';
 import { StatusBadge } from './StatusBadge';
 import { RecommendedPart, CommodityInspectionReport } from '../data/inspectionTypes';
+import { ReportRecommendedPartsTable } from './ReportRecommendedPartsTable';
 
 interface FCGReportLayoutProps {
   unit: {
@@ -18,8 +19,6 @@ interface FCGReportLayoutProps {
   onExportPO: (recommendations: RecommendedPart[]) => void;
   isInternal?: boolean;
 }
-
-import { ReportPlanReplacement } from './ReportPlanReplacement';
 
 interface FCGComponent {
   component: string;
@@ -170,44 +169,7 @@ const PLACEHOLDER_PHOTOS = [
 
 export function FCGReportLayout({ unit, activeReport, onExportPO, isInternal }: FCGReportLayoutProps) {
   const [activePhoto, setActivePhoto] = useState<string | null>(null);
-  const [searchPart, setSearchPart] = useState('');
-  const [urgencyFilter, setUrgencyFilter] = useState('All');
   const [selectedInspectionId, setSelectedInspectionId] = useState<string | null>(null);
-  
-  const formatRupiah = (value: number) => `Rp ${value.toLocaleString('id-ID')}`;
-
-  const handleExportCSV = () => {
-    const headers = ['Part Number', 'Description', 'Qty', 'UoM', 'Urgency', 'Est Price'];
-    const rows = FCG_RECOMMENDED_PARTS.map(p => [
-      p.partNumber,
-      p.description,
-      p.quantity,
-      p.uom,
-      p.urgency,
-      p.estimatedPrice || 0
-    ]);
-    
-    const csvContent = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.setAttribute('href', url);
-    link.setAttribute('download', `FCG_Recommended_Parts_${unit.serialNumber}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
-  const filteredParts = useMemo(() => {
-    return FCG_RECOMMENDED_PARTS.filter(p => {
-      const matchSearch = p.partNumber.toLowerCase().includes(searchPart.toLowerCase()) || 
-                          p.description.toLowerCase().includes(searchPart.toLowerCase());
-      const matchUrgency = urgencyFilter === 'All' || p.urgency === urgencyFilter;
-      return matchSearch && matchUrgency;
-    });
-  }, [searchPart, urgencyFilter]);
-
-  const totalEstimatedPO = filteredParts.reduce((sum, part) => sum + (part.estimatedPrice ?? 0) * part.quantity, 0);
 
   // Chart Data Dummies
   const componentCheckData = [
@@ -225,12 +187,12 @@ export function FCGReportLayout({ unit, activeReport, onExportPO, isInternal }: 
     <div className="space-y-8 animate-in fade-in duration-300">
       
       {/* ── HEADER / SUMMARY MAIN WRAPPER CONTAINER ── */}
-      <div className={`space-y-8 bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 ${selectedInspectionId ? 'print:hidden' : ''}`}>
+      <div className={`space-y-8 bg-card p-6 rounded-2xl border border-border ${selectedInspectionId ? 'print:hidden' : ''}`}>
       
       {/* ── 1. EXECUTIVE SUMMARY WIDGETS ── */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         {/* Card 1: OVERALL HEALTH */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col items-center justify-center">
+        <div className="bg-card rounded-xl shadow-sm border border-border p-6 flex flex-col items-center justify-center">
           <h4 className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mb-4">Overall Health</h4>
           <div className="relative w-32 h-32 flex items-center justify-center">
             <ResponsiveContainer width="100%" height="100%">
@@ -258,7 +220,7 @@ export function FCGReportLayout({ unit, activeReport, onExportPO, isInternal }: 
         </div>
 
         {/* Card 2: URGENCY MATRIX */}
-        <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-border p-5 transition-all hover:shadow-md">
+        <div className="bg-card rounded-xl shadow-sm border border-border p-5 transition-all hover:shadow-md">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
               <h3 className="text-primary dark:text-foreground font-bold text-sm uppercase tracking-tight">Urgency Matrix</h3>
@@ -290,7 +252,7 @@ export function FCGReportLayout({ unit, activeReport, onExportPO, isInternal }: 
         </div>
 
         {/* Card 3: COMPONENT CHECK */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col items-center justify-center">
+        <div className="bg-card rounded-xl shadow-sm border border-border p-6 flex flex-col items-center justify-center">
           <h4 className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mb-4">Component Check</h4>
           <div className="w-full h-32 relative">
             <ResponsiveContainer width="100%" height="100%">
@@ -312,7 +274,7 @@ export function FCGReportLayout({ unit, activeReport, onExportPO, isInternal }: 
         </div>
 
         {/* Card 4: DISTRIBUTION OF TIRAP */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col items-center justify-center">
+        <div className="bg-card rounded-xl shadow-sm border border-border p-6 flex flex-col items-center justify-center">
           <h4 className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mb-4">Distribution of Tirap</h4>
           <div className="w-full h-32">
             <ResponsiveContainer width="100%" height="100%">
@@ -333,113 +295,22 @@ export function FCGReportLayout({ unit, activeReport, onExportPO, isInternal }: 
       </div>
 
       {/* ── 2. RECOMMENDED PARTS FOR PO ── */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-8">
-        <div className="px-6 py-4 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center gap-4 bg-gray-50/50">
-          <div className="flex items-center gap-2">
-            <Package className="w-4 h-4 text-brand-green" />
-            <h4 className="font-bold text-brand-navy text-sm uppercase tracking-tight">Recommended Parts for PO</h4>
-          </div>
-          <div className="flex flex-wrap items-center gap-2 sm:ml-auto">
-            <div className="relative">
-              <Search className="w-3.5 h-3.5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
-              <input 
-                type="text" 
-                placeholder="Search part..." 
-                value={searchPart}
-                onChange={(e) => setSearchPart(e.target.value)}
-                className="pl-8 pr-3 py-1.5 text-xs bg-white border border-gray-200 rounded-lg focus:outline-none focus:border-brand-green w-40 font-medium"
-              />
-            </div>
-            <select 
-              value={urgencyFilter}
-              onChange={(e) => setUrgencyFilter(e.target.value)}
-              className="px-3 py-1.5 text-xs bg-white border border-gray-200 rounded-lg focus:outline-none focus:border-brand-green font-medium"
-            >
-              <option value="All">All Status</option>
-              <option value="Critical">Critical Only</option>
-              <option value="Caution">Caution Only</option>
-            </select>
-            <button 
-              onClick={handleExportCSV}
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 rounded-lg text-xs font-bold transition-all shadow-sm"
-            >
-              <Download className="w-3.5 h-3.5" />
-              Export Excel
-            </button>
-          </div>
-        </div>
-
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm text-left">
-            <thead className="bg-gray-50/30 text-[10px] uppercase font-bold tracking-widest text-muted-foreground border-b border-gray-100">
-              <tr>
-                <th className="px-6 py-3">Part Number</th>
-                <th className="px-6 py-3">Description</th>
-                <th className="px-6 py-3 text-center">Qty</th>
-                <th className="px-6 py-3 text-center">UoM</th>
-                <th className="px-6 py-3 text-center">Bulan/Tahun</th>
-                <th className="px-6 py-3 text-center">Urgency</th>
-                {isInternal && <th className="px-6 py-3 text-center">PO Number</th>}
-                <th className="px-6 py-3 text-right">Est. Price</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100">
-              {filteredParts.length > 0 ? filteredParts.map((part) => (
-                <tr key={part.partNumber} className="hover:bg-gray-50/50 transition-colors">
-                  <td className="px-6 py-4 font-mono font-bold text-brand-navy text-xs">{part.partNumber}</td>
-                  <td className="px-6 py-4 text-xs font-semibold text-gray-800">{part.description}</td>
-                  <td className="px-6 py-4 text-center font-bold text-gray-900">{part.quantity}</td>
-                  <td className="px-6 py-4 text-center text-[10px] font-bold text-muted-foreground uppercase">{part.uom}</td>
-                  <td className="px-6 py-4 text-center text-xs font-bold text-gray-600">{part.period || 'Feb 2026'}</td>
-                  <td className="px-6 py-4 text-center"><StatusBadge status={part.urgency} size="sm" /></td>
-                  {isInternal && (
-                    <td className="px-6 py-4 text-center font-bold text-brand-navy text-xs">
-                      <input type="text" defaultValue={`PO-2026-${Math.floor(Math.random() * 900) + 100}`} className="w-24 text-center border border-border rounded px-2 py-1 text-xs focus:outline-brand-green" />
-                    </td>
-                  )}
-                  <td className="px-6 py-4 text-right font-bold text-brand-navy text-xs">
-                    {isInternal ? (
-                      <input type="number" defaultValue={part.estimatedPrice} className="w-28 text-right border border-border rounded px-2 py-1 text-xs focus:outline-brand-green" />
-                    ) : (
-                      part.estimatedPrice != null ? formatRupiah(part.estimatedPrice) : '—'
-                    )}
-                  </td>
-                </tr>
-              )) : (
-                <tr>
-                  <td colSpan={7} className="px-6 py-8 text-center text-xs text-muted-foreground font-medium italic">
-                    No parts match your filter.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-            {filteredParts.length > 0 && (
-              <tfoot>
-                <tr className="bg-brand-green/5 border-t border-brand-green/20">
-                  <td colSpan={isInternal ? 7 : 6} className="px-6 py-4 text-xs font-bold text-brand-green uppercase tracking-widest">Total Estimasi PO (Filtered)</td>
-                  <td className="px-6 py-4 text-right font-bold text-brand-green text-base">
-                    {formatRupiah(totalEstimatedPO)}
-                  </td>
-                </tr>
-              </tfoot>
-            )}
-          </table>
-        </div>
-        
-      </div>
-
-      {/* ── PLAN REPLACEMENT REPORT (INTERNAL ONLY) ── */}
-      {isInternal && <ReportPlanReplacement />}
+      <ReportRecommendedPartsTable 
+        initialParts={FCG_RECOMMENDED_PARTS} 
+        unitId={unit.serialNumber} 
+        commodityName="FCG" 
+        isInternal={isInternal} 
+      />
 
       {/* ── 3. INSPECTION HISTORY TABLE ── */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-8">
-        <div className="px-6 py-4 border-b border-gray-100 bg-gray-50/50 flex items-center gap-2">
+      <div className="bg-card rounded-xl shadow-sm border border-border overflow-hidden mb-8">
+        <div className="px-6 py-4 border-b border-border bg-muted/50 flex items-center gap-2">
           <ClipboardList className="w-4 h-4 text-brand-navy" />
-          <h3 className="text-sm font-bold text-brand-navy uppercase tracking-tight">Inspection History</h3>
+          <h3 className="text-sm font-bold text-primary dark:text-foreground uppercase tracking-tight">Inspection History</h3>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left">
-            <thead className="bg-gray-50/50 text-[10px] uppercase font-bold tracking-widest text-muted-foreground border-b border-gray-100">
+            <thead className="bg-muted/50 text-[10px] uppercase font-bold tracking-widest text-muted-foreground border-b border-border">
               <tr>
                 <th className="px-6 py-3 font-bold">Inspection Date</th>
                 <th className="px-6 py-3 font-bold">Report No</th>
@@ -449,28 +320,28 @@ export function FCGReportLayout({ unit, activeReport, onExportPO, isInternal }: 
                 <th className="px-6 py-3 font-bold text-center">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100">
+            <tbody className="divide-y divide-border">
               {INSPECTION_HISTORY_MOCK.map((row, idx) => (
                 <tr 
                   key={idx} 
-                  className={`hover:bg-gray-50/50 cursor-pointer border-l-4 transition-all duration-200 ${
+                  className={`hover:bg-muted/50 cursor-pointer border-l-4 transition-all duration-200 ${
                     selectedInspectionId === row.id 
                       ? 'bg-brand-navy/5 dark:bg-brand-green/5 border-l-brand-green font-medium' 
                       : 'border-l-transparent'
                   }`}
                   onClick={() => setSelectedInspectionId(row.id === selectedInspectionId ? null : row.id)}
                 >
-                  <td className="px-6 py-4 font-semibold text-gray-800">{row.date}</td>
+                  <td className="px-6 py-4 font-semibold text-foreground">{row.date}</td>
                   <td className="px-6 py-4 font-mono text-xs font-bold text-brand-navy">{row.id}</td>
-                  <td className="px-6 py-4 font-medium text-gray-700">{row.inspector}</td>
-                  <td className="px-6 py-4 font-semibold text-gray-800">{unit.serialNumber}</td>
-                  <td className="px-6 py-4 text-gray-600">{row.approvalDate}</td>
+                  <td className="px-6 py-4 font-medium text-foreground">{row.inspector}</td>
+                  <td className="px-6 py-4 font-semibold text-foreground">{unit.serialNumber}</td>
+                  <td className="px-6 py-4 text-muted-foreground">{row.approvalDate}</td>
                   <td className="px-6 py-4 text-center">
                     <button 
                       className={`p-2 rounded-lg transition-all duration-200 inline-flex items-center justify-center hover:scale-105 active:scale-95 ${
                         selectedInspectionId === row.id 
                           ? 'bg-brand-green text-white shadow-sm shadow-brand-green/20 ring-2 ring-brand-green/20 scale-105' 
-                          : 'bg-gray-50 hover:bg-brand-navy hover:text-white text-gray-400'
+                          : 'bg-muted hover:bg-brand-navy hover:text-white text-muted-foreground'
                       }`}
                     >
                       <Eye className="w-4 h-4" />
@@ -485,7 +356,7 @@ export function FCGReportLayout({ unit, activeReport, onExportPO, isInternal }: 
       </div> {/* ── END OF HEADER / SUMMARY MAIN WRAPPER CONTAINER ── */}
 
       {selectedInspectionId && (
-        <div id="printable-area" className="print:m-0 print:p-0 print:border-none mt-12 pt-12 border-t border-slate-200 dark:border-slate-800 space-y-8 animate-in fade-in slide-in-from-top-4 duration-500 ease-out">
+        <div id="printable-area" className="print:m-0 print:p-0 print:border-none mt-12 pt-12 border-t border-border space-y-8 animate-in fade-in slide-in-from-top-4 duration-500 ease-out">
           
           {/* ── METADATA HEADER (Moved to Item Inspection Details & Dynamic) ── */}
           {(() => {
@@ -508,7 +379,7 @@ export function FCGReportLayout({ unit, activeReport, onExportPO, isInternal }: 
                 : 'Good';
 
             return (
-              <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
+              <div className="bg-card rounded-2xl border border-border p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 flex-1">
                   <div className="space-y-1">
                     <h6 className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest">No. Inspeksi</h6>
@@ -534,14 +405,14 @@ export function FCGReportLayout({ unit, activeReport, onExportPO, isInternal }: 
                     <p className="text-sm font-bold text-primary dark:text-foreground">{displaySMU.toLocaleString()} Hrs</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-6 pl-6 border-l border-slate-200 dark:border-slate-800 hidden md:flex">
+                <div className="flex items-center gap-6 pl-6 border-l border-border hidden md:flex">
                   <div className="text-right">
                     <h6 className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mb-1">Health Status</h6>
                     <StatusBadge status={displayStatus} size="lg" />
                   </div>
                   <button 
                     onClick={() => window.print()}
-                    className="print:hidden flex flex-col items-center justify-center gap-1 px-4 py-2 bg-white dark:bg-slate-800 hover:bg-muted border border-border text-brand-navy dark:text-brand-green rounded-xl transition-all shadow-sm group"
+                    className="print:hidden flex flex-col items-center justify-center gap-1 px-4 py-2 bg-card hover:bg-muted border border-border text-brand-navy dark:text-brand-green rounded-xl transition-all shadow-sm group"
                   >
                     <Download className="w-4 h-4 group-hover:scale-110 transition-transform" />
                     <span className="text-[9px] font-bold uppercase tracking-wider">Download PDF</span>
@@ -554,7 +425,7 @@ export function FCGReportLayout({ unit, activeReport, onExportPO, isInternal }: 
           {/* ── VISUAL SEPARATOR BETWEEN HEADER/SUMMARY & DETAILS ── */}
           <div className="relative my-10">
             <div className="absolute inset-0 flex items-center" aria-hidden="true">
-              <div className="w-full border-t border-dashed border-gray-300 dark:border-slate-800"></div>
+              <div className="w-full border-t border-dashed border-border"></div>
             </div>
             <div className="relative flex justify-center">
               <span className="bg-card px-4 py-1.5 text-[10px] font-bold uppercase tracking-widest text-brand-navy dark:text-brand-green border border-border rounded-full shadow-sm flex items-center gap-2">
@@ -565,13 +436,13 @@ export function FCGReportLayout({ unit, activeReport, onExportPO, isInternal }: 
           </div>
 
           {/* ── DETAILS WRAPPER CONTAINER ── */}
-          <div className="bg-[#f8fafc] dark:bg-[#090d16] border border-slate-200 dark:border-slate-800 rounded-2xl p-6 space-y-8 shadow-inner">
+          <div className="bg-muted/30 border border-border rounded-2xl p-6 space-y-8 shadow-inner">
             
             {/* Moved ReportPlanReplacement to the section above Inspection History */}
 
             {/* ── 4. DETAILED INSPECTION FINDINGS ── */}
             <div className="space-y-6">
-              <h3 className="text-sm font-bold text-brand-navy uppercase tracking-wider">Detailed Technical Parameters</h3>
+              <h3 className="text-sm font-bold text-primary dark:text-foreground uppercase tracking-wider">Detailed Technical Parameters</h3>
               
               <div className="space-y-6">
                 {FCG_COMPONENTS_MOCK.map((item, idx) => {
@@ -596,14 +467,14 @@ export function FCGReportLayout({ unit, activeReport, onExportPO, isInternal }: 
                   ];
 
                   return (
-                    <div key={idx} className="bg-white rounded-xl border border-gray-100 p-6 shadow-sm space-y-4">
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-gray-100 gap-2">
+                    <div key={idx} className="bg-card rounded-xl border border-border p-6 shadow-sm space-y-4">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-border gap-2">
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600">
                             <Bot className="w-5 h-5" />
                           </div>
                           <div>
-                            <h4 className="font-bold text-brand-navy text-base">{item.component}</h4>
+                            <h4 className="font-bold text-primary dark:text-foreground text-base">{item.component}</h4>
                             <p className="text-[10px] text-muted-foreground font-semibold uppercase tracking-wider mt-0.5">Location: {item.hoseLocation}</p>
                           </div>
                         </div>
@@ -618,14 +489,14 @@ export function FCGReportLayout({ unit, activeReport, onExportPO, isInternal }: 
                       
                       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-y-4 gap-x-8">
                         {fields.map((f, fIdx) => (
-                          <div key={fIdx} className="pb-2 border-b border-gray-50 flex flex-col justify-center">
-                            <span className="text-gray-400 font-semibold text-[10px] uppercase tracking-widest mb-1">{f.label}</span>
+                          <div key={fIdx} className="pb-2 border-b border-border flex flex-col justify-center">
+                            <span className="text-muted-foreground font-semibold text-[10px] uppercase tracking-widest mb-1">{f.label}</span>
                             <span 
                               className={`text-sm font-semibold truncate block ${
                                 f.label === 'Action' && f.value.toLowerCase().includes('replace') ? 'text-red-500' :
                                 f.label === 'Action' && f.value.toLowerCase().includes('monitor') ? 'text-yellow-600' :
                                 f.label === 'Condition' && f.value.toLowerCase().includes('critical') ? 'text-red-500 font-bold' :
-                                'text-gray-800'
+                                'text-foreground'
                               }`}
                               title={f.value?.toString()}
                             >
@@ -643,15 +514,15 @@ export function FCGReportLayout({ unit, activeReport, onExportPO, isInternal }: 
               <div className="mt-8">
                 <div className="flex items-center gap-2 mb-4">
                   <Camera className="w-5 h-5 text-brand-navy" />
-                  <h4 className="text-base font-bold text-brand-navy uppercase tracking-tight">Inspection Field Evidence</h4>
+                  <h4 className="text-base font-bold text-primary dark:text-foreground uppercase tracking-tight">Inspection Field Evidence</h4>
                 </div>
-                <div className="bg-white rounded-xl border border-gray-100 p-6 shadow-sm">
+                <div className="bg-card rounded-xl border border-border p-6 shadow-sm">
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     {PLACEHOLDER_PHOTOS.map((url, idx) => (
                       <button
                         key={idx}
                         onClick={() => setActivePhoto(url)}
-                        className="aspect-[4/3] rounded-lg overflow-hidden border border-gray-200 hover:border-brand-green transition-all group relative bg-gray-100"
+                        className="aspect-[4/3] rounded-lg overflow-hidden border border-border hover:border-brand-green transition-all group relative bg-muted"
                       >
                         <img src={url} alt={`Evidence ${idx + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">

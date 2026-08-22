@@ -233,10 +233,10 @@ export const InspectorProductivity = () => {
       {/* PAGE HEADER */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-brand-navy dark:text-foreground flex items-center gap-2">
-            <LayoutDashboard className="w-6 h-6 text-brand-green" />
-            Inspector Productivity & Coverage
-          </h1>
+          <div className="flex items-center gap-2">
+            <LayoutDashboard className="w-6 h-6 text-brand-green flex-shrink-0" />
+            <h1 className="text-2xl font-bold text-primary dark:text-foreground">Inspector Productivity & Coverage</h1>
+          </div>
           <p className="text-sm text-muted-foreground mt-1 font-medium">
             Monitoring efisiensi tenaga kerja dan rasio cakupan inspeksi nasional
           </p>
@@ -307,10 +307,10 @@ export const InspectorProductivity = () => {
           {/* TIER 2: CHARTS */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Manpower vs Workload Map */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col">
+            <div className="bg-card rounded-xl shadow-sm border border-border p-6 flex flex-col">
               <div className="flex items-start justify-between mb-6">
                 <div>
-                  <h3 className="text-sm font-bold text-gray-800 tracking-wide uppercase">Manpower vs Workload Map</h3>
+                  <h3 className="text-sm font-bold text-primary dark:text-foreground tracking-wide uppercase">Manpower vs Workload Map</h3>
                   <p className="text-[10px] text-muted-foreground font-bold mt-1 uppercase tracking-wider">Kapasitas inspeksi vs populasi unit per wilayah</p>
                 </div>
                 <div className="flex items-center gap-2">
@@ -371,10 +371,10 @@ export const InspectorProductivity = () => {
             </div>
 
             {/* Coverage by Customer Site */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col">
+            <div className="bg-card rounded-xl shadow-sm border border-border p-6 flex flex-col">
               <div className="flex items-start justify-between mb-6">
                 <div>
-                  <h3 className="text-sm font-bold text-gray-800 tracking-wide uppercase">Coverage by Customer Site</h3>
+                  <h3 className="text-sm font-bold text-primary dark:text-foreground tracking-wide uppercase">Coverage by Customer Site</h3>
                   <p className="text-[10px] text-muted-foreground font-bold mt-1 uppercase tracking-wider">% Unit terinspeksi vs total populasi site</p>
                 </div>
                 <div className="flex items-center gap-2">
@@ -501,10 +501,10 @@ export const InspectorProductivity = () => {
         <div className="lg:col-span-12 space-y-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Quality to PO Conversion */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col">
+            <div className="bg-card rounded-xl shadow-sm border border-border p-6 flex flex-col">
               <div className="flex items-start justify-between mb-6">
                 <div>
-                  <h3 className="text-sm font-bold text-gray-800 tracking-wide uppercase">Quality to PO Conversion</h3>
+                  <h3 className="text-sm font-bold text-primary dark:text-foreground tracking-wide uppercase">Quality to PO Conversion</h3>
                   <p className="text-[10px] text-muted-foreground font-bold mt-1 uppercase tracking-wider">Avg Duration vs PO Rate %</p>
                 </div>
                 <div className="flex items-center gap-2">
@@ -568,10 +568,10 @@ export const InspectorProductivity = () => {
             </div>
 
             {/* Inspection Hit Rate (Yield) */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col">
+            <div className="bg-card rounded-xl shadow-sm border border-border p-6 flex flex-col">
               <div className="flex items-start justify-between mb-6">
                 <div>
-                  <h3 className="text-sm font-bold text-gray-800 tracking-wide uppercase">Inspection Hit Rate (Yield)</h3>
+                  <h3 className="text-sm font-bold text-primary dark:text-foreground tracking-wide uppercase">Inspection Hit Rate (Yield)</h3>
                   <p className="text-[10px] text-muted-foreground font-bold mt-1 uppercase tracking-wider">Rasio temuan backlog kritis vs total inspeksi per wilayah</p>
                 </div>
                 <div className="flex items-center gap-2">
@@ -629,10 +629,10 @@ export const InspectorProductivity = () => {
           </div>
 
           {/* LEADERBOARD TABLE */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden transition-all hover:shadow-lg">
-            <div className="px-6 py-5 border-b border-gray-100 flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-gray-50/50">
+          <div className="bg-card rounded-xl shadow-sm border border-border overflow-hidden transition-all hover:shadow-lg">
+            <div className="px-6 py-5 border-b border-border flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-muted/30">
               <div>
-                <h3 className="text-sm font-bold text-gray-800 tracking-wide uppercase">Inspector Leaderboard</h3>
+                <h3 className="text-sm font-bold text-primary dark:text-foreground tracking-wide uppercase">Inspector Leaderboard</h3>
                 <p className="text-[11px] text-muted-foreground font-bold mt-1 uppercase tracking-wider">Performa inspektur berdasarkan output dan kualitas data</p>
               </div>
               <div className="flex items-center gap-2">
@@ -640,19 +640,19 @@ export const InspectorProductivity = () => {
                   <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                   <Input 
                     placeholder="Search Inspector..." 
-                    className="pl-10 pr-4 py-2 text-xs border-gray-200 rounded-xl bg-white w-full sm:w-64 focus:ring-2 focus:ring-brand-green/30"
+                    className="pl-10 pr-4 py-2 text-xs border-border rounded-xl bg-card w-full sm:w-64 focus:ring-2 focus:ring-brand-green/30"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                   />
                 </div>
-                <Button variant="outline" size="icon" className="rounded-xl border-gray-200">
+                <Button variant="outline" size="icon" className="rounded-xl border-border">
                   <Download className="h-4 w-4" />
                 </Button>
               </div>
             </div>
             <div className="overflow-x-auto">
               <Table>
-                <TableHeader className="bg-gray-50/50">
+                <TableHeader className="bg-muted/30">
                   <TableRow>
                     <TableHead className="px-6 py-4 font-bold text-primary uppercase text-[10px] tracking-widest">Inspector Name</TableHead>
                     <TableHead className="px-6 py-4 font-bold text-primary uppercase text-[10px] tracking-widest">Branch</TableHead>
@@ -666,7 +666,7 @@ export const InspectorProductivity = () => {
                 </TableHeader>
                 <TableBody>
                   {filteredInspectors.map((inspector, idx) => (
-                    <TableRow key={idx} className="hover:bg-gray-50/80 transition-colors group cursor-pointer border-b border-gray-50 last:border-0">
+                    <TableRow key={idx} className="hover:bg-muted/30 transition-colors group cursor-pointer border-b border-border last:border-0">
                       <TableCell className="px-6 py-4 font-bold text-primary">{inspector.name}</TableCell>
                       <TableCell className="px-6 py-4 text-muted-foreground font-medium">{inspector.branch}</TableCell>
                       <TableCell className="px-6 py-4 text-right font-bold">{inspector.units}</TableCell>
@@ -694,7 +694,7 @@ export const InspectorProductivity = () => {
                       </TableCell>
                       <TableCell className="px-6 py-4 text-center">
                         <div className="flex items-center justify-center gap-2">
-                          <div className="w-16 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                          <div className="w-16 h-1.5 bg-muted rounded-full overflow-hidden">
                             <div 
                               className="h-full bg-brand-green" 
                               style={{ width: `${inspector.quality}%` }}

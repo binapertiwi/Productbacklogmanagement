@@ -18,8 +18,8 @@ interface InspectionReportProps {
   isInternal?: boolean;
 }
 
-import { ReportPlanReplacement } from './ReportPlanReplacement';
 import { ReportComponentSummaryTable } from './ReportComponentSummaryTable';
+import { ReportRecommendedPartsTable } from './ReportRecommendedPartsTable';
 
 const formatRupiah = (value: number) =>
   value >= 1_000_000 ? `Rp ${(value / 1_000_000).toFixed(0)} Jt` : `Rp ${value.toLocaleString('id-ID')}`;
@@ -67,7 +67,7 @@ export function InspectionReport({ report, unitId, onExportPO, isInternal }: Ins
     <div className="space-y-8 animate-in fade-in duration-300">
       
       {/* ── HEADER / SUMMARY MAIN WRAPPER CONTAINER ── */}
-      <div className={`space-y-8 bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 ${selectedInspectionId ? 'print:hidden' : ''}`}>
+      <div className={`space-y-8 bg-card p-6 rounded-2xl border border-border ${selectedInspectionId ? 'print:hidden' : ''}`}>
       
       {/* ── TOP ACTION BAR ── */}
       <div className="flex justify-between items-center bg-muted/20 p-4 rounded-xl border border-border">
@@ -82,7 +82,7 @@ export function InspectionReport({ report, unitId, onExportPO, isInternal }: Ins
       {/* ── B: EXECUTIVE SUMMARY WIDGETS ── */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* Card 1: OVERALL HEALTH */}
-        <div className="bg-white rounded-xl shadow-sm border border-border p-6 flex flex-col items-center justify-center">
+        <div className="bg-card rounded-xl shadow-sm border border-border p-6 flex flex-col items-center justify-center">
           <h4 className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mb-4">Overall Health</h4>
           <div className="relative w-32 h-32 flex items-center justify-center">
             <ResponsiveContainer width="100%" height="100%">
@@ -110,7 +110,7 @@ export function InspectionReport({ report, unitId, onExportPO, isInternal }: Ins
         </div>
 
         {/* Card 2: URGENCY MATRIX */}
-        <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-border p-5 transition-all hover:shadow-md">
+        <div className="bg-card rounded-xl shadow-sm border border-border p-5 transition-all hover:shadow-md">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
               <h3 className="text-primary dark:text-foreground font-bold text-sm uppercase tracking-tight">Urgency Matrix</h3>
@@ -142,7 +142,7 @@ export function InspectionReport({ report, unitId, onExportPO, isInternal }: Ins
         </div>
 
         {/* Card 3: COMPONENT CHECK */}
-        <div className="bg-white rounded-xl shadow-sm border border-border p-6 flex flex-col items-center justify-center">
+        <div className="bg-card rounded-xl shadow-sm border border-border p-6 flex flex-col items-center justify-center">
           <h4 className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mb-4">Component Check</h4>
           <div className="relative w-32 h-32 flex items-center justify-center">
             <ResponsiveContainer width="100%" height="100%">
@@ -165,158 +165,18 @@ export function InspectionReport({ report, unitId, onExportPO, isInternal }: Ins
           </div>
           <div className="mt-4 flex gap-3 text-[10px] font-bold">
             <div className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-brand-green"></div> Done</div>
-            <div className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-gray-200"></div> Pending</div>
+            <div className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-muted"></div> Pending</div>
           </div>
         </div>
       </div>
 
       {/* ── C: PO RECOMMENDATIONS ────────────────────────────────────────── */}
-      {(() => {
-        const [search, setSearch] = useState('');
-        const [urgency, setUrgency] = useState('All');
-
-        const filteredParts = recommendations.filter(p => {
-          const matchesSearch = p.partNumber.toLowerCase().includes(search.toLowerCase()) || 
-                              p.description.toLowerCase().includes(search.toLowerCase());
-          const matchesUrgency = urgency === 'All' || p.urgency === urgency;
-          return matchesSearch && matchesUrgency;
-        });
-
-        const handleExportExcel = () => {
-          const headers = ['Part Number', 'Description', 'Qty', 'UoM', 'Urgency', 'Est Price'];
-          const rows = filteredParts.map(p => [
-            p.partNumber,
-            p.description,
-            p.quantity,
-            p.uom,
-            p.urgency,
-            p.estimatedPrice || 0
-          ]);
-          
-          const csvContent = [
-            headers.join(','),
-            ...rows.map(r => r.join(','))
-          ].join('\n');
-
-          const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-          const url = URL.createObjectURL(blob);
-          const link = document.createElement('a');
-          link.setAttribute('href', url);
-          link.setAttribute('download', `Recommended_Parts_${unitId}_${metadata.commodity}.csv`);
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-        };
-
-        if (recommendations.length === 0) return (
-          <div className="bg-brand-green/5 border border-brand-green/20 rounded-2xl p-5 flex items-center gap-3">
-            <div className="w-10 h-10 bg-brand-green/10 rounded-xl flex items-center justify-center"><Wrench className="w-5 h-5 text-brand-green" /></div>
-            <div>
-              <p className="text-sm font-bold text-brand-green">Tidak Ada Part yang Perlu Diganti</p>
-              <p className="text-xs text-muted-foreground font-bold mt-0.5">Semua komponen dalam batas normal. Lanjutkan monitoring sesuai jadwal PM.</p>
-            </div>
-          </div>
-        );
-
-        return (
-          <div className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden">
-            <div className="px-5 py-4 border-b border-border flex flex-col sm:flex-row sm:items-center gap-4 bg-muted/20">
-              <div className="flex items-center gap-2">
-                <Package className="w-4 h-4 text-brand-green" />
-                <h4 className="font-bold text-primary dark:text-foreground text-sm uppercase tracking-tight">Recommended Parts for PO</h4>
-              </div>
-              
-              {/* Filters */}
-              <div className="flex flex-wrap items-center gap-2 sm:ml-auto">
-                <input 
-                  type="text" 
-                  placeholder="Search Part..." 
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  className="px-3 py-1.5 text-xs bg-white dark:bg-muted border border-border rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-green w-32 sm:w-40 font-bold"
-                />
-                <select 
-                  value={urgency}
-                  onChange={(e) => setUrgency(e.target.value)}
-                  className="px-3 py-1.5 text-xs bg-white dark:bg-muted border border-border rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-green font-bold"
-                >
-                  <option value="All">All Status</option>
-                  <option value="Critical">Critical Only</option>
-                  <option value="Caution">Caution Only</option>
-                </select>
-                <button 
-                  onClick={handleExportExcel}
-                  className="flex items-center gap-1.5 px-3 py-1.5 bg-brand-navy text-white rounded-lg text-xs font-bold hover:opacity-90 transition-all"
-                >
-                  <Download className="w-3.5 h-3.5" />
-                  Excel
-                </button>
-              </div>
-            </div>
-
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm text-left whitespace-nowrap border-separate border-spacing-0">
-                <thead className="bg-muted/40 text-[10px] uppercase font-bold tracking-widest text-muted-foreground/70 border-b border-border">
-                  <tr>
-                    <th className="px-5 py-3 border-b border-border">Part Number</th>
-                    <th className="px-4 py-3 border-b border-border">Description</th>
-                    <th className="px-3 py-3 border-b border-border text-center">Qty</th>
-                    <th className="px-3 py-3 border-b border-border text-center">UoM</th>
-                    <th className="px-3 py-3 border-b border-border text-center">Bulan/Tahun</th>
-                    <th className="px-4 py-3 border-b border-border text-center">Urgency</th>
-                    {isInternal && <th className="px-4 py-3 border-b border-border text-center">PO Number</th>}
-                    <th className="px-4 py-3 border-b border-border text-right">Est. Price</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-border/50">
-                  {filteredParts.length > 0 ? filteredParts.map((part) => (
-                    <tr key={part.partNumber} className="hover:bg-muted/30 transition-colors">
-                      <td className="px-5 py-3 font-bold text-primary dark:text-brand-green text-xs">{part.partNumber}</td>
-                      <td className="px-4 py-3 text-xs font-bold text-foreground/90">{part.description}</td>
-                      <td className="px-3 py-3 text-center font-bold text-foreground">{part.quantity}</td>
-                      <td className="px-3 py-3 text-center text-[10px] font-bold text-muted-foreground">{part.uom}</td>
-                      <td className="px-3 py-3 text-center text-xs font-bold text-muted-foreground">{part.period || 'Feb 2026'}</td>
-                      <td className="px-4 py-3 text-center"><StatusBadge status={part.urgency} size="sm" /></td>
-                      {isInternal && (
-                        <td className="px-4 py-3 text-center font-bold text-brand-navy text-xs">
-                          <input type="text" defaultValue={`PO-2026-${Math.floor(Math.random() * 900) + 100}`} className="w-24 text-center border border-border rounded px-2 py-1 text-xs focus:outline-brand-green" />
-                        </td>
-                      )}
-                      <td className="px-4 py-3 text-right font-bold text-primary dark:text-foreground text-xs">
-                        {isInternal ? (
-                          <input type="number" defaultValue={part.estimatedPrice} className="w-28 text-right border border-border rounded px-2 py-1 text-xs focus:outline-brand-green" />
-                        ) : (
-                          part.estimatedPrice != null ? formatRupiah(part.estimatedPrice) : '—'
-                        )}
-                      </td>
-                    </tr>
-                  )) : (
-                    <tr>
-                      <td colSpan={7} className="px-5 py-8 text-center text-xs text-muted-foreground font-bold italic">
-                        Tidak ada data yang sesuai dengan filter.
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-                {filteredParts.length > 0 && (
-                  <tfoot>
-                    <tr className="bg-muted/20">
-                      <td colSpan={isInternal ? 7 : 6} className="px-5 py-3 text-xs font-bold text-muted-foreground uppercase tracking-widest">Total Estimasi PO (Filtered)</td>
-                      <td className="px-4 py-3 text-right font-bold text-brand-green text-sm">
-                        {formatRupiah(filteredParts.reduce((sum, r) => sum + (r.estimatedPrice ?? 0) * r.quantity, 0))}
-                      </td>
-                    </tr>
-                  </tfoot>
-                )}
-              </table>
-            </div>
-            
-          </div>
-        );
-      })()}
-
-      {/* ── PLAN REPLACEMENT REPORT (INTERNAL ONLY) ── */}
-      {isInternal && <ReportPlanReplacement />}
+      <ReportRecommendedPartsTable 
+        initialParts={recommendations} 
+        unitId={unitId} 
+        commodityName={metadata.commodity} 
+        isInternal={isInternal} 
+      />
 
       {/* ── B2. INSPECTION HISTORY TABLE ── */}
       <div className="bg-card rounded-2xl border border-border overflow-hidden shadow-sm">
@@ -356,8 +216,8 @@ export function InspectionReport({ report, unitId, onExportPO, isInternal }: Ins
                     <button 
                       className={`p-2 rounded-lg transition-all duration-200 inline-flex items-center justify-center hover:scale-105 active:scale-95 ${
                         selectedInspectionId === row.id 
-                          ? 'bg-brand-green text-white dark:text-slate-900 shadow-sm shadow-brand-green/20 ring-2 ring-brand-green/20 scale-105' 
-                          : 'bg-muted/50 hover:bg-brand-navy hover:text-white dark:hover:bg-brand-green dark:hover:text-slate-900 text-muted-foreground'
+                          ? 'bg-brand-green text-white dark:text-background shadow-sm shadow-brand-green/20 ring-2 ring-brand-green/20 scale-105' 
+                          : 'bg-muted/50 hover:bg-brand-navy hover:text-white dark:hover:bg-brand-green dark:hover:text-background text-muted-foreground'
                       }`}
                     >
                       <Eye className="w-4 h-4" />
@@ -372,7 +232,7 @@ export function InspectionReport({ report, unitId, onExportPO, isInternal }: Ins
       </div> {/* ── END OF HEADER / SUMMARY MAIN WRAPPER CONTAINER ── */}
 
       {selectedInspectionId && (
-        <div id="printable-area" className="print:m-0 print:p-0 print:border-none mt-12 pt-12 border-t border-slate-200 dark:border-slate-800 space-y-8 animate-in fade-in slide-in-from-top-4 duration-500 ease-out">
+        <div id="printable-area" className="print:m-0 print:p-0 print:border-none mt-12 pt-12 border-t border-border space-y-8 animate-in fade-in slide-in-from-top-4 duration-500 ease-out">
           
           {/* ── METADATA HEADER (Moved to Item Inspection Details & Dynamic) ── */}
           {(() => {
@@ -395,7 +255,7 @@ export function InspectionReport({ report, unitId, onExportPO, isInternal }: Ins
                 : 'Good';
 
             return (
-              <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
+              <div className="bg-card rounded-2xl border border-border p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 flex-1">
                   <div className="space-y-1">
                     <h6 className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest">No. Inspeksi</h6>
@@ -421,14 +281,14 @@ export function InspectionReport({ report, unitId, onExportPO, isInternal }: Ins
                     <p className="text-sm font-bold text-primary dark:text-foreground">{displaySMU.toLocaleString()} Hrs</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-6 pl-6 border-l border-slate-200 dark:border-slate-800 hidden md:flex">
+                <div className="flex items-center gap-6 pl-6 border-l border-border hidden md:flex">
                   <div className="text-right">
                     <h6 className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mb-1">Health Status</h6>
                     <StatusBadge status={displayStatus} size="lg" />
                   </div>
                   <button 
                     onClick={() => window.print()}
-                    className="print:hidden flex flex-col items-center justify-center gap-1 px-4 py-2 bg-white dark:bg-slate-800 hover:bg-muted border border-border text-brand-navy dark:text-brand-green rounded-xl transition-all shadow-sm group"
+                    className="print:hidden flex flex-col items-center justify-center gap-1 px-4 py-2 bg-card hover:bg-muted border border-border text-brand-navy dark:text-brand-green rounded-xl transition-all shadow-sm group"
                   >
                     <Download className="w-4 h-4 group-hover:scale-110 transition-transform" />
                     <span className="text-[9px] font-bold uppercase tracking-wider">Download PDF</span>
@@ -452,7 +312,7 @@ export function InspectionReport({ report, unitId, onExportPO, isInternal }: Ins
           </div>
 
           {/* ── DETAILS WRAPPER CONTAINER ── */}
-          <div className="bg-[#f8fafc] dark:bg-[#090d16] border border-slate-200 dark:border-slate-800 rounded-2xl p-6 space-y-8 shadow-inner">
+          <div className="bg-muted/30 border border-border rounded-2xl p-6 space-y-8 shadow-inner">
             
             {/* Moved ReportPlanReplacement to the section above Inspection History */}
 
@@ -643,7 +503,7 @@ function CategorySection({ category, items, metadata }: { category: string, item
     <div className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden transition-all hover:shadow-md ring-1 ring-transparent hover:ring-brand-green/10">
       {/* Category Header */}
       <div className="px-6 py-4 border-b border-border flex items-center gap-4 bg-muted/10">
-        <div className="w-12 h-12 bg-white dark:bg-muted rounded-xl border border-border overflow-hidden flex-shrink-0 flex items-center justify-center p-1">
+        <div className="w-12 h-12 bg-muted rounded-xl border border-border overflow-hidden flex-shrink-0 flex items-center justify-center p-1">
           {items[0].imageUrl ? (
             <img src={items[0].imageUrl} alt={category} className="w-full h-full object-cover rounded-lg" />
           ) : (

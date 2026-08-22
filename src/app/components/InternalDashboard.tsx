@@ -112,10 +112,10 @@ export function InternalDashboard() {
       {/* Page Title & Actions */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-primary dark:text-foreground flex items-center gap-2">
-            <LayoutDashboard className="w-6 h-6 text-brand-green" />
-            Operation & Inventory Dashboard
-          </h1>
+          <div className="flex items-center gap-2">
+            <LayoutDashboard className="w-6 h-6 text-brand-green flex-shrink-0" />
+            <h1 className="text-2xl font-bold text-primary dark:text-foreground">Operation & Inventory Dashboard</h1>
+          </div>
           <p className="text-sm text-muted-foreground mt-1">
             Monitoring efektivitas konversi backlog menjadi Purchase Order secara realtime
           </p>
@@ -464,7 +464,7 @@ export function InternalDashboard() {
                     {(() => {
                       const rev = revenueByCommodityData[0];
                       const total = Object.entries(rev).reduce((acc, [k, v]) => k !== 'name' ? acc + (v as number) : acc, 0);
-                      const colors: Record<string, string> = { "GET": "bg-[var(--chart-1)]", "TYR": "bg-[var(--chart-2)]", "FCG": "bg-[var(--chart-3)]", "LUB": "bg-emerald-500", "Autofire": "bg-[var(--chart-4)]", "BAT": "bg-[var(--chart-5)]", "Autolube": "bg-red-500", "U/C": "bg-slate-500" };
+                      const colors: Record<string, string> = { "GET": "bg-[var(--chart-1)]", "TYR": "bg-[var(--chart-2)]", "FCG": "bg-[var(--chart-3)]", "LUB": "bg-emerald-500", "Autofire": "bg-[var(--chart-4)]", "BAT": "bg-[var(--chart-5)]", "Autolube": "bg-red-500", "U/C": "bg-muted-foreground" };
                       return (Object.entries(rev) as [string, number|string][]).filter(([k]) => k !== 'name').map(([k, v]) => (<div key={k} className={`h-full ${colors[k] || 'bg-muted'} hover:opacity-80 transition-opacity flex items-center justify-center text-[8px] sm:text-[10px] font-bold text-white border-r border-white/5`} style={{ width: `${((v as number) / total) * 100}%` }} title={`${k}: Rp ${v} Jt`}>{k === 'Autofire' ? 'AF' : k === 'Autolube' ? 'AL' : k}</div>));
                     })()}
                   </div>
@@ -472,7 +472,7 @@ export function InternalDashboard() {
                     {(() => {
                        const rev = revenueByCommodityData[0];
                        const top4 = (Object.entries(rev) as [string, number|string][]).filter(([k]) => k !== 'name').sort((a, b) => (b[1] as number) - (a[1] as number)).slice(0, 4);
-                       const colors: Record<string, string> = { "GET": "bg-[var(--chart-1)]", "TYR": "bg-[var(--chart-2)]", "FCG": "bg-[var(--chart-3)]", "LUB": "bg-emerald-500", "Autofire": "bg-[var(--chart-4)]", "BAT": "bg-[var(--chart-5)]", "Autolube": "bg-red-500", "U/C": "bg-slate-500" };
+                       const colors: Record<string, string> = { "GET": "bg-[var(--chart-1)]", "TYR": "bg-[var(--chart-2)]", "FCG": "bg-[var(--chart-3)]", "LUB": "bg-emerald-500", "Autofire": "bg-[var(--chart-4)]", "BAT": "bg-[var(--chart-5)]", "Autolube": "bg-red-500", "U/C": "bg-muted-foreground" };
                        const labels: Record<string, string> = { "GET": "Ground Engaging", "TYR": "Tyre & Rims", "FCG": "Fluid Connector", "LUB": "Lubricant System", "Autofire": "Auto Fire Supp.", "BAT": "Battery System", "Autolube": "Auto Lubrication", "U/C": "Undercarriage" };
                        return top4.map(([k, v]) => (<div key={k} className="flex items-center justify-between border-b border-border/50 pb-1"><div className="flex items-center gap-2"><div className={`w-2 h-2 rounded-full ${colors[k] || 'bg-muted'}`} /><span className="text-[10px] font-bold text-muted-foreground uppercase truncate max-w-[80px]">{labels[k] || k}</span></div><span className="text-[11px] font-bold text-primary">Rp {v} Jt</span></div>));
                     })()}
