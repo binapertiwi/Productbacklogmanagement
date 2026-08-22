@@ -202,6 +202,11 @@ Aplikasi ini dapat dijalankan langsung dari direktori utama (root) atau dari dal
 
 ## Pembaruan & Riwayat Teknis (Changelog)
 
+- **[v 2.0.2] [2026-08-22] Full-Width Viewport Optimization & Large Screen Alignment**:
+  - **Eliminasi Margin Samping Berlebih pada Layar Besar (Desktop / Ultrawide)**:
+    - Menghapus pembatasan lebar statis `max-w-7xl mx-auto` pada [`UnitDetailPage.tsx`](file:///Users/irwanto/Development/PoductBacklogManagement/src/app/components/UnitDetailPage.tsx) sehingga tata letak secara responsif mengisi seluruh ruang horizontal layar (`w-full`) tanpa menyisakan ruang kosong tak terpakai di sisi kiri dan kanan.
+    - Menyelaraskan padding responsif di seluruh halaman utama ([`UnitDetailPage`](file:///Users/irwanto/Development/PoductBacklogManagement/src/app/components/UnitDetailPage.tsx), [`CustomerInternalPortal`](file:///Users/irwanto/Development/PoductBacklogManagement/src/app/components/CustomerInternalPortal.tsx), [`CustomerPortal`](file:///Users/irwanto/Development/PoductBacklogManagement/src/app/components/CustomerPortal.tsx), [`InternalDashboard`](file:///Users/irwanto/Development/PoductBacklogManagement/src/app/components/InternalDashboard.tsx), [`InspectorProductivity`](file:///Users/irwanto/Development/PoductBacklogManagement/src/app/components/InspectorProductivity.tsx), dan [`Layout.tsx`](file:///Users/irwanto/Development/PoductBacklogManagement/src/app/components/Layout.tsx)) menggunakan `px-3 sm:px-6 lg:px-8` agar konsisten dan simetris di semua resolusi (Mobile, Tablet, Desktop, hingga Layar Lebar).
+
 - **[v 2.0.1] [2026-08-22] Mobile & Desktop UI/UX Refinement: Nested Borders De-Nesting & Space Optimization**:
   - **Eliminasi Nested Card Borders ("Box-in-a-Box")**:
     - Menghilangkan pembungkusan ganda kartu (`nested wrappers`) pada halaman Detail Unit (`UnitDetailPage.tsx`), `InspectionReport.tsx`, dan `FCGReportLayout.tsx`.

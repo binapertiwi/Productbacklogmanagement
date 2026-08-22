@@ -89,7 +89,7 @@ export function UnitDetailPage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <div className="print:hidden sticky top-0 z-30 bg-card/95 backdrop-blur-lg border-b border-border shadow-md">
-        <div className="px-4 sm:px-6 py-3">
+        <div className="px-3 sm:px-6 lg:px-8 py-3">
           {/* Breadcrumb */}
           <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground font-bold uppercase tracking-widest mb-2">
             <button onClick={() => navigate(-1)} className="hover:text-brand-green transition-colors flex items-center gap-1">
@@ -152,7 +152,7 @@ export function UnitDetailPage() {
 
         {/* Commodity Tabs Nav inside sticky header */}
         <div className="border-t border-border overflow-x-auto bg-muted/20">
-          <div className="flex min-w-max px-4 pt-1">
+          <div className="flex min-w-max px-3 sm:px-6 lg:px-8 pt-1">
             {ALL_COMMODITIES.map(comm => {
               const s = unit.commodityStatus[comm];
               const isNA = s === 'N/A';
@@ -192,7 +192,7 @@ export function UnitDetailPage() {
       </div>
 
       {/* ── MAIN CONTENT ─────────────────────────────────────────────────────── */}
-      <div className="print:p-0 px-3 sm:px-6 py-4 sm:py-6 space-y-6 print:space-y-0 max-w-7xl mx-auto">
+      <div className="print:p-0 px-3 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-6 print:space-y-0 w-full">
         {/* ── TAB CONTENT AREA ─────────────────────────────────────────────────── */}
         <div>
           {activeTab === 'FCG' ? (
