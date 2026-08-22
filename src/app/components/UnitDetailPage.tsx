@@ -192,64 +192,60 @@ export function UnitDetailPage() {
       </div>
 
       {/* ── MAIN CONTENT ─────────────────────────────────────────────────────── */}
-      <div className="print:p-0 px-4 sm:px-6 py-6 space-y-6 print:space-y-0">
-
-
+      <div className="print:p-0 px-3 sm:px-6 py-4 sm:py-6 space-y-6 print:space-y-0 max-w-7xl mx-auto">
         {/* ── TAB CONTENT AREA ─────────────────────────────────────────────────── */}
-        <div className="print:border-none print:shadow-none bg-card rounded-2xl border border-border shadow-sm overflow-hidden">
-          <div className="print:p-0 p-4 sm:p-6">
-            {activeTab === 'FCG' ? (
-              <Suspense fallback={<div className="flex justify-center py-24"><div className="w-8 h-8 border-4 border-primary/20 border-t-brand-green rounded-full animate-spin" /></div>}>
-                <FCGReportLayout
-                  unit={unit as any}
-                  activeReport={activeReport}
-                  onExportPO={handleExportPO}
-                  isInternal={isInternal}
-                />
-              </Suspense>
-            ) : activeReport ? (
-              <Suspense fallback={<div className="flex justify-center py-24"><div className="w-8 h-8 border-4 border-primary/20 border-t-brand-green rounded-full animate-spin" /></div>}>
-                <InspectionReport
-                  key={activeTab}
-                  report={activeReport}
-                  unitId={unit.serialNumber}
-                  onExportPO={handleExportPO}
-                  isInternal={isInternal}
-                />
-              </Suspense>
-            ) : (
-              <div className="flex flex-col items-center justify-center py-16 gap-4 text-center">
-                <div className={`w-16 h-16 rounded-2xl flex items-center justify-center ${
-                  tabStatus === 'N/A'
-                    ? 'bg-muted'
-                    : tabStatus === 'Critical'
-                      ? 'bg-red-100 dark:bg-red-900/20'
-                      : 'bg-muted/50'
-                }`}>
-                  <AlertTriangle className={`w-8 h-8 ${
-                    tabStatus === 'N/A' ? 'text-muted-foreground/30' :
-                    tabStatus === 'Critical' ? 'text-red-400' : 'text-muted-foreground/50'
-                  }`} />
-                </div>
-                {tabStatus === 'N/A' ? (
-                  <>
-                    <p className="text-sm font-bold text-muted-foreground">Komoditas {activeTab} tidak diaplikasikan</p>
-                    <p className="text-xs text-muted-foreground/70">Unit ini tidak dilengkapi dengan {COMMODITY_LABELS[activeTab]}.</p>
-                  </>
-                ) : (
-                  <>
-                    <p className="text-sm font-bold text-foreground">{COMMODITY_LABELS[activeTab]} — Status: <StatusBadge status={tabStatus} /></p>
-                    <p className="text-xs text-muted-foreground max-w-md">
-                      Laporan inspeksi detail untuk komoditas ini belum tersedia dalam sistem. Silakan hubungi mekanik untuk membuat laporan inspeksi.
-                    </p>
-                    <button className="mt-2 flex items-center gap-2 px-4 py-2 bg-brand-navy text-white rounded-xl text-xs font-bold hover:opacity-90 transition-all">
-                      <Download className="w-3.5 h-3.5" /> Request Inspection Report
-                    </button>
-                  </>
-                )}
+        <div>
+          {activeTab === 'FCG' ? (
+            <Suspense fallback={<div className="flex justify-center py-24"><div className="w-8 h-8 border-4 border-primary/20 border-t-brand-green rounded-full animate-spin" /></div>}>
+              <FCGReportLayout
+                unit={unit as any}
+                activeReport={activeReport}
+                onExportPO={handleExportPO}
+                isInternal={isInternal}
+              />
+            </Suspense>
+          ) : activeReport ? (
+            <Suspense fallback={<div className="flex justify-center py-24"><div className="w-8 h-8 border-4 border-primary/20 border-t-brand-green rounded-full animate-spin" /></div>}>
+              <InspectionReport
+                key={activeTab}
+                report={activeReport}
+                unitId={unit.serialNumber}
+                onExportPO={handleExportPO}
+                isInternal={isInternal}
+              />
+            </Suspense>
+          ) : (
+            <div className="bg-card rounded-2xl border border-border p-8 sm:p-12 shadow-sm flex flex-col items-center justify-center gap-4 text-center">
+              <div className={`w-16 h-16 rounded-2xl flex items-center justify-center ${
+                tabStatus === 'N/A'
+                  ? 'bg-muted'
+                  : tabStatus === 'Critical'
+                    ? 'bg-red-100 dark:bg-red-900/20'
+                    : 'bg-muted/50'
+              }`}>
+                <AlertTriangle className={`w-8 h-8 ${
+                  tabStatus === 'N/A' ? 'text-muted-foreground/30' :
+                  tabStatus === 'Critical' ? 'text-red-400' : 'text-muted-foreground/50'
+                }`} />
               </div>
-            )}
-          </div>
+              {tabStatus === 'N/A' ? (
+                <>
+                  <p className="text-sm font-bold text-muted-foreground">Komoditas {activeTab} tidak diaplikasikan</p>
+                  <p className="text-xs text-muted-foreground/70">Unit ini tidak dilengkapi dengan {COMMODITY_LABELS[activeTab]}.</p>
+                </>
+              ) : (
+                <>
+                  <p className="text-sm font-bold text-foreground">{COMMODITY_LABELS[activeTab]} — Status: <StatusBadge status={tabStatus} /></p>
+                  <p className="text-xs text-muted-foreground max-w-md">
+                    Laporan inspeksi detail untuk komoditas ini belum tersedia dalam sistem. Silakan hubungi mekanik untuk membuat laporan inspeksi.
+                  </p>
+                  <button className="mt-2 flex items-center gap-2 px-4 py-2 bg-brand-navy text-white rounded-xl text-xs font-bold hover:opacity-90 transition-all">
+                    <Download className="w-3.5 h-3.5" /> Request Inspection Report
+                  </button>
+                </>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>

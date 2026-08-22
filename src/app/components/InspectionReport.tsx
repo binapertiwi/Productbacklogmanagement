@@ -66,21 +66,19 @@ export function InspectionReport({ report, unitId, onExportPO, isInternal }: Ins
   return (
     <div className="space-y-8 animate-in fade-in duration-300">
       
-      {/* ── HEADER / SUMMARY MAIN WRAPPER CONTAINER ── */}
-      <div className={`space-y-8 bg-card p-6 rounded-2xl border border-border ${selectedInspectionId ? 'print:hidden' : ''}`}>
+      {/* ── HEADER / SUMMARY SECTION ── */}
+      <div className={`space-y-6 sm:space-y-8 ${selectedInspectionId ? 'print:hidden' : ''}`}>
       
-      {/* ── TOP ACTION BAR ── */}
-      <div className="flex justify-between items-center bg-muted/20 p-4 rounded-xl border border-border">
-        <div>
-          <h2 className="text-lg font-bold text-primary dark:text-foreground">Detail Inspection Report</h2>
-          <p className="text-xs text-muted-foreground font-medium">Laporan lengkap hasil inspeksi komoditas</p>
+        {/* ── TOP TITLE & CONTEXT ── */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 pb-1">
+          <div>
+            <h2 className="text-xl sm:text-2xl font-bold font-display text-primary dark:text-foreground">Detail Inspection Report</h2>
+            <p className="text-xs text-muted-foreground mt-0.5 font-medium">Laporan lengkap hasil inspeksi komoditas {metadata.commodity}</p>
+          </div>
         </div>
-      </div>
-      
-      {/* ── B: EXECUTIVE SUMMARY WIDGETS ── */}
-
-      {/* ── B: EXECUTIVE SUMMARY WIDGETS ── */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        
+        {/* ── B: EXECUTIVE SUMMARY WIDGETS ── */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
         {/* Card 1: OVERALL HEALTH */}
         <div className="bg-card rounded-xl shadow-sm border border-border p-6 flex flex-col items-center justify-center">
           <h4 className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mb-4">Overall Health</h4>
@@ -231,12 +229,12 @@ export function InspectionReport({ report, unitId, onExportPO, isInternal }: Ins
           </table>
         </div>
       </div>
-      </div> {/* ── END OF HEADER / SUMMARY MAIN WRAPPER CONTAINER ── */}
+      </div>
 
       {selectedInspectionId && (
-        <div id="printable-area" className="print:m-0 print:p-0 print:border-none mt-12 pt-12 border-t border-border space-y-8 animate-in fade-in slide-in-from-top-4 duration-500 ease-out">
+        <div id="printable-area" className="print:m-0 print:p-0 print:border-none space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-top-4 duration-500 ease-out">
           
-          {/* ── METADATA HEADER (Moved to Item Inspection Details & Dynamic) ── */}
+          {/* ── METADATA HEADER (Selected Inspection Report) ── */}
           {(() => {
             const selectedRow = inspectionHistory.find(r => r.id === selectedInspectionId);
             if (!selectedRow) return null;
@@ -257,8 +255,8 @@ export function InspectionReport({ report, unitId, onExportPO, isInternal }: Ins
                 : 'Good';
 
             return (
-              <div className="bg-card rounded-2xl border border-border p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 flex-1">
+              <div className="bg-card rounded-2xl border border-border p-5 sm:p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-8 flex-1">
                   <div className="space-y-1">
                     <h6 className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest">No. Inspeksi</h6>
                     <p className="text-sm font-bold text-primary dark:text-foreground font-mono">{selectedRow.id}</p>
@@ -283,42 +281,37 @@ export function InspectionReport({ report, unitId, onExportPO, isInternal }: Ins
                     <p className="text-sm font-bold text-primary dark:text-foreground">{displaySMU.toLocaleString()} Hrs</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-6 pl-6 border-l border-border hidden md:flex">
-                  <div className="text-right">
+                <div className="flex items-center gap-4 sm:gap-6 md:pl-6 md:border-l md:border-border justify-between sm:justify-end">
+                  <div className="text-left md:text-right">
                     <h6 className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mb-1">Health Status</h6>
                     <StatusBadge status={displayStatus} size="lg" />
                   </div>
                   <button 
                     onClick={() => window.print()}
-                    className="print:hidden flex flex-col items-center justify-center gap-1 px-4 py-2 bg-card hover:bg-muted border border-border text-brand-navy dark:text-brand-green rounded-xl transition-all shadow-sm group"
+                    className="print:hidden flex items-center justify-center gap-1.5 px-4 py-2 bg-card hover:bg-muted border border-border text-brand-navy dark:text-brand-green rounded-xl transition-all shadow-sm group text-xs font-bold"
                   >
                     <Download className="w-4 h-4 group-hover:scale-110 transition-transform" />
-                    <span className="text-[9px] font-bold uppercase tracking-wider">Download PDF</span>
+                    <span>Download PDF</span>
                   </button>
                 </div>
               </div>
             );
           })()}
 
-          {/* ── VISUAL SEPARATOR BETWEEN HEADER/SUMMARY & DETAILS ── */}
-          <div className="relative my-10">
-            <div className="absolute inset-0 flex items-center" aria-hidden="true">
-              <div className="w-full border-t border-dashed border-border"></div>
-            </div>
-            <div className="relative flex justify-center">
-              <span className="bg-card px-4 py-1.5 text-[10px] font-bold uppercase tracking-widest text-brand-navy dark:text-brand-green border border-border rounded-full shadow-sm flex items-center gap-2">
-                <Activity className="w-3.5 h-3.5 text-brand-navy dark:text-brand-green animate-pulse" />
-                Detailed Inspection Findings & Technical Data ({selectedInspectionId})
-              </span>
+          {/* ── SECTION DIVIDER & HEADER FOR DETAILED FINDINGS ── */}
+          <div className="pt-2 pb-1 border-t border-border flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div>
+              <h3 className="text-lg sm:text-xl font-bold font-display text-primary dark:text-foreground flex items-center gap-2">
+                <Activity className="w-4 h-4 text-brand-green animate-pulse shrink-0" />
+                Detailed Inspection Findings & Technical Data
+              </h3>
+              <p className="text-xs text-muted-foreground mt-0.5 font-medium">
+                Parameter dan pengukuran teknis komprehensif untuk laporan <span className="font-mono font-bold text-primary dark:text-foreground">{selectedInspectionId}</span>
+              </p>
             </div>
           </div>
 
-          {/* ── DETAILS WRAPPER CONTAINER ── */}
-          <div className="bg-muted/30 border border-border rounded-2xl p-6 space-y-8 shadow-inner">
-            
-            {/* Moved ReportPlanReplacement to the section above Inspection History */}
-
-            {/* ── D: DETAILED INSPECTION FINDINGS ── */}
+          {/* ── D: DETAILED INSPECTION FINDINGS ── */}
 
             {/* VISUAL COMPONENT MAP */}
             <div className="bg-card rounded-2xl border border-border overflow-hidden shadow-sm">
@@ -408,11 +401,11 @@ export function InspectionReport({ report, unitId, onExportPO, isInternal }: Ins
                     <h4 className="font-bold text-primary dark:text-foreground text-xs uppercase tracking-widest">Inspector Notes</h4>
                   </div>
                   <div className="flex-1 bg-muted/20 rounded-xl p-5 border border-border/50 relative">
-                     <span className="absolute -top-2 -left-2 text-4xl text-brand-green/20 font-serif lowercase italic">"</span>
+                     <span className="absolute -top-2 -left-2 text-4xl text-brand-green/20 font-serif lowercase italic">&ldquo;</span>
                      <p className="text-sm text-foreground/80 leading-relaxed italic font-medium relative z-10">
                        {evidence.mechanicNotes}
                      </p>
-                     <span className="absolute -bottom-6 -right-2 text-4xl text-brand-green/20 font-serif lowercase italic rotate-180">"</span>
+                     <span className="absolute -bottom-6 -right-2 text-4xl text-brand-green/20 font-serif lowercase italic rotate-180">&rdquo;</span>
                   </div>
                   <div className="mt-8 pt-6 border-t border-border flex items-center gap-3">
                      <div className="w-10 h-10 rounded-full bg-brand-green/10 flex items-center justify-center text-xs font-bold text-brand-green">
@@ -463,8 +456,7 @@ export function InspectionReport({ report, unitId, onExportPO, isInternal }: Ins
               </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
 
       {/* Photo Lightbox */}
       {activePhoto && (

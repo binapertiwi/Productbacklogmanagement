@@ -202,6 +202,15 @@ Aplikasi ini dapat dijalankan langsung dari direktori utama (root) atau dari dal
 
 ## Pembaruan & Riwayat Teknis (Changelog)
 
+- **[v 2.0.1] [2026-08-22] Mobile & Desktop UI/UX Refinement: Nested Borders De-Nesting & Space Optimization**:
+  - **Eliminasi Nested Card Borders ("Box-in-a-Box")**:
+    - Menghilangkan pembungkusan ganda kartu (`nested wrappers`) pada halaman Detail Unit (`UnitDetailPage.tsx`), `InspectionReport.tsx`, dan `FCGReportLayout.tsx`.
+    - Menghapus kontainer luar yang berlebih dan kotak border kosong di sekitar judul "Detail Inspection Report".
+    - Menghapus pembungkus abu-abu (`bg-muted/30 border border-border rounded-2xl shadow-inner`) pada seksi temuan inspeksi detail sehingga setiap kartu (Metadata, Visual Component Map, Technical Findings, Component Summary Table, dan Field Evidence) menjadi kartu mandiri tingkat pertama (*first-class card*).
+  - **Optimalisasi Responsif untuk Perangkat Seluler (Mobile & PWA)**:
+    - Mengembalikan ruang horizontal hingga ~150px+ pada layar seluler (375px–430px) yang sebelumnya terpotong oleh akumulasi padding/margin border bertingkat.
+    - Judul dan metrik inspeksi kini memiliki ruang pandang yang lega (*breathing room*) dengan pemisahan visual yang elegan (*clean section divider* dan badge status aktif).
+
 - **[v 2.0.0] [2026-08-22] Full Design System Audit, Section Header Standardization & Upload Feature**:
   - **Standardisasi Header Seksi Global**:
     - Menyeragamkan seluruh header tabel dan section card (`Technical Details per Unit`, `Plan Replacement`, `Recommended Parts for PO`, `Component Summary Data`, `Inspection History`, `Cross-Commodity Backlog Matrix`, `Plan Replacement Forecast`, `Cross-Component Backlog Matrix`, `Inspector Leaderboard`) menggunakan format standar: Title Case, `font-display text-base sm:text-lg font-bold tracking-tight text-primary dark:text-foreground`, deskripsi `text-xs text-muted-foreground mt-0.5 font-medium`, dan background bar konsisten `bg-muted/30 border-b border-border px-4 sm:px-5 py-4`.

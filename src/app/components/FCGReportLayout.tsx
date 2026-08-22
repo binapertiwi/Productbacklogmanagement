@@ -186,11 +186,19 @@ export function FCGReportLayout({ unit, activeReport, onExportPO, isInternal }: 
   return (
     <div className="space-y-8 animate-in fade-in duration-300">
       
-      {/* ── HEADER / SUMMARY MAIN WRAPPER CONTAINER ── */}
-      <div className={`space-y-8 bg-card p-6 rounded-2xl border border-border ${selectedInspectionId ? 'print:hidden' : ''}`}>
+      {/* ── HEADER / SUMMARY SECTION ── */}
+      <div className={`space-y-6 sm:space-y-8 ${selectedInspectionId ? 'print:hidden' : ''}`}>
       
-      {/* ── 1. EXECUTIVE SUMMARY WIDGETS ── */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        {/* ── TOP TITLE & CONTEXT ── */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 pb-1">
+          <div>
+            <h2 className="text-xl sm:text-2xl font-bold font-display text-primary dark:text-foreground">Detail Inspection Report</h2>
+            <p className="text-xs text-muted-foreground mt-0.5 font-medium">Laporan lengkap hasil inspeksi komoditas FCG</p>
+          </div>
+        </div>
+        
+        {/* ── 1. EXECUTIVE SUMMARY WIDGETS ── */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6">
         {/* Card 1: OVERALL HEALTH */}
         <div className="bg-card rounded-xl shadow-sm border border-border p-6 flex flex-col items-center justify-center">
           <h4 className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mb-4">Overall Health</h4>
@@ -355,12 +363,12 @@ export function FCGReportLayout({ unit, activeReport, onExportPO, isInternal }: 
           </table>
         </div>
       </div>
-      </div> {/* ── END OF HEADER / SUMMARY MAIN WRAPPER CONTAINER ── */}
+      </div>
 
       {selectedInspectionId && (
-        <div id="printable-area" className="print:m-0 print:p-0 print:border-none mt-12 pt-12 border-t border-border space-y-8 animate-in fade-in slide-in-from-top-4 duration-500 ease-out">
+        <div id="printable-area" className="print:m-0 print:p-0 print:border-none space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-top-4 duration-500 ease-out">
           
-          {/* ── METADATA HEADER (Moved to Item Inspection Details & Dynamic) ── */}
+          {/* ── METADATA HEADER (Selected Inspection Report) ── */}
           {(() => {
             const selectedRow = INSPECTION_HISTORY_MOCK.find(r => r.id === selectedInspectionId);
             if (!selectedRow) return null;
@@ -381,8 +389,8 @@ export function FCGReportLayout({ unit, activeReport, onExportPO, isInternal }: 
                 : 'Good';
 
             return (
-              <div className="bg-card rounded-2xl border border-border p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 flex-1">
+              <div className="bg-card rounded-2xl border border-border p-5 sm:p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-8 flex-1">
                   <div className="space-y-1">
                     <h6 className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest">No. Inspeksi</h6>
                     <p className="text-sm font-bold text-primary dark:text-foreground font-mono">{selectedRow.id}</p>
@@ -407,46 +415,41 @@ export function FCGReportLayout({ unit, activeReport, onExportPO, isInternal }: 
                     <p className="text-sm font-bold text-primary dark:text-foreground">{displaySMU.toLocaleString()} Hrs</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-6 pl-6 border-l border-border hidden md:flex">
-                  <div className="text-right">
+                <div className="flex items-center gap-4 sm:gap-6 md:pl-6 md:border-l md:border-border justify-between sm:justify-end">
+                  <div className="text-left md:text-right">
                     <h6 className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mb-1">Health Status</h6>
                     <StatusBadge status={displayStatus} size="lg" />
                   </div>
                   <button 
                     onClick={() => window.print()}
-                    className="print:hidden flex flex-col items-center justify-center gap-1 px-4 py-2 bg-card hover:bg-muted border border-border text-brand-navy dark:text-brand-green rounded-xl transition-all shadow-sm group"
+                    className="print:hidden flex items-center justify-center gap-1.5 px-4 py-2 bg-card hover:bg-muted border border-border text-brand-navy dark:text-brand-green rounded-xl transition-all shadow-sm group text-xs font-bold"
                   >
                     <Download className="w-4 h-4 group-hover:scale-110 transition-transform" />
-                    <span className="text-[9px] font-bold uppercase tracking-wider">Download PDF</span>
+                    <span>Download PDF</span>
                   </button>
                 </div>
               </div>
             );
           })()}
 
-          {/* ── VISUAL SEPARATOR BETWEEN HEADER/SUMMARY & DETAILS ── */}
-          <div className="relative my-10">
-            <div className="absolute inset-0 flex items-center" aria-hidden="true">
-              <div className="w-full border-t border-dashed border-border"></div>
-            </div>
-            <div className="relative flex justify-center">
-              <span className="bg-card px-4 py-1.5 text-[10px] font-bold uppercase tracking-widest text-brand-navy dark:text-brand-green border border-border rounded-full shadow-sm flex items-center gap-2">
-                <Activity className="w-3.5 h-3.5 text-brand-navy dark:text-brand-green animate-pulse" />
-                Detailed Inspection Findings & Technical Data ({selectedInspectionId})
-              </span>
+          {/* ── SECTION DIVIDER & HEADER FOR DETAILED FINDINGS ── */}
+          <div className="pt-2 pb-1 border-t border-border flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div>
+              <h3 className="text-lg sm:text-xl font-bold font-display text-primary dark:text-foreground flex items-center gap-2">
+                <Activity className="w-4 h-4 text-brand-green animate-pulse shrink-0" />
+                Detailed Inspection Findings & Technical Data
+              </h3>
+              <p className="text-xs text-muted-foreground mt-0.5 font-medium">
+                Parameter dan pengukuran teknis komprehensif untuk laporan <span className="font-mono font-bold text-primary dark:text-foreground">{selectedInspectionId}</span>
+              </p>
             </div>
           </div>
 
-          {/* ── DETAILS WRAPPER CONTAINER ── */}
-          <div className="bg-muted/30 border border-border rounded-2xl p-6 space-y-8 shadow-inner">
+          {/* ── 4. DETAILED INSPECTION FINDINGS ── */}
+          <div className="space-y-6">
+            <h3 className="text-primary dark:text-foreground font-bold font-display text-base sm:text-lg tracking-tight">Detailed Technical Parameters</h3>
             
-            {/* Moved ReportPlanReplacement to the section above Inspection History */}
-
-            {/* ── 4. DETAILED INSPECTION FINDINGS ── */}
             <div className="space-y-6">
-              <h3 className="text-primary dark:text-foreground font-bold font-display text-base sm:text-lg tracking-tight">Detailed Technical Parameters</h3>
-              
-              <div className="space-y-6">
                 {FCG_COMPONENTS_MOCK.map((item, idx) => {
                   const fields = [
                     { label: 'Category', value: item.category },
@@ -532,8 +535,7 @@ export function FCGReportLayout({ unit, activeReport, onExportPO, isInternal }: 
               </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
 
       {activePhoto && (
         <div
